@@ -1,0 +1,26 @@
+worked on shaders and materials
+next do frustrum cullin and colisions
+
+check out wtf is modelcache
+
+
+
+
+
+
+    private Vector2 reRes(float initial_v1, float initial_v2, float alter_v1, float alter_v2, float ratio) {
+
+        float v1 = initial_v1;
+        float v2 = initial_v2;
+
+        if (initial_v1 > initial_v2) {
+            v1 = initial_v1 / ratio;
+            v2 = alter_v2;
+        }
+        if (initial_v1 < initial_v2) {
+            v1 = alter_v1;
+            v2 = initial_v2 * ratio;
+        }
+
+        return new Vector2(v1, v2);
+    }
