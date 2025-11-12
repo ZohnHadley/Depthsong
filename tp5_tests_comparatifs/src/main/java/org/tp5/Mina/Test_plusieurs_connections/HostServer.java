@@ -1,0 +1,65 @@
+package org.tp5.Mina.Test_plusieurs_connections;
+
+import org.apache.mina.core.service.IoAcceptor;
+import org.apache.mina.filter.codec.ProtocolCodecFilter;
+import org.apache.mina.filter.codec.textline.TextLineCodecFactory;
+import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
+import org.tp5.Mina.Model.ClientInfo;
+import org.tp5.Mina.Test_plusieurs_connections.Handlers.ServerHandler;
+import org.tp5.PrintColors;
+
+import java.net.InetSocketAddress;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
+
+
+//TCP/IP based
+public class HostServer implements Runnable {
+
+    public static ArrayList<ClientInfo> list_clientInfo = new ArrayList<ClientInfo>();
+
+    public static AtomicInteger clientCounter = new AtomicInteger(0);
+
+    private final int PORT;
+
+    private ServerHandler serverHandler;
+    private IoAcceptor acceptor;
+
+    public HostServer(int port) {
+        System.out.println(PrintColors.ANSI_CYAN + "(mina server) est commencé" + PrintColors.ANSI_RESET);
+        PORT = port;
+        serverHandler = new ServerHandler();
+    }
+
+    public void start() {
+        try {
+            // (selon documentation NioSocketAcceptor=Tcp)
+            acceptor = new NioSocketAcceptor();
+
+            //acceptor.getFilterChain().addLast("logger", new LoggingFilter());
+            acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(new TextLineCodecFactory(StandardCharsets.UTF_8)));
+
+            acceptor.setHandler(serverHandler);
+
+            acceptor.getSessionConfig().setReadBufferSize(2048);
+            //acceptor.getSessionConfig().setIdleTime(IdleStatus.BOTH_IDLE, 10);
+
+            acceptor.bind(new InetSocketAddress(PORT));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void run() {
+        start();
+    }
+
+    public void close() throws InterruptedException {
+        acceptor.dispose();
+        Thread.sleep(100);
+    }
+
+}
