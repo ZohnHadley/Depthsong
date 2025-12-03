@@ -12,11 +12,11 @@ public class TileFloor extends Tile {
 
     public TileFloor(){
         this.name = "Floor";
-        this.setSprite(StructGameSprites.getInstance().getSprite("floor"));
+        this.getComponentSprite().setSprite(StructGameSprites.getInstance().getSprite("floor"));
     }
 
     public TileFloor(String name){
         this.name = name;
-        this.setSprite(StructGameSprites.getInstance().getSprite("floor"));
+        this.getComponentSprite().setSprite(StructGameSprites.getInstance().getSprite("floor"));
     }
 }

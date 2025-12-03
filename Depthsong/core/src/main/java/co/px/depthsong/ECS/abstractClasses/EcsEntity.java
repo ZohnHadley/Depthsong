@@ -4,6 +4,7 @@ import co.px.depthsong.ECS.components.core.ComponentList;
 import co.px.depthsong.ECS.components.ComponentTransform;
 import co.px.depthsong.ECS.entityContext.EntityContext;
 import co.px.depthsong.layers.managers.GameManager;
+import com.badlogic.gdx.math.Vector3;
 import lombok.*;
 
 import java.awt.geom.Dimension2D;
@@ -28,7 +29,6 @@ public abstract class EcsEntity {
     private Long id = 0L;
     private String name;
     private EcsEntity parent = null;
-    private List<EcsEntity> listChildren = new ArrayList<>();
     private Boolean isVisible = false;
 
     private ComponentTransform componentTransform;
@@ -67,19 +67,6 @@ public abstract class EcsEntity {
             componentTransform = (ComponentTransform) componentList.get(ComponentTransform.class);
         }
         return componentTransform;
-    }
-
-    public List<EcsEntity> getChildren()
-    {
-        if (listChildren == null)
-        {
-            throw new NullPointerException("Children list cannot be null.");
-        }
-        return listChildren;
-    }
-    public Dimension2D getScale()
-    {
-        return componentTransform.getScale();
     }
 
     public void setParent(EcsEntity param_parent)
@@ -150,17 +137,6 @@ public abstract class EcsEntity {
     public Boolean hasTag(EcsTag param_tag)
     {
         return entityTags.contains(param_tag);
-    }
-
-    public void addChild(EcsEntity child)
-    {
-        if (child == null)
-        {
-            throw new NullPointerException("Child entity cannot be null.");
-        }
-
-        listChildren.add(child);
-        child.setParent(this);
     }
 }
 

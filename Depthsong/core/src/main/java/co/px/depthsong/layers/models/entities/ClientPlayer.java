@@ -21,7 +21,7 @@ public class ClientPlayer extends Player {
     private ClientPlayer(){
         this.name = "Player";
         this.healthPoints = 15;
-        this.setSprite(StructGameSprites.getInstance().getSprite("viking"));
+        this.getComponentSprite().setSprite(StructGameSprites.getInstance().getSprite("viking"));
     }
 
     public static ClientPlayer getInstance(){

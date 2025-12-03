@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.google.gson.annotations.Expose;
@@ -16,29 +17,19 @@ public class ComponentSprite extends EcsComponent {
 
     @Getter
     @Setter
-    @Expose
-    private Texture texture;
+    private Sprite sprite;
 
-    @Expose
     private float positionX, positionY;
-
-    @Getter
-    @Expose
-    private float width;
-    @Getter
-    @Expose
-    private float height;
 
     public ComponentSprite() {
         FileHandle textureFile = Gdx.files.internal("images/untitled.png");
-        Texture texture = new Texture(textureFile);
-
+        sprite = new Sprite(new Texture(textureFile));
     }
 
     public void setPosition(float x, float y)
     {
-        positionX = x;
-        positionY = y;
+        positionX = x + sprite.getWidth() * 0.5f ;
+        positionY = y + sprite.getHeight() * 0.5f;
     }
 
     public Vector2 getPosition()

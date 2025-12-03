@@ -12,7 +12,7 @@ public class StructGameSprites {
 
     private static StructGameSprites instance;
     public final Vector2 dimension = new Vector2(16, 16);
-    private SpriteSheet spriteSheet = new SpriteSheet("nethackSpriteSheet", "Modern_Tiles.png", 27, 40, (int) dimension.y, (int) dimension.x);
+    private SpriteSheet spriteSheet = new SpriteSheet("nethackSpriteSheet", "Modern_tiles.png", 27, 40, (int) dimension.y, (int) dimension.x);
     private Map<String, Sprite> spriteMap = new HashMap<>();
 
     private StructGameSprites() {

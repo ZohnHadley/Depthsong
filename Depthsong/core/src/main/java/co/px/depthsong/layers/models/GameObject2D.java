@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.google.gson.annotations.Expose;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,21 +22,10 @@ public class GameObject2D extends EcsEntity {
     protected ComponentSprite componentSprite;
     @Expose(serialize = false, deserialize = false)
     protected ComponentCubeCollider componentCubeCollider;
+
     protected final ShapeRenderer SHAPERENDERER = new ShapeRenderer();
-    private Sprite sprite;
     public GameObject2D() {
         super();
-        this.componentCubeCollider = new ComponentCubeCollider();
-
-        this.componentSprite = new ComponentSprite();
-
-        this.componentSprite.setPosition(this.getComponentTransform().getPosition().x,  this.getComponentTransform().getPosition().y);
-        this.getComponentList().add(componentSprite);
-        sprite =  new Sprite(componentSprite.getTexture(), 32 , 32);
-    }
-
-    public GameObject2D(String name) {
-        super(name);
         this.componentCubeCollider = new ComponentCubeCollider();
 
         this.componentSprite = new ComponentSprite();
@@ -45,18 +35,20 @@ public class GameObject2D extends EcsEntity {
     }
 
     public Vector2 getPosition(){
-        return GeneralUtils.vector3ToVector2(this.getComponentTransform().getPosition());
+        return GeneralUtils.vector3ToVector2(this.getComponentTransform().getCenter());
     }
+
+    public void setPosition(float x, float y){
+        this.getComponentTransform().setPosition(new Vector3(x, y, 0));
+    }
+
     public void update(float delta){
      }
 
     public void draw(SpriteBatch batch){
-        float posX= this.getComponentTransform().getPosition().x - (this.componentSprite.getWidth() * 0.5f);
-        float posY = this.getComponentTransform().getPosition().y - (this.componentSprite.getHeight() * 0.5f);
-        this.componentCubeCollider.setDimensions((int) this.componentSprite.getWidth(), (int) this.componentSprite.getHeight());
-        this.componentCubeCollider.setPosition(posX, posY);
-
-        this.componentSprite.setPosition(posX,  posY);
-        this.sprite.draw(batch);
+        this.componentCubeCollider.setDimensions((int) this.componentSprite.getSprite().getWidth(), (int) this.componentSprite.getSprite().getHeight());
+        this.componentCubeCollider.setPosition(getPosition().x, getPosition().y);
+        this.componentSprite.setPosition(getPosition().x, getPosition().y);
+        this.componentSprite.getSprite().draw(batch);
     }
 }

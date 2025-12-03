@@ -12,11 +12,11 @@ public class TileWall extends Tile {
 
     public TileWall(){
         this.name = "Wall";
-        this.setSprite(StructGameSprites.getInstance().getSprite("wall"));
+        this.getComponentSprite().setSprite(StructGameSprites.getInstance().getSprite("wall"));
     }
 
     public TileWall(String name){
         this.name = name;
-        this.setSprite(StructGameSprites.getInstance().getSprite("wall"));
+        this.getComponentSprite().setSprite(StructGameSprites.getInstance().getSprite("wall"));
     }
 }

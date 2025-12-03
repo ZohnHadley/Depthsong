@@ -121,7 +121,7 @@ public class RenderingSystem {
         for (EcsEntity ent : EntityContext.getInstance().getEntities().values()) {
             if (ent instanceof GameObject2D) {
                 GameObject2D gameObj = (GameObject2D) ent;
-                if(isVisible(gameObj.getPosition(), gameObj.getSprite(), GameCamera.getInstance().getCamera(), 8f, false)){
+                if(isVisible(gameObj.getPosition(), gameObj.getComponentSprite().getSprite(), GameCamera.getInstance().getCamera(), 8f, false)){
                     gameObj.draw(GAME_VIEW_BATCH);
 
                 }
@@ -136,8 +136,8 @@ public class RenderingSystem {
         for (EcsEntity ent : EntityContext.getInstance().getEntities().values()) {
             if (ent instanceof GameObject2D) {
                 GameObject2D gameObj = (GameObject2D) ent;
-                if(isVisible(gameObj.getPosition(), gameObj.getSprite(), GameCamera.getInstance().getCamera(), 8f, false)){
-                    SHAPERENDERER.rect(gameObj.getPosition().x-1.5f, gameObj.getPosition().y-1.5f,3,3);
+                if(isVisible(gameObj.getPosition(), gameObj.getComponentSprite().getSprite(), GameCamera.getInstance().getCamera(), 8f, false)){
+                    SHAPERENDERER.rect(gameObj.getPosition().x, gameObj.getPosition().y,3,3);
                     SHAPERENDERER.setColor(Color.RED);
                     SHAPERENDERER.rect(gameObj.getComponentCubeCollider().getPosition().x, gameObj.getComponentCubeCollider().getPosition().y, (float) gameObj.getComponentCubeCollider().getDimensions().getWidth(), (float) gameObj.getComponentCubeCollider().getDimensions().getHeight());
 
