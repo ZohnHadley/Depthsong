@@ -1,6 +1,6 @@
 package co.px.depthsong.layers.models.entities;
 
-import co.px.depthsong.gameUtils.StructGameSprites;
+import co.px.depthsong.enginUtils.StructGameSprites;
 import co.px.depthsong.layers.models.abstractClasses.Player;
 import com.google.gson.annotations.Expose;
 import lombok.*;

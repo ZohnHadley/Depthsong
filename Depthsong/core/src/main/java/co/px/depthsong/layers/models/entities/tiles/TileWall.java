@@ -1,6 +1,6 @@
 package co.px.depthsong.layers.models.entities.tiles;
 
-import co.px.depthsong.gameUtils.StructGameSprites;
+import co.px.depthsong.enginUtils.StructGameSprites;
 import co.px.depthsong.layers.models.abstractClasses.Tile;
 import lombok.Getter;
 import lombok.Setter;

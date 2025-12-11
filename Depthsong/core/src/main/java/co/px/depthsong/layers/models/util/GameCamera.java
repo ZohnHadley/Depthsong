@@ -2,7 +2,7 @@ package co.px.depthsong.layers.models.util;
 
 import co.px.depthsong.ECS.abstractClasses.EcsEntity;
 import co.px.depthsong.ECS.entityContext.EntityContext;
-import co.px.depthsong.gameUtils.GeneralUtils;
+import co.px.depthsong.enginUtils.GeneralUtils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;

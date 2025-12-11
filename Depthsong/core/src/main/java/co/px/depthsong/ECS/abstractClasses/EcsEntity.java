@@ -48,18 +48,6 @@ public abstract class EcsEntity {
         context.addEntity(this);
     }
 
-    public EcsEntity(String param_name)
-    {
-        name = param_name;
-        parent = null;
-        componentList = new ComponentList(this);
-
-        componentTransform = new ComponentTransform();
-
-        componentList.add(componentTransform);
-        context.addEntity(this);
-    }
-
     public ComponentTransform getTransform()
     {
         if (componentTransform == null)

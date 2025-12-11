@@ -6,7 +6,7 @@ import co.px.depthsong.layers.managers.NetworkManager;
 import co.px.depthsong.layers.managers.ScreenManager;
 import co.px.depthsong.network.Local.ClientServer;
 import co.px.depthsong.layers.models.GUIBaseScreen;
-import co.px.depthsong.gameUtils.StructGameScreens;
+import co.px.depthsong.enginUtils.StructGameScreens;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;

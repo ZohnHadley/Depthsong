@@ -1,4 +1,4 @@
-package co.px.depthsong.gameUtils;
+package co.px.depthsong.enginUtils;
 
 import co.px.depthsong.screens.GameScreenGUIBaseOver;
 import co.px.depthsong.screens.GUIBaseScreenMainMenu;

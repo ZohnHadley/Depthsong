@@ -1,4 +1,4 @@
-package co.px.depthsong.gameUtils;
+package co.px.depthsong.enginUtils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;

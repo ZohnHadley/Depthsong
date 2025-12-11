@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -76,11 +77,11 @@ public class RenderingSystem {
         //gameManager.getScreenManager().getCurrentScreen().resize(posX, posY, width, height);
     }
 
-    private boolean isVisible(Vector2 position,
-                                    Sprite sprite,
-                                    OrthographicCamera camera,
-                                    float margin,
-                                    boolean positionIsCenter) {
+    private boolean isVisible(Vector3 position,
+                              Sprite sprite,
+                              OrthographicCamera camera,
+                              float margin,
+                              boolean positionIsCenter) {
 
         // Camera bounds (world space, zoom-aware)
         float halfW = (camera.viewportWidth  * camera.zoom) * 0.5f;
@@ -121,7 +122,7 @@ public class RenderingSystem {
         for (EcsEntity ent : EntityContext.getInstance().getEntities().values()) {
             if (ent instanceof GameObject2D) {
                 GameObject2D gameObj = (GameObject2D) ent;
-                if(isVisible(gameObj.getPosition(), gameObj.getComponentSprite().getSprite(), GameCamera.getInstance().getCamera(), 8f, false)){
+                if(isVisible(gameObj.getComponentTransform().getPosition(), gameObj.getComponentSprite().getSprite(), GameCamera.getInstance().getCamera(), 8f, false)){
                     gameObj.draw(GAME_VIEW_BATCH);
 
                 }
@@ -129,31 +130,30 @@ public class RenderingSystem {
         }
 
     }
-    private void renderDebug(){
-        SHAPERENDERER.setProjectionMatrix(GameCamera.getInstance().getCamera().combined);
-        SHAPERENDERER.begin(ShapeRenderer.ShapeType.Line);
-        SHAPERENDERER.setColor(Color.WHITE);
-        for (EcsEntity ent : EntityContext.getInstance().getEntities().values()) {
-            if (ent instanceof GameObject2D) {
-                GameObject2D gameObj = (GameObject2D) ent;
-                if(isVisible(gameObj.getPosition(), gameObj.getComponentSprite().getSprite(), GameCamera.getInstance().getCamera(), 8f, false)){
-                    SHAPERENDERER.rect(gameObj.getPosition().x, gameObj.getPosition().y,3,3);
-                    SHAPERENDERER.setColor(Color.RED);
-                    SHAPERENDERER.rect(gameObj.getComponentCubeCollider().getPosition().x, gameObj.getComponentCubeCollider().getPosition().y, (float) gameObj.getComponentCubeCollider().getDimensions().getWidth(), (float) gameObj.getComponentCubeCollider().getDimensions().getHeight());
-
-                }
-            }
-        }
-        SHAPERENDERER.setColor(Color.BLUE);
-
-        // VirtualMouse in world space
-        SHAPERENDERER.rect(
-            VirtualMouse.getInstance().getPosition().x,
-            VirtualMouse.getInstance().getPosition().y,
-            (float) VirtualMouse.getInstance().getDimensions().getWidth(), (float) VirtualMouse.getInstance().getDimensions().getHeight()
-        );
-        SHAPERENDERER.end();
-    }
+//    private void renderDebug(){
+//        SHAPERENDERER.setProjectionMatrix(GameCamera.getInstance().getCamera().combined);
+//        SHAPERENDERER.begin(ShapeRenderer.ShapeType.Line);
+//        SHAPERENDERER.setColor(Color.WHITE);
+//        for (EcsEntity ent : EntityContext.getInstance().getEntities().values()) {
+//            if (ent instanceof GameObject2D) {
+//                GameObject2D gameObj = (GameObject2D) ent;
+//                if(isVisible(gameObj.getComponentTransform().getPosition(), gameObj.getComponentSprite().getSprite(), GameCamera.getInstance().getCamera(), 8f, false)){
+//                    SHAPERENDERER.rect(gameObj.getComponentTransform().getCenter().x-3f, gameObj.getComponentTransform().getCenter().y-3f,3,3);
+//                    SHAPERENDERER.setColor(Color.RED);
+//                    SHAPERENDERER.rect(gameObj.getComponentCubeCollider().getPosition().x, gameObj.getComponentCubeCollider().getPosition().y, (float) gameObj.getComponentCubeCollider().getSize().x, (float) gameObj.getComponentCubeCollider().getSize().y);
+//                }
+//            }
+//        }
+//        SHAPERENDERER.setColor(Color.BLUE);
+//
+//        // VirtualMouse in world space
+//        SHAPERENDERER.rect(
+//            VirtualMouse.getInstance().getPosition().x,
+//            VirtualMouse.getInstance().getPosition().y,
+//            (float) VirtualMouse.getInstance().getDimensions().getWidth(), (float) VirtualMouse.getInstance().getDimensions().getHeight()
+//        );
+//        SHAPERENDERER.end();
+//    }
 
     public void render() {
         ScreenUtils.clear(0.7f, 0.7f, 0.16f, 1f);
@@ -164,23 +164,7 @@ public class RenderingSystem {
             renderEntities();
         GAME_VIEW_BATCH.end();
 
-        // Draw camera-space (world) things
-//        SHAPERENDERER.setProjectionMatrix(GameCamera.getInstance().getCamera().combined);
-//        SHAPERENDERER.begin(ShapeRenderer.ShapeType.Line);
-//        SHAPERENDERER.setColor(debugColor);
-//
-//        // VirtualMouse in world space
-//        SHAPERENDERER.rect(
-//            VirtualMouse.getInstance().getPosition().x,
-//            VirtualMouse.getInstance().getPosition().y,
-//            (float) VirtualMouse.getInstance().getDimensions().getWidth(), (float) VirtualMouse.getInstance().getDimensions().getHeight()
-//        );
-//        SHAPERENDERER.end();
-        renderDebug();
-
-//        UI_BATCH.begin();
-//            gameManager.getScreenManager().getCurrentScreen().render();
-//        UI_BATCH.end();
+//        renderDebug();
     }
 
     public void dispose() {

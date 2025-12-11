@@ -1,4 +1,4 @@
-package co.px.depthsong.gameUtils;
+package co.px.depthsong.enginUtils;
 
 import co.px.depthsong.layers.models.util.SpriteSheet;
 import com.badlogic.gdx.graphics.g2d.Sprite;

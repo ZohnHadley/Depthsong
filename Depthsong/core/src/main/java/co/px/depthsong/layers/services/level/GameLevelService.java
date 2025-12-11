@@ -33,10 +33,11 @@ public class GameLevelService {
         if(!Gdx.files.local(levelsFolderPath).isDirectory()){
             throw  new RuntimeException("Failure to load levels");
         }
+
         for(FileHandle file : Gdx.files.local(levelsFolderPath).list()){
             if(file.extension().equalsIgnoreCase("json")){
-//                gson.fromJson(file.readString(), GameLevel.class);
-//                Gdx.app.log("GameLevelService", ""+file.readString());
+                GameLevel level = gson.fromJson(file.readString(), GameLevel.class);
+                Gdx.app.log("GameLevelService", ""+file.readString());
             }
 
         }

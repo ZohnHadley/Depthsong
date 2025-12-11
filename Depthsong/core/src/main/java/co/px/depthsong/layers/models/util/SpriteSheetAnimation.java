@@ -1,6 +1,6 @@
 package co.px.depthsong.layers.models.util;
 
-import co.px.depthsong.gameUtils.GeneralTimer;
+import co.px.depthsong.enginUtils.GeneralTimer;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class SpriteSheetAnimation {

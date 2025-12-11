@@ -16,22 +16,12 @@ import java.util.Hashtable;
 @Setter
 public class ComponentTransform extends EcsComponent {
 
-    private Vector3 size =  new Vector3();
-
-    private Vector3 position =  new Vector3();
-
-    private Vector3 center =  new Vector3();
-
-    private Vector3 rotation =   new Vector3();
+    private Vector3 size =  new Vector3(0,0,0);
+    private Vector3 position =  new Vector3(0,0,0);
+    private Vector3 rotation =   new Vector3(0,0,0);
+    private Vector3 center =  new Vector3(0,0,0);
 
     private ComponentTransform parent = null;
-
-    private Hashtable<String, ComponentTransform> children = new Hashtable<>();
-
-    public void setPosition(Vector3 position){
-        this.position = position;
-        this.center.set(position.x + size.x * 0.5f, position.y + size.y * 0.5f, position.z + size.z * 0.5f);
-    }
 
     public void setParent(ComponentTransform parent){
         if(parent == null){
@@ -44,5 +34,10 @@ public class ComponentTransform extends EcsComponent {
         this.parent = parent;
         this.position = this.position.add(parent.getPosition());
         this.size = new Vector3((int) (this.size.x + parent.getSize().x), (int) (this.size.y + parent.getSize().y), 0);
+    }
+
+    public Vector3 getCenter(){
+        this.center = new Vector3(this.position.x + (this.size.x * 0.5f), this.position.y + (this.size.y * 0.5f), this.position.z + (this.size.z * 0.5f));
+        return this.center;
     }
 }
