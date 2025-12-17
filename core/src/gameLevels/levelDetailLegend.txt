@@ -1,0 +1,9 @@
+1 = wall
+0 = floor
+
+S = spawn point
+D = door
+I = item
+C = chest
+M = monster
+E = exit point

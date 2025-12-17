@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Main-Class: ca.la.testgame.lwjgl3.Lwjgl3Launcher
+
