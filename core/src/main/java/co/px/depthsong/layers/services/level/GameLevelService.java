@@ -3,16 +3,16 @@ package co.px.depthsong.layers.services.level;
 import co.px.depthsong.layers.models.GameLevel;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+//import com.google.gson.Gson;
+//import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class GameLevelService {
     private static GameLevelService instance;
-    private final GsonBuilder builder = new GsonBuilder();
-    private Gson gson = builder.create();
+//    private final GsonBuilder builder = new GsonBuilder();
+//    private Gson gson = builder.create();
 
     private final GameLevelManager  gameLevelManager = GameLevelManager.getInstance();
     private final String levelsFolderPath = "core/src/gameLevels/";
@@ -36,8 +36,8 @@ public class GameLevelService {
 
         for(FileHandle file : Gdx.files.local(levelsFolderPath).list()){
             if(file.extension().equalsIgnoreCase("json")){
-                GameLevel level = gson.fromJson(file.readString(), GameLevel.class);
-                Gdx.app.log("GameLevelService", ""+file.readString());
+//                GameLevel level = gson.fromJson(file.readString(), GameLevel.class);
+//                Gdx.app.log("GameLevelService", ""+file.readString());
             }
 
         }

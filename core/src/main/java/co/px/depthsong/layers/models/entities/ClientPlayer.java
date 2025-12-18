@@ -2,7 +2,6 @@ package co.px.depthsong.layers.models.entities;
 
 import co.px.depthsong.enginUtils.StructGameSprites;
 import co.px.depthsong.layers.models.abstractClasses.Player;
-import com.google.gson.annotations.Expose;
 import lombok.*;
 
 @Getter
@@ -10,9 +9,7 @@ import lombok.*;
 public class ClientPlayer extends Player {
 
     private  static ClientPlayer instance;
-    @Expose
     private String name;
-    @Expose
     private int healthPoints;
 
 

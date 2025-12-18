@@ -119,6 +119,7 @@ public class EntityContext {
 
         return result;
     }
+
     //TODO fix might cause error
     public List<EcsEntity> getAllEntitiesWithComponents(List<Type> ComponentTypes)
     {
