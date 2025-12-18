@@ -2,7 +2,7 @@ package co.px.depthsong.layers.engine_managers;
 
 import co.px.depthsong.ECS.entityContext.EntityContext;
 import co.px.depthsong.ECS.systems.RenderingSystem;
-import co.px.depthsong.layers.engine_managers.enums.NetworkState;
+import co.px.depthsong.layers.engine_managers.enums.EnumNetworkState;
 import co.px.depthsong.layers.models.util.GameCamera;
 import co.px.depthsong.layers.models.util.VirtualMouse;
 import com.badlogic.gdx.Gdx;
@@ -24,10 +24,9 @@ public class GameManager {
     private GameCamera gameCamera;
     private VirtualMouse virtualMouse;
 
-    private NetworkState networkState = NetworkState.Offline;
+    private EnumNetworkState networkState = EnumNetworkState.Offline;
     private boolean isInGame = false;
     private boolean isPlayerCreated = false;
-    private boolean inGameManagersStarted = false;
 
     @Getter(AccessLevel.NONE)
     private static GameManager instance = null;

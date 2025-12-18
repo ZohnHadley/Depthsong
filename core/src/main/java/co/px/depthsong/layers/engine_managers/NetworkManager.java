@@ -1,6 +1,6 @@
 package co.px.depthsong.layers.engine_managers;
 
-import co.px.depthsong.layers.engine_managers.enums.NetworkClientConnectionStates;
+import co.px.depthsong.layers.engine_managers.enums.EnumNetworkClientConnectionStates;
 import co.px.depthsong.network.NetworkMachine;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +17,7 @@ public class NetworkManager {
 
 
 
-    private NetworkClientConnectionStates connectionState;
+    private EnumNetworkClientConnectionStates connectionState;
 
     public static NetworkManager getInstance() {
         if (instance == null) {
@@ -26,7 +26,7 @@ public class NetworkManager {
         return instance;
     }
 
-    public void setCurrentConnectedState(NetworkClientConnectionStates state) {
+    public void setCurrentConnectedState(EnumNetworkClientConnectionStates state) {
         connectionState = state;
     }
 
@@ -44,7 +44,7 @@ public class NetworkManager {
                 setHostServer(null);
             }
 
-            setCurrentConnectedState(NetworkClientConnectionStates.DISCONNECTED);
+            setCurrentConnectedState(EnumNetworkClientConnectionStates.DISCONNECTED);
 
         } catch (Exception e) {
             printLogError("Error closing network server");

@@ -1,6 +1,6 @@
 package co.px.depthsong.screens;
 
-import co.px.depthsong.layers.engine_managers.enums.NetworkState;
+import co.px.depthsong.layers.engine_managers.enums.EnumNetworkState;
 import co.px.depthsong.layers.models.util.VirtualMouse;
 import co.px.depthsong.layers.models.GUIBaseScreen;
 import co.px.depthsong.layers.models.entities.ClientPlayer;
@@ -40,9 +40,9 @@ public class GameScreenGUIBaseOver extends GUIBaseScreen {
         button_disconnect.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (gameManager.getNetworkState() == NetworkState.Online) {
+                if (gameManager.getNetworkState() == EnumNetworkState.Online) {
                     gameManager.getNetworkManager().disconnect();
-                    gameManager.setNetworkState(NetworkState.Offline);
+                    gameManager.setNetworkState(EnumNetworkState.Offline);
                 }
 
                 gameManager.getEntityContext().clearContext();

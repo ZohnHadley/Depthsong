@@ -1,6 +1,6 @@
 package co.px.depthsong.screens.local_game_screens;
 
-import co.px.depthsong.layers.engine_managers.enums.NetworkClientConnectionStates;
+import co.px.depthsong.layers.engine_managers.enums.EnumNetworkClientConnectionStates;
 import co.px.depthsong.layers.models.util.VirtualMouse;
 import co.px.depthsong.layers.engine_managers.GameManager;
 import co.px.depthsong.layers.engine_managers.NetworkManager;
@@ -99,7 +99,7 @@ public class GameScreenJoinLocalGUIBase extends GUIBaseScreen {
 
                 } catch (Exception e) {
                     networkManager.setClientServer(null);
-                    networkManager.setCurrentConnectedState(NetworkClientConnectionStates.DISCONNECTED);
+                    networkManager.setCurrentConnectedState(EnumNetworkClientConnectionStates.DISCONNECTED);
                     printLogError(e.getMessage());
                 }
                 return true;
@@ -158,7 +158,7 @@ public class GameScreenJoinLocalGUIBase extends GUIBaseScreen {
         ipAddress = textField_ipAddress.getText();
         port = textField_port.getText();
 
-        if (networkManager.getClientServer() != null && networkManager.getClientServer().isRunning() && networkManager.getConnectionState() == NetworkClientConnectionStates.CONNECTED) {
+        if (networkManager.getClientServer() != null && networkManager.getClientServer().isRunning() && networkManager.getConnectionState() == EnumNetworkClientConnectionStates.CONNECTED) {
 
             connectionError = false;
             screenManager.setCurrentScreen(GameScreensList.characterCreator);
@@ -167,7 +167,7 @@ public class GameScreenJoinLocalGUIBase extends GUIBaseScreen {
 
         if (networkManager.getClientServer() != null
             && !networkManager.getClientServer().isRunning()
-            && (networkManager.getConnectionState() == NetworkClientConnectionStates.DISCONNECTED)) {
+            && (networkManager.getConnectionState() == EnumNetworkClientConnectionStates.DISCONNECTED)) {
             connectionError = true;
             label_connection_error.setColor(1, 0, 0, 1);
         }

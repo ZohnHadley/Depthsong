@@ -2,16 +2,14 @@ package co.px.depthsong.screens.local_game_screens;
 //import Thread
 import java.lang.Thread;
 
-import co.px.depthsong.layers.engine_managers.enums.NetworkClientConnectionStates;
+import co.px.depthsong.layers.engine_managers.enums.EnumNetworkClientConnectionStates;
 import co.px.depthsong.layers.models.util.VirtualMouse;
 import co.px.depthsong.layers.engine_managers.GameManager;
 import co.px.depthsong.layers.engine_managers.NetworkManager;
 import co.px.depthsong.layers.engine_managers.ScreenManager;
-import co.px.depthsong.network.Local.ClientServer;
 import co.px.depthsong.network.Local.HostServer;
 import co.px.depthsong.network.NetworkMachine;
 import co.px.depthsong.layers.models.GUIBaseScreen;
-import co.px.depthsong.enginUtils.GameScreensList;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -153,7 +151,7 @@ public class GameScreenHostLocalGUIBase extends GUIBaseScreen {
 
         } catch (Exception e) {
             networkManager.setHostServer(null);
-            networkManager.setCurrentConnectedState(NetworkClientConnectionStates.DISCONNECTED);
+            networkManager.setCurrentConnectedState(EnumNetworkClientConnectionStates.DISCONNECTED);
             printLogError(e.getMessage());
         }
 

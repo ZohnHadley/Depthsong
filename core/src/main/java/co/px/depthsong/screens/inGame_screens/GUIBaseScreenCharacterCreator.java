@@ -1,6 +1,6 @@
 package co.px.depthsong.screens.inGame_screens;
 
-import co.px.depthsong.layers.engine_managers.enums.NetworkClientConnectionStates;
+import co.px.depthsong.layers.engine_managers.enums.EnumNetworkClientConnectionStates;
 import co.px.depthsong.layers.models.util.VirtualMouse;
 import co.px.depthsong.layers.engine_managers.GameManager;
 import co.px.depthsong.layers.engine_managers.ScreenManager;
@@ -50,7 +50,7 @@ public class GUIBaseScreenCharacterCreator extends GUIBaseScreen {
         button_back.pad(10);
         button_back.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (gameManager.getNetworkManager().getConnectionState() == NetworkClientConnectionStates.CONNECTED) {
+                if (gameManager.getNetworkManager().getConnectionState() == EnumNetworkClientConnectionStates.CONNECTED) {
                     gameManager.getNetworkManager().disconnect();
                 }
                 gameManager.setInGame(false);

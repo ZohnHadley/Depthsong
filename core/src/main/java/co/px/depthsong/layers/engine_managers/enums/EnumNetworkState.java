@@ -1,6 +1,6 @@
 package co.px.depthsong.layers.engine_managers.enums;
 
-public enum ActivationState {
-    ON,
-    OFF
+public enum EnumNetworkState {
+    Online,
+    Offline
 }

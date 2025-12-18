@@ -1,8 +1,8 @@
 package co.px.depthsong.network.Local.Handlers.ClientHandlers;
 
 import co.px.depthsong.ECS.entityContext.EntityContext;
-import co.px.depthsong.layers.engine_managers.enums.ActivationState;
-import co.px.depthsong.layers.engine_managers.enums.NetworkClientConnectionStates;
+import co.px.depthsong.layers.engine_managers.enums.EnumActivationState;
+import co.px.depthsong.layers.engine_managers.enums.EnumNetworkClientConnectionStates;
 import co.px.depthsong.layers.models.entities.ClientPlayer;
 import co.px.depthsong.network.Local.Model.CurrentTurnTimeObject;
 import co.px.depthsong.network.Local.Model.NetworkMessage;
@@ -32,7 +32,7 @@ public class LocalClientServerHandler extends ChannelHandlerAdapter {
 
     private Channel channel;
 
-    private final ActivationState isDebugging = ActivationState.OFF;
+    private final EnumActivationState isDebugging = EnumActivationState.OFF;
 
 
     private PlayerObj currentPlayer = null;
@@ -42,7 +42,7 @@ public class LocalClientServerHandler extends ChannelHandlerAdapter {
     public void channelRegistered(ChannelHandlerContext context) {
         print(false, "connected");
         channel = context.channel();
-        gameManager.getNetworkManager().setCurrentConnectedState(NetworkClientConnectionStates.CONNECTED);
+        gameManager.getNetworkManager().setCurrentConnectedState(EnumNetworkClientConnectionStates.CONNECTED);
 
 
     }
@@ -55,8 +55,8 @@ public class LocalClientServerHandler extends ChannelHandlerAdapter {
         //localAddress = getLocalChannel().getAddress().toString() + ":" + getLocalChannel().getPort();
 
         channel = context.channel();
-        gameManager.getNetworkManager().setCurrentConnectedState(NetworkClientConnectionStates.CONNECTED);
-        if (gameManager.getNetworkManager().getConnectionState() == NetworkClientConnectionStates.DISCONNECTED) {
+        gameManager.getNetworkManager().setCurrentConnectedState(EnumNetworkClientConnectionStates.CONNECTED);
+        if (gameManager.getNetworkManager().getConnectionState() == EnumNetworkClientConnectionStates.DISCONNECTED) {
             context.close();
         }
 
@@ -91,7 +91,7 @@ public class LocalClientServerHandler extends ChannelHandlerAdapter {
 
                 scheduledFuture_update_player_on_server = context.executor().scheduleWithFixedDelay(() -> {
 //                    if (gameManager.isNetworked() && Player.updatePlayerOnServer && clientServerGameMaster.getCurrentPlayerWasIdentifiedByServer()) {
-                    if (gameManager.getNetworkManager().getConnectionState() == NetworkClientConnectionStates.CONNECTED && clientServerGameMaster.getCurrentPlayerWasIdentifiedByServer()) {
+                    if (gameManager.getNetworkManager().getConnectionState() == EnumNetworkClientConnectionStates.CONNECTED && clientServerGameMaster.getCurrentPlayerWasIdentifiedByServer()) {
 
                         ClientPlayer entity_Client_player = (ClientPlayer) gameManager.getEntityContext().getPlayer();
                         currentPlayer.setX((int) entity_Client_player.getTransform().getPosition().x);
@@ -134,7 +134,7 @@ public class LocalClientServerHandler extends ChannelHandlerAdapter {
 
             if (((IdleStateEvent) event).state() == IdleState.READER_IDLE) {
                 print(false, "timeout : nothing received from server (disconnected)");
-                gameManager.getNetworkManager().setCurrentConnectedState(NetworkClientConnectionStates.CONNECTED);
+                gameManager.getNetworkManager().setCurrentConnectedState(EnumNetworkClientConnectionStates.CONNECTED);
                 context.close();
             }
         }
@@ -143,14 +143,14 @@ public class LocalClientServerHandler extends ChannelHandlerAdapter {
     @Override
     public void channelUnregistered(ChannelHandlerContext context) {
         print(false, "disconnected");
-        gameManager.getNetworkManager().setCurrentConnectedState(NetworkClientConnectionStates.CONNECTED);
+        gameManager.getNetworkManager().setCurrentConnectedState(EnumNetworkClientConnectionStates.CONNECTED);
         context.close();
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext context, Throwable cause) {
         print(true, "exception caught");
-        gameManager.getNetworkManager().setCurrentConnectedState(NetworkClientConnectionStates.CONNECTED);
+        gameManager.getNetworkManager().setCurrentConnectedState(EnumNetworkClientConnectionStates.CONNECTED);
         cause.printStackTrace();
         context.close();
     }
@@ -165,7 +165,7 @@ public class LocalClientServerHandler extends ChannelHandlerAdapter {
 
 
     private void print(boolean isError, String message) {
-        if (isDebugging == ActivationState.OFF) {
+        if (isDebugging == EnumActivationState.OFF) {
             return;
         }
         if (!isError) {
