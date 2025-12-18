@@ -1,6 +1,6 @@
 package co.px.depthsong.layers.models.entities;
 
-import co.px.depthsong.enginUtils.StructGameSprites;
+import co.px.depthsong.enginUtils.GameSprites;
 import co.px.depthsong.layers.models.abstractClasses.Player;
 import lombok.*;
 
@@ -18,7 +18,7 @@ public class ClientPlayer extends Player {
     private ClientPlayer(){
         this.name = "Player";
         this.healthPoints = 15;
-        this.getComponentSprite().setSprite(StructGameSprites.getInstance().getSprite("viking"));
+        this.getComponentSprite().setSprite(GameSprites.getInstance().getSprite("viking"));
     }
 
     public static ClientPlayer getInstance(){

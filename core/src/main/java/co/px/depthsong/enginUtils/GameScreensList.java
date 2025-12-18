@@ -9,7 +9,7 @@ import co.px.depthsong.screens.local_game_screens.GameScreenHostLocalGUIBase;
 import co.px.depthsong.screens.local_game_screens.GameScreenJoinLocalGUIBase;
 import co.px.depthsong.screens.local_game_screens.GameScreenLocalGUIBaseMenu;
 
-public class StructGameScreens {
+public class GameScreensList {
     public static GUIBaseScreenMainMenu mainMenu = new GUIBaseScreenMainMenu("mainMenu");
     public static GUIBaseScreenSinglePlayerMenu playOfflineMenu = new GUIBaseScreenSinglePlayerMenu("playOfflineMenu");
     public static GameScreenInGUIBase inGameScreen = new GameScreenInGUIBase("inGameScreen");

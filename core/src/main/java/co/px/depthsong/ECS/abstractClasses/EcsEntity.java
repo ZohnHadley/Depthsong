@@ -3,11 +3,9 @@ package co.px.depthsong.ECS.abstractClasses;
 import co.px.depthsong.ECS.components.core.ComponentList;
 import co.px.depthsong.ECS.components.ComponentTransform;
 import co.px.depthsong.ECS.entityContext.EntityContext;
-import co.px.depthsong.layers.managers.GameManager;
-import com.badlogic.gdx.math.Vector3;
+import co.px.depthsong.layers.engine_managers.GameManager;
 import lombok.*;
 
-import java.awt.geom.Dimension2D;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;

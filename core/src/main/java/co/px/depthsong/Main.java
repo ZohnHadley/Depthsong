@@ -3,9 +3,9 @@ package co.px.depthsong;
 import co.px.depthsong.layers.models.GameLevel;
 import co.px.depthsong.layers.services.level.GameLevelService;
 import co.px.depthsong.enginUtils.GeneralTimer;
-import co.px.depthsong.enginUtils.StructGameScreens;
+import co.px.depthsong.enginUtils.GameScreensList;
 import co.px.depthsong.layers.models.entities.ClientPlayer;
-import co.px.depthsong.layers.managers.GameManager;
+import co.px.depthsong.layers.engine_managers.GameManager;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
@@ -35,7 +35,7 @@ public class Main extends ApplicationAdapter {
         ClientPlayer entity = ClientPlayer.getInstance();
         entity.getTransform().setPosition(new Vector3(2, 0, 0));
 
-        gameManager.getScreenManager().setCurrentScreen(StructGameScreens.mainMenu);
+        gameManager.getScreenManager().setCurrentScreen(GameScreensList.mainMenu);
         testlevel = new  GameLevel();
     }
 

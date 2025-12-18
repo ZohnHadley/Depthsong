@@ -1,13 +1,14 @@
 package co.px.depthsong.network.Local.Handlers.ClientHandlers;
 
 import co.px.depthsong.ECS.entityContext.EntityContext;
+import co.px.depthsong.layers.engine_managers.enums.ActivationState;
+import co.px.depthsong.layers.engine_managers.enums.NetworkClientConnectionStates;
 import co.px.depthsong.layers.models.entities.ClientPlayer;
 import co.px.depthsong.network.Local.Model.CurrentTurnTimeObject;
 import co.px.depthsong.network.Local.Model.NetworkMessage;
 import co.px.depthsong.network.Local.Model.PlayerObj;
-import co.px.depthsong.layers.managers.GameManager;
+import co.px.depthsong.layers.engine_managers.GameManager;
 
-import co.px.depthsong.layers.managers.NetworkManager;
 import co.px.depthsong.network.Local.ClientServer;
 import co.px.depthsong.network.Local.Events.ClientSideEvents.ClientEvent_ServerRespondedToAddingPlayer;
 import co.px.depthsong.network.Local.Events.ClientSideEvents.ClientEvent_playerIsBeingAddedToServer;
@@ -31,7 +32,7 @@ public class LocalClientServerHandler extends ChannelHandlerAdapter {
 
     private Channel channel;
 
-    private final boolean isDebugging = true;
+    private final ActivationState isDebugging = ActivationState.OFF;
 
 
     private PlayerObj currentPlayer = null;
@@ -41,7 +42,7 @@ public class LocalClientServerHandler extends ChannelHandlerAdapter {
     public void channelRegistered(ChannelHandlerContext context) {
         print(false, "connected");
         channel = context.channel();
-        gameManager.getNetworkManager().setCurrentConnectedState(NetworkManager.connection_states.CONNECTED);
+        gameManager.getNetworkManager().setCurrentConnectedState(NetworkClientConnectionStates.CONNECTED);
 
 
     }
@@ -54,8 +55,8 @@ public class LocalClientServerHandler extends ChannelHandlerAdapter {
         //localAddress = getLocalChannel().getAddress().toString() + ":" + getLocalChannel().getPort();
 
         channel = context.channel();
-        gameManager.getNetworkManager().setCurrentConnectedState(NetworkManager.connection_states.CONNECTED);
-        if (gameManager.getNetworkManager().getConnectionState() == NetworkManager.connection_states.OFFLINE) {
+        gameManager.getNetworkManager().setCurrentConnectedState(NetworkClientConnectionStates.CONNECTED);
+        if (gameManager.getNetworkManager().getConnectionState() == NetworkClientConnectionStates.DISCONNECTED) {
             context.close();
         }
 
@@ -74,7 +75,6 @@ public class LocalClientServerHandler extends ChannelHandlerAdapter {
             if (networkMessage.getContent() instanceof PlayerObj) {
                 PlayerObj player = (PlayerObj) networkMessage.getContent();
 
-
                 if (!clientServerGameMaster.getCurrentPlayerWasIdentifiedByServer()
                     && player.getLocalChannelAddress().equals(getLocalChannel().getAddress() + ":" + getLocalChannel().getPort())) {
                     currentPlayer = player;
@@ -91,7 +91,7 @@ public class LocalClientServerHandler extends ChannelHandlerAdapter {
 
                 scheduledFuture_update_player_on_server = context.executor().scheduleWithFixedDelay(() -> {
 //                    if (gameManager.isNetworked() && Player.updatePlayerOnServer && clientServerGameMaster.getCurrentPlayerWasIdentifiedByServer()) {
-                    if (gameManager.isNetworked() && clientServerGameMaster.getCurrentPlayerWasIdentifiedByServer()) {
+                    if (gameManager.getNetworkManager().getConnectionState() == NetworkClientConnectionStates.CONNECTED && clientServerGameMaster.getCurrentPlayerWasIdentifiedByServer()) {
 
                         ClientPlayer entity_Client_player = (ClientPlayer) gameManager.getEntityContext().getPlayer();
                         currentPlayer.setX((int) entity_Client_player.getTransform().getPosition().x);
@@ -101,8 +101,6 @@ public class LocalClientServerHandler extends ChannelHandlerAdapter {
 //                        Player.updatePlayerOnServer = false;
                     }
                 }, 0, 500,   TimeUnit.MILLISECONDS);
-
-
             }
 
             if (networkMessage.getContent() instanceof CurrentTurnTimeObject) {
@@ -136,7 +134,7 @@ public class LocalClientServerHandler extends ChannelHandlerAdapter {
 
             if (((IdleStateEvent) event).state() == IdleState.READER_IDLE) {
                 print(false, "timeout : nothing received from server (disconnected)");
-                gameManager.getNetworkManager().setCurrentConnectedState(NetworkManager.connection_states.OFFLINE);
+                gameManager.getNetworkManager().setCurrentConnectedState(NetworkClientConnectionStates.CONNECTED);
                 context.close();
             }
         }
@@ -145,14 +143,14 @@ public class LocalClientServerHandler extends ChannelHandlerAdapter {
     @Override
     public void channelUnregistered(ChannelHandlerContext context) {
         print(false, "disconnected");
-        gameManager.getNetworkManager().setCurrentConnectedState(NetworkManager.connection_states.OFFLINE);
+        gameManager.getNetworkManager().setCurrentConnectedState(NetworkClientConnectionStates.CONNECTED);
         context.close();
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext context, Throwable cause) {
         print(true, "exception caught");
-        gameManager.getNetworkManager().setCurrentConnectedState(NetworkManager.connection_states.OFFLINE);
+        gameManager.getNetworkManager().setCurrentConnectedState(NetworkClientConnectionStates.CONNECTED);
         cause.printStackTrace();
         context.close();
     }
@@ -167,7 +165,7 @@ public class LocalClientServerHandler extends ChannelHandlerAdapter {
 
 
     private void print(boolean isError, String message) {
-        if (!isDebugging) {
+        if (isDebugging == ActivationState.OFF) {
             return;
         }
         if (!isError) {

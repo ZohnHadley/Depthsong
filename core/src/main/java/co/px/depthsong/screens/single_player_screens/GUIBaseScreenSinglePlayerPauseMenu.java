@@ -1,10 +1,10 @@
 package co.px.depthsong.screens.single_player_screens;
 
 import co.px.depthsong.layers.models.util.VirtualMouse;
-import co.px.depthsong.layers.managers.GameManager;
-import co.px.depthsong.layers.managers.ScreenManager;
+import co.px.depthsong.layers.engine_managers.GameManager;
+import co.px.depthsong.layers.engine_managers.ScreenManager;
 import co.px.depthsong.layers.models.GUIBaseScreen;
-import co.px.depthsong.enginUtils.StructGameScreens;
+import co.px.depthsong.enginUtils.GameScreensList;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -31,7 +31,7 @@ public class GUIBaseScreenSinglePlayerPauseMenu extends GUIBaseScreen {
         button_resumeGame.pad(10);
         button_resumeGame.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                screenManager.setCurrentScreen(StructGameScreens.inGameScreen);
+                screenManager.setCurrentScreen(GameScreensList.inGameScreen);
                 return true;
             }
         });
@@ -46,7 +46,7 @@ public class GUIBaseScreenSinglePlayerPauseMenu extends GUIBaseScreen {
         button_quitGame.pad(10);
         button_quitGame.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                screenManager.setCurrentScreen(StructGameScreens.mainMenu);
+                screenManager.setCurrentScreen(GameScreensList.mainMenu);
                 return true;
             }
         });

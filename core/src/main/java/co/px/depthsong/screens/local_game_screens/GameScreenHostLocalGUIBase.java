@@ -1,15 +1,17 @@
 package co.px.depthsong.screens.local_game_screens;
 //import Thread
 import java.lang.Thread;
+
+import co.px.depthsong.layers.engine_managers.enums.NetworkClientConnectionStates;
 import co.px.depthsong.layers.models.util.VirtualMouse;
-import co.px.depthsong.layers.managers.GameManager;
-import co.px.depthsong.layers.managers.NetworkManager;
-import co.px.depthsong.layers.managers.ScreenManager;
+import co.px.depthsong.layers.engine_managers.GameManager;
+import co.px.depthsong.layers.engine_managers.NetworkManager;
+import co.px.depthsong.layers.engine_managers.ScreenManager;
 import co.px.depthsong.network.Local.ClientServer;
 import co.px.depthsong.network.Local.HostServer;
 import co.px.depthsong.network.NetworkMachine;
 import co.px.depthsong.layers.models.GUIBaseScreen;
-import co.px.depthsong.enginUtils.StructGameScreens;
+import co.px.depthsong.enginUtils.GameScreensList;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -151,7 +153,7 @@ public class GameScreenHostLocalGUIBase extends GUIBaseScreen {
 
         } catch (Exception e) {
             networkManager.setHostServer(null);
-            networkManager.setCurrentConnectedState(NetworkManager.connection_states.OFFLINE);
+            networkManager.setCurrentConnectedState(NetworkClientConnectionStates.DISCONNECTED);
             printLogError(e.getMessage());
         }
 
@@ -161,22 +163,25 @@ public class GameScreenHostLocalGUIBase extends GUIBaseScreen {
         super.update();
         //isPortValid(port);
         valuePort = textField_port.getText();
-
+        //TODO: FIX THIS SHIT
         //wait for server to start by chekcing if the server is running
-        if (!gameManager.isNetworked() && networkManager.getHostServer() != null && networkManager.getHostServer().isRunning()) {
-            printLog("connecting to local server");
-            gameManager.setNetworked(true);
-
-            //launch client server
-            clientServer = new ClientServer(valueIpAddress, Integer.parseInt(valuePort));
-            networkManager.setClientServer(clientServer);
-
-            networkManager.setClientServerThread(Thread.startVirtualThread(networkManager.getClientServer()));
-        }
-
-        if (networkManager.getClientServer() != null && networkManager.getClientServer().isRunning()) {
-            printLog("connected to local server");
-            screenManager.setCurrentScreen(StructGameScreens.characterCreator);
-        }
+//        if (gameManager.getNetworkManager().getConnectionState() == NetworkClientConnectionStates.DISCONNECTED
+//            && networkManager.getHostServer() != null
+//            && networkManager.getHostServer().isRunning()
+//        ) {
+//            printLog("connecting to local server");
+//            gameManager.getNetworkManager().setCurrentConnectedState();
+//
+//            //launch client server
+//            clientServer = new ClientServer(valueIpAddress, Integer.parseInt(valuePort));
+//            networkManager.setClientServer(clientServer);
+//
+//            networkManager.setClientServerThread(Thread.startVirtualThread(networkManager.getClientServer()));
+//        }
+//
+//        if (networkManager.getClientServer() != null && networkManager.getClientServer().isRunning()) {
+//            printLog("connected to local server");
+//            screenManager.setCurrentScreen(GameScreensList.characterCreator);
+//        }
     }
 }

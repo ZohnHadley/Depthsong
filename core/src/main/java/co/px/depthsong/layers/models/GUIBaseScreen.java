@@ -2,7 +2,7 @@ package co.px.depthsong.layers.models;
 
 import co.px.depthsong.layers.models.interfaces.GUIScreen;
 import co.px.depthsong.layers.models.util.VirtualMouse;
-import co.px.depthsong.layers.managers.GameManager;
+import co.px.depthsong.layers.engine_managers.GameManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;

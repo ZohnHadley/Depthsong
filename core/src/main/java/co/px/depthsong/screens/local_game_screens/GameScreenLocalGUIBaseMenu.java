@@ -1,10 +1,10 @@
 package co.px.depthsong.screens.local_game_screens;
 
 import co.px.depthsong.layers.models.util.VirtualMouse;
-import co.px.depthsong.layers.managers.GameManager;
-import co.px.depthsong.layers.managers.ScreenManager;
+import co.px.depthsong.layers.engine_managers.GameManager;
+import co.px.depthsong.layers.engine_managers.ScreenManager;
 import co.px.depthsong.layers.models.GUIBaseScreen;
-import co.px.depthsong.enginUtils.StructGameScreens;
+import co.px.depthsong.enginUtils.GameScreensList;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -57,7 +57,7 @@ public class GameScreenLocalGUIBaseMenu extends GUIBaseScreen {
 
         button_back.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                screenManager.setCurrentScreen(StructGameScreens.mainMenu);
+                screenManager.setCurrentScreen(GameScreensList.mainMenu);
                 return true;
             }
         });
@@ -98,10 +98,10 @@ public class GameScreenLocalGUIBaseMenu extends GUIBaseScreen {
     }
 
     private void OnHostGame() {
-        screenManager.setCurrentScreen(StructGameScreens.hostLocalGameMenu);
+        screenManager.setCurrentScreen(GameScreensList.hostLocalGameMenu);
     }
 
     private void OnJoinGame() {
-        screenManager.setCurrentScreen(StructGameScreens.joinLocalGameMenu);
+        screenManager.setCurrentScreen(GameScreensList.joinLocalGameMenu);
     }
 }

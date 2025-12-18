@@ -1,6 +1,6 @@
 package co.px.depthsong.layers.models.entities.tiles;
 
-import co.px.depthsong.enginUtils.StructGameSprites;
+import co.px.depthsong.enginUtils.GameSprites;
 import co.px.depthsong.layers.models.abstractClasses.Tile;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,11 +12,11 @@ public class TileFloor extends Tile {
 
     public TileFloor(){
         this.name = "Floor";
-        this.getComponentSprite().setSprite(StructGameSprites.getInstance().getSprite("floor"));
+        this.getComponentSprite().setSprite(GameSprites.getInstance().getSprite("floor"));
     }
 
     public TileFloor(String name){
         this.name = name;
-        this.getComponentSprite().setSprite(StructGameSprites.getInstance().getSprite("floor"));
+        this.getComponentSprite().setSprite(GameSprites.getInstance().getSprite("floor"));
     }
 }

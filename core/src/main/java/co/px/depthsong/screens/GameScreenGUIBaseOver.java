@@ -1,12 +1,13 @@
 package co.px.depthsong.screens;
 
+import co.px.depthsong.layers.engine_managers.enums.NetworkState;
 import co.px.depthsong.layers.models.util.VirtualMouse;
 import co.px.depthsong.layers.models.GUIBaseScreen;
 import co.px.depthsong.layers.models.entities.ClientPlayer;
-import co.px.depthsong.layers.managers.GameManager;
-import co.px.depthsong.layers.managers.ScreenManager;
+import co.px.depthsong.layers.engine_managers.GameManager;
+import co.px.depthsong.layers.engine_managers.ScreenManager;
 import co.px.depthsong.enginUtils.GeneralTimer;
-import co.px.depthsong.enginUtils.StructGameScreens;
+import co.px.depthsong.enginUtils.GameScreensList;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -39,15 +40,15 @@ public class GameScreenGUIBaseOver extends GUIBaseScreen {
         button_disconnect.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (gameManager.isNetworked()) {
+                if (gameManager.getNetworkState() == NetworkState.Online) {
                     gameManager.getNetworkManager().disconnect();
-                    gameManager.setNetworked(false);
+                    gameManager.setNetworkState(NetworkState.Offline);
                 }
 
                 gameManager.getEntityContext().clearContext();
                 gameManager.setInGame(false);
 
-                screenManager.setCurrentScreen(StructGameScreens.mainMenu);
+                screenManager.setCurrentScreen(GameScreensList.mainMenu);
                 return true;
             }
         });
@@ -110,7 +111,7 @@ public class GameScreenGUIBaseOver extends GUIBaseScreen {
         if (counter != null) {
             if (counter.secondsHasPassed(0.25f)) {
                 ((ClientPlayer)GameManager.getInstance().getEntityContext().getPlayer()).respawn();
-                screenManager.setCurrentScreen(StructGameScreens.inGameScreen);
+                screenManager.setCurrentScreen(GameScreensList.inGameScreen);
                 counter = null;
             }
         }

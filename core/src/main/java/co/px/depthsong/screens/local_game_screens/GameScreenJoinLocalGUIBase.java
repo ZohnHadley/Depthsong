@@ -1,12 +1,13 @@
 package co.px.depthsong.screens.local_game_screens;
 
+import co.px.depthsong.layers.engine_managers.enums.NetworkClientConnectionStates;
 import co.px.depthsong.layers.models.util.VirtualMouse;
-import co.px.depthsong.layers.managers.GameManager;
-import co.px.depthsong.layers.managers.NetworkManager;
-import co.px.depthsong.layers.managers.ScreenManager;
+import co.px.depthsong.layers.engine_managers.GameManager;
+import co.px.depthsong.layers.engine_managers.NetworkManager;
+import co.px.depthsong.layers.engine_managers.ScreenManager;
 import co.px.depthsong.network.Local.ClientServer;
 import co.px.depthsong.layers.models.GUIBaseScreen;
-import co.px.depthsong.enginUtils.StructGameScreens;
+import co.px.depthsong.enginUtils.GameScreensList;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -98,7 +99,7 @@ public class GameScreenJoinLocalGUIBase extends GUIBaseScreen {
 
                 } catch (Exception e) {
                     networkManager.setClientServer(null);
-                    networkManager.setCurrentConnectedState(NetworkManager.connection_states.OFFLINE);
+                    networkManager.setCurrentConnectedState(NetworkClientConnectionStates.DISCONNECTED);
                     printLogError(e.getMessage());
                 }
                 return true;
@@ -157,16 +158,16 @@ public class GameScreenJoinLocalGUIBase extends GUIBaseScreen {
         ipAddress = textField_ipAddress.getText();
         port = textField_port.getText();
 
-        if (networkManager.getClientServer() != null && networkManager.getClientServer().isRunning() && networkManager.getConnectionState() == NetworkManager.connection_states.CONNECTED) {
+        if (networkManager.getClientServer() != null && networkManager.getClientServer().isRunning() && networkManager.getConnectionState() == NetworkClientConnectionStates.CONNECTED) {
 
             connectionError = false;
-            screenManager.setCurrentScreen(StructGameScreens.characterCreator);
+            screenManager.setCurrentScreen(GameScreensList.characterCreator);
 
         }
 
         if (networkManager.getClientServer() != null
             && !networkManager.getClientServer().isRunning()
-            && (networkManager.getConnectionState() == NetworkManager.connection_states.OFFLINE)) {
+            && (networkManager.getConnectionState() == NetworkClientConnectionStates.DISCONNECTED)) {
             connectionError = true;
             label_connection_error.setColor(1, 0, 0, 1);
         }

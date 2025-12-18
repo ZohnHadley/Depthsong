@@ -8,14 +8,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class StructGameSprites {
+public class GameSprites {
 
-    private static StructGameSprites instance;
+    private static GameSprites instance;
     public final Vector2 dimension = new Vector2(16, 16);
     private SpriteSheet spriteSheet = new SpriteSheet("nethackSpriteSheet", "Modern_tiles.png", 27, 40, (int) dimension.y, (int) dimension.x);
     private Map<String, Sprite> spriteMap = new HashMap<>();
 
-    private StructGameSprites() {
+    private GameSprites() {
         spriteMap.put("question_mark", spriteSheet.getSprite(8, 25));
 
         spriteMap.put("grave_stone", spriteSheet.getSprite(16, 21));
@@ -33,9 +33,9 @@ public class StructGameSprites {
         spriteMap.put("floor", spriteSheet.getSprite(1, 21));
     }
 
-    public static StructGameSprites getInstance() {
+    public static GameSprites getInstance() {
         if (instance == null) {
-            instance = new StructGameSprites();
+            instance = new GameSprites();
         }
         return instance;
     }

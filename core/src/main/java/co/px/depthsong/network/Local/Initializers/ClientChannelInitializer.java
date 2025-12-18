@@ -1,6 +1,6 @@
 package co.px.depthsong.network.Local.Initializers;
 
-import co.px.depthsong.layers.managers.GameManager;
+import co.px.depthsong.layers.engine_managers.GameManager;
 import co.px.depthsong.network.Local.Handlers.ClientHandlers.ClientServerEventHandler;
 import co.px.depthsong.network.Local.Handlers.ClientHandlers.LocalClientServerHandler;
 import co.px.depthsong.network.Local.decoder_incoder.CustomDecoder;

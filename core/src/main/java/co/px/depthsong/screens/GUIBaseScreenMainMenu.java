@@ -1,8 +1,8 @@
 package co.px.depthsong.screens;
 
 import co.px.depthsong.layers.models.GUIBaseScreen;
-import co.px.depthsong.layers.managers.ScreenManager;
-import co.px.depthsong.enginUtils.StructGameScreens;
+import co.px.depthsong.layers.engine_managers.ScreenManager;
+import co.px.depthsong.enginUtils.GameScreensList;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -33,7 +33,7 @@ public class GUIBaseScreenMainMenu extends GUIBaseScreen {
         button_offlineGame.pad(10);
         button_offlineGame.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                screenManager.setCurrentScreen(StructGameScreens.playOfflineMenu);
+                screenManager.setCurrentScreen(GameScreensList.playOfflineMenu);
                 return true;
             }
         });
@@ -42,7 +42,7 @@ public class GUIBaseScreenMainMenu extends GUIBaseScreen {
         button_localGame.pad(10);
         button_localGame.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                screenManager.setCurrentScreen(StructGameScreens.localGameMenu);
+                screenManager.setCurrentScreen(GameScreensList.localGameMenu);
                 return true;
             }
         });
