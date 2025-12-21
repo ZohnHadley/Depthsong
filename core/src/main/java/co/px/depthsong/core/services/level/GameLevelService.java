@@ -1,20 +1,17 @@
 package co.px.depthsong.core.services.level;
 
+import co.px.depthsong.core.engine_managers.GameLevelManager;
 import co.px.depthsong.core.models.GameLevel;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-//import com.google.gson.Gson;
-//import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class GameLevelService {
     private static GameLevelService instance;
-//    private final GsonBuilder builder = new GsonBuilder();
-//    private Gson gson = builder.create();
 
-    private final GameLevelManager  gameLevelManager = GameLevelManager.getInstance();
+    private final GameLevelManager gameLevelManager = GameLevelManager.getInstance();
     private final String levelsFolderPath = "core/src/gameLevels/";
 
     private List<GameLevel> listLevels = new ArrayList<>();
@@ -22,6 +19,7 @@ public class GameLevelService {
     private GameLevelService(){
 
     }
+
     public static GameLevelService getInstance(){
         if(instance == null){
             instance = new GameLevelService();
