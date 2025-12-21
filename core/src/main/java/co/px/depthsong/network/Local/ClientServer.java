@@ -1,6 +1,6 @@
 package co.px.depthsong.network.Local;
 
-import co.px.depthsong.layers.engine_managers.GameManager;
+import co.px.depthsong.core.engine_managers.GameManager;
 import co.px.depthsong.network.Local.Initializers.ClientChannelInitializer;
 import co.px.depthsong.network.Local.Model.GameMasters.ClientServerGameMaster;
 import co.px.depthsong.network.NetworkMachine;

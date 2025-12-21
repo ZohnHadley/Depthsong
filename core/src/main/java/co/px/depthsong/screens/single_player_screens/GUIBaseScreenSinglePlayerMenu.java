@@ -1,9 +1,9 @@
 package co.px.depthsong.screens.single_player_screens;
 
-import co.px.depthsong.layers.models.util.VirtualMouse;
-import co.px.depthsong.layers.engine_managers.GameManager;
-import co.px.depthsong.layers.engine_managers.ScreenManager;
-import co.px.depthsong.layers.models.GUIBaseScreen;
+import co.px.depthsong.core.models.util.VirtualMouse;
+import co.px.depthsong.core.engine_managers.GameManager;
+import co.px.depthsong.core.engine_managers.ScreenManager;
+import co.px.depthsong.core.models.GUIBaseScreen;
 import co.px.depthsong.enginUtils.GameScreensList;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;

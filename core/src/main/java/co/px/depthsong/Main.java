@@ -1,11 +1,12 @@
 package co.px.depthsong;
 
-import co.px.depthsong.layers.models.GameLevel;
-import co.px.depthsong.layers.services.level.GameLevelService;
+import co.px.depthsong.core.models.GameLevel;
+import co.px.depthsong.core.models.entities.tiles.TileFloor;
+import co.px.depthsong.core.services.level.GameLevelService;
 import co.px.depthsong.enginUtils.GeneralTimer;
 import co.px.depthsong.enginUtils.GameScreensList;
-import co.px.depthsong.layers.models.entities.ClientPlayer;
-import co.px.depthsong.layers.engine_managers.GameManager;
+import co.px.depthsong.core.models.entities.ClientPlayer;
+import co.px.depthsong.core.engine_managers.GameManager;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
@@ -20,7 +21,6 @@ public class Main extends ApplicationAdapter {
     //////
     private GameLevelService gameLevelService;
     private GameManager gameManager;
-    boolean isDebug = false;
     FrameBuffer frameBuffer;
 
     GameLevel testlevel;
@@ -33,7 +33,10 @@ public class Main extends ApplicationAdapter {
         gameLevelService.loadAllPrebuiltLevels();
 
         ClientPlayer entity = ClientPlayer.getInstance();
-        entity.getTransform().setPosition(new Vector3(2, 0, 0));
+        entity.getComponentTransform().setPosition(new Vector3(0, 0, 0));
+        TileFloor tile = new TileFloor();
+        tile.getComponentTransform().setPosition(new Vector3(0, 0, 0));
+
 
         gameManager.getScreenManager().setCurrentScreen(GameScreensList.mainMenu);
         testlevel = new  GameLevel();

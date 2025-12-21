@@ -1,8 +1,9 @@
 package co.px.depthsong.ECS.entityContext;
 
 
+import co.px.depthsong.ECS.abstractClasses.EcsComponent;
 import co.px.depthsong.ECS.abstractClasses.EcsEntity;
-import co.px.depthsong.layers.models.entities.ClientPlayer;
+import co.px.depthsong.core.models.entities.ClientPlayer;
 import lombok.Getter;
 
 import java.lang.reflect.Type;

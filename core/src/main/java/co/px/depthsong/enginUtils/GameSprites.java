@@ -1,6 +1,6 @@
 package co.px.depthsong.enginUtils;
 
-import co.px.depthsong.layers.models.util.SpriteSheet;
+import co.px.depthsong.core.models.util.SpriteSheet;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
@@ -30,7 +30,7 @@ public class GameSprites {
 
         spriteMap.put("spawn_point", spriteSheet.getSprite(39, 26));
         spriteMap.put("wall", spriteSheet.getSprite(0, 21));
-        spriteMap.put("floor", spriteSheet.getSprite(1, 21));
+        spriteMap.put("floor", spriteSheet.getSprite(10, 21));
     }
 
     public static GameSprites getInstance() {

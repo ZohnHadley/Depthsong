@@ -6,8 +6,6 @@ import com.badlogic.gdx.math.Vector3;
 import lombok.*;
 
 import java.awt.*;
-import java.awt.geom.Dimension2D;
-import java.util.Hashtable;
 
 @AllArgsConstructor
 @NoArgsConstructor

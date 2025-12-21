@@ -1,8 +1,8 @@
 package co.px.depthsong.network.Local.Model.GameMasters;
 
 import co.px.depthsong.ECS.abstractClasses.EcsEntity;
-import co.px.depthsong.layers.models.entities.OtherPlayer;
-import co.px.depthsong.layers.engine_managers.GameManager;
+import co.px.depthsong.core.models.entities.OtherPlayer;
+import co.px.depthsong.core.engine_managers.GameManager;
 import co.px.depthsong.network.Local.Model.PlayerObj;
 
 import java.util.ArrayList;

@@ -1,9 +1,11 @@
 package co.px.depthsong.network.Local.Events.ClientSideEvents;
 
+import co.px.depthsong.ECS.components.ComponentTransform;
 import co.px.depthsong.ECS.entityContext.EntityContext;
 import co.px.depthsong.network.Local.ClientServer;
 import co.px.depthsong.network.Local.Model.NetworkMessage;
 import co.px.depthsong.network.Local.Model.PlayerObj;
+import com.badlogic.gdx.math.Vector3;
 import io.netty.channel.ChannelHandlerContext;
 
 public class ClientEvent_playerIsBeingAddedToServer {
@@ -13,13 +15,13 @@ public class ClientEvent_playerIsBeingAddedToServer {
 
     public void sendPlayerObjectToServer(ChannelHandlerContext context, EntityContext entMng) {
 
-
+        Vector3 position = ((ComponentTransform)entMng.getPlayer().getComponentList().get(ComponentTransform.class)).getPosition();
         //prepare the player Object
         PlayerObj thisPlayer = new PlayerObj(
             entMng.getPlayer().getName(),
             "mage",
-            (int) entMng.getPlayer().getTransform().getPosition().x,
-            (int) entMng.getPlayer().getTransform().getPosition().y,
+            (int) position.x,
+            (int) position.y,
             false
         );
 

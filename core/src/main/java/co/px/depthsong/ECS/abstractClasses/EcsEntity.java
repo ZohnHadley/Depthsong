@@ -3,7 +3,7 @@ package co.px.depthsong.ECS.abstractClasses;
 import co.px.depthsong.ECS.components.core.ComponentList;
 import co.px.depthsong.ECS.components.ComponentTransform;
 import co.px.depthsong.ECS.entityContext.EntityContext;
-import co.px.depthsong.layers.engine_managers.GameManager;
+import co.px.depthsong.core.engine_managers.GameManager;
 import lombok.*;
 
 import java.lang.reflect.Type;
@@ -29,8 +29,6 @@ public abstract class EcsEntity {
     private EcsEntity parent = null;
     private Boolean isVisible = false;
 
-    private ComponentTransform componentTransform;
-
     private ComponentList componentList;
     private List<EcsTag> entityTags = new ArrayList<>();
 
@@ -40,46 +38,10 @@ public abstract class EcsEntity {
         parent = null;
         componentList = new ComponentList(this);
 
-        componentTransform = new ComponentTransform();
-
-        componentList.add(componentTransform);
         context.addEntity(this);
     }
 
-    public ComponentTransform getTransform()
-    {
-        if (componentTransform == null)
-        {
-            componentTransform = (ComponentTransform) componentList.get(ComponentTransform.class);
-        }
-        return componentTransform;
-    }
-
-    public void setParent(EcsEntity param_parent)
-    {
-        parent = param_parent;
-        componentTransform.setParent(param_parent.getTransform());
-    }
-
-    public void removeParent()
-    {
-        if (parent == null)
-        {
-            throw new NullPointerException("Parent cannot be null.");
-        }
-        parent = null;
-        componentTransform.setParent(null);
-    }
-    public void setTransform(ComponentTransform param_componentTransform)
-    {
-        if (param_componentTransform == null)
-        {
-            throw new NullPointerException("componentTransform cannot be null.");
-        }
-        componentTransform = param_componentTransform;
-    }
-
-    // Tags management
+    // Tags management TODO:Add Taglist class to manage tags
     public void addTag(EcsTag param_tag)
     {
         if (param_tag == null)
@@ -94,6 +56,7 @@ public abstract class EcsEntity {
 
         entityTags.add(param_tag);
     }
+
     public void removeTag(EcsTag param_tag)
     {
         if (param_tag == null)

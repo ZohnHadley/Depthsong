@@ -1,11 +1,11 @@
 package co.px.depthsong.screens.inGame_screens;
 
-import co.px.depthsong.layers.models.util.VirtualMouse;
+import co.px.depthsong.core.models.util.VirtualMouse;
 import co.px.depthsong.ECS.entityContext.EntityContext;
-import co.px.depthsong.layers.models.entities.ClientPlayer;
-import co.px.depthsong.layers.engine_managers.GameManager;
-import co.px.depthsong.layers.engine_managers.ScreenManager;
-import co.px.depthsong.layers.models.GUIBaseScreen;
+import co.px.depthsong.core.models.entities.ClientPlayer;
+import co.px.depthsong.core.engine_managers.GameManager;
+import co.px.depthsong.core.engine_managers.ScreenManager;
+import co.px.depthsong.core.models.GUIBaseScreen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;

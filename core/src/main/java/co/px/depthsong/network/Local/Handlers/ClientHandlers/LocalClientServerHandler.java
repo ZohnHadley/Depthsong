@@ -1,13 +1,13 @@
 package co.px.depthsong.network.Local.Handlers.ClientHandlers;
 
 import co.px.depthsong.ECS.entityContext.EntityContext;
-import co.px.depthsong.layers.engine_managers.enums.EnumActivationState;
-import co.px.depthsong.layers.engine_managers.enums.EnumNetworkClientConnectionStates;
-import co.px.depthsong.layers.models.entities.ClientPlayer;
+import co.px.depthsong.core.engine_managers.enums.EnumActivationState;
+import co.px.depthsong.core.engine_managers.enums.EnumNetworkClientConnectionStates;
+import co.px.depthsong.core.models.entities.ClientPlayer;
 import co.px.depthsong.network.Local.Model.CurrentTurnTimeObject;
 import co.px.depthsong.network.Local.Model.NetworkMessage;
 import co.px.depthsong.network.Local.Model.PlayerObj;
-import co.px.depthsong.layers.engine_managers.GameManager;
+import co.px.depthsong.core.engine_managers.GameManager;
 
 import co.px.depthsong.network.Local.ClientServer;
 import co.px.depthsong.network.Local.Events.ClientSideEvents.ClientEvent_ServerRespondedToAddingPlayer;
@@ -94,8 +94,8 @@ public class LocalClientServerHandler extends ChannelHandlerAdapter {
                     if (gameManager.getNetworkManager().getConnectionState() == EnumNetworkClientConnectionStates.CONNECTED && clientServerGameMaster.getCurrentPlayerWasIdentifiedByServer()) {
 
                         ClientPlayer entity_Client_player = (ClientPlayer) gameManager.getEntityContext().getPlayer();
-                        currentPlayer.setX((int) entity_Client_player.getTransform().getPosition().x);
-                        currentPlayer.setY((int) entity_Client_player.getTransform().getPosition().y);
+                        currentPlayer.setX((int) entity_Client_player.getComponentTransform().getPosition().x);
+                        currentPlayer.setY((int) entity_Client_player.getComponentTransform().getPosition().y);
 
                         context.writeAndFlush(new NetworkMessage(NetworkMessage.MessageType.PLAYER_OBJECT, currentPlayer));
 //                        Player.updatePlayerOnServer = false;

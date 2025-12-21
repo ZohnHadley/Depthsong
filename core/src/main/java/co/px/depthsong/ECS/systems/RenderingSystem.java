@@ -2,9 +2,10 @@ package co.px.depthsong.ECS.systems;
 
 import co.px.depthsong.ECS.abstractClasses.EcsEntity;
 import co.px.depthsong.ECS.entityContext.EntityContext;
-import co.px.depthsong.layers.models.GameObject2D;
-import co.px.depthsong.layers.models.util.GameCamera;
-import co.px.depthsong.layers.models.util.VirtualMouse;
+import co.px.depthsong.core.models.GameObject2D;
+import co.px.depthsong.core.models.abstractClasses.Tile;
+import co.px.depthsong.core.models.util.GameCamera;
+import co.px.depthsong.core.models.util.VirtualMouse;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -13,7 +14,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import lombok.AccessLevel;
@@ -124,21 +124,21 @@ public class RenderingSystem {
                 GameObject2D gameObj = (GameObject2D) ent;
                 if(isVisible(gameObj.getComponentTransform().getPosition(), gameObj.getComponentSprite().getSprite(), GameCamera.getInstance().getCamera(), 8f, false)){
                     gameObj.draw(GAME_VIEW_BATCH);
-
                 }
             }
         }
 
     }
+
     private void renderDebug(){
         SHAPERENDERER.setProjectionMatrix(GameCamera.getInstance().getCamera().combined);
         SHAPERENDERER.begin(ShapeRenderer.ShapeType.Line);
         SHAPERENDERER.setColor(Color.WHITE);
         for (EcsEntity ent : EntityContext.getInstance().getEntities().values()) {
-            if (ent instanceof GameObject2D) {
+            if (ent instanceof GameObject2D && !(ent instanceof Tile)) {
                 GameObject2D gameObj = (GameObject2D) ent;
                 if(isVisible(gameObj.getComponentTransform().getPosition(), gameObj.getComponentSprite().getSprite(), GameCamera.getInstance().getCamera(), 8f, false)){
-                    SHAPERENDERER.rect(gameObj.getComponentTransform().getCenter().x-3f, gameObj.getComponentTransform().getCenter().y-3f,3,3);
+                    SHAPERENDERER.rect(gameObj.getComponentTransform().getCenter().x-1.5f, gameObj.getComponentTransform().getCenter().y-1.5f,3,3);
                     SHAPERENDERER.setColor(Color.RED);
                     SHAPERENDERER.rect(gameObj.getComponentCubeCollider().getPosition().x, gameObj.getComponentCubeCollider().getPosition().y, (float) gameObj.getComponentCubeCollider().getSize().x, (float) gameObj.getComponentCubeCollider().getSize().y);
                 }
