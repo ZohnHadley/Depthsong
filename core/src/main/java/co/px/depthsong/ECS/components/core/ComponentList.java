@@ -48,7 +48,6 @@ public class ComponentList {
         }
 
         list.add(param_Ecs_component);
-        param_Ecs_component.setParentEntity(entity);
 
 
         String componentType = param_Ecs_component.getClass().getTypeName();

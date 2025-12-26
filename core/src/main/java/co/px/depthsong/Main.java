@@ -7,6 +7,7 @@ import co.px.depthsong.enginUtils.GeneralTimer;
 import co.px.depthsong.enginUtils.GameScreensList;
 import co.px.depthsong.core.models.entities.ClientPlayer;
 import co.px.depthsong.core.engine_managers.GameManager;
+import co.px.depthsong.enginUtils.JsonUtil;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
@@ -23,23 +24,21 @@ public class Main extends ApplicationAdapter {
     private GameManager gameManager;
     FrameBuffer frameBuffer;
 
+    JsonUtil jsonUtil;
     GameLevel testlevel;
     @Override
     public void create() {
+        jsonUtil = JsonUtil.getInstance();
         //frameBuffer = new FrameBuffer(Pixmap.Format.RGB888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
 
         gameManager = GameManager.getInstance();
         gameLevelService = GameLevelService.getInstance();
-        gameLevelService.loadAllPrebuiltLevels();
-
-        ClientPlayer entity = ClientPlayer.getInstance();
-        entity.getComponentTransform().setPosition(new Vector3(0, 0, 0));
-        TileFloor tile = new TileFloor();
-        tile.getComponentTransform().setPosition(new Vector3(0, 0, 0));
-
-
         gameManager.getScreenManager().setCurrentScreen(GameScreensList.mainMenu);
-        testlevel = new  GameLevel();
+        ClientPlayer player = ClientPlayer.getInstance();
+        Gdx.app.log("main", ""+jsonUtil.toJson(player));
+//        testlevel = new  GameLevel();
+//        testlevel.setTitle("firstLevel");
+//        gameLevelService.save(testlevel);
     }
 
     // This method is called every frame. optional methode could just use render
