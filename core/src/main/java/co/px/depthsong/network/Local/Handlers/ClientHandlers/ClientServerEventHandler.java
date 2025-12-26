@@ -1,6 +1,6 @@
 package co.px.depthsong.network.Local.Handlers.ClientHandlers;
 
-import co.px.depthsong.core.engine_managers.GameManager;
+import co.px.depthsong.engineCore.engine_managers.GameManager;
 import co.px.depthsong.network.Local.ClientServer;
 import co.px.depthsong.network.Local.Events.ClientSideEvents.ClientEvent_ServerRespondedToAddingPlayer;
 import co.px.depthsong.network.Local.Events.ClientSideEvents.ClientEvent_playerIsBeingAddedToServer;

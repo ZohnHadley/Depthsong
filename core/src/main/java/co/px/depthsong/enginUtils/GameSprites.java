@@ -1,6 +1,6 @@
 package co.px.depthsong.enginUtils;
 
-import co.px.depthsong.core.models.util.SpriteSheet;
+import co.px.depthsong.engineCore.models.util.SpriteSheet;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 

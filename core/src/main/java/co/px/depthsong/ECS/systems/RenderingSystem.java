@@ -1,11 +1,11 @@
 package co.px.depthsong.ECS.systems;
 
-import co.px.depthsong.ECS.abstractClasses.EcsEntity;
-import co.px.depthsong.ECS.entityContext.EntityContext;
-import co.px.depthsong.core.models.GameObject2D;
-import co.px.depthsong.core.models.abstractClasses.Tile;
-import co.px.depthsong.core.models.util.GameCamera;
-import co.px.depthsong.core.models.util.VirtualMouse;
+import co.px.depthsong.ECS.core.abstractClasses.EcsEntity;
+import co.px.depthsong.ECS.core.EntityContext;
+import co.px.depthsong.engineCore.models.GameObject2D;
+import co.px.depthsong.engineCore.models.abstractClasses.Tile;
+import co.px.depthsong.engineCore.models.util.GameCamera;
+import co.px.depthsong.engineCore.models.util.VirtualMouse;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -140,7 +140,7 @@ public class RenderingSystem {
                 if(isVisible(gameObj.getComponentTransform().getPosition(), gameObj.getComponentSprite().getSprite(), GameCamera.getInstance().getCamera(), 8f, false)){
                     SHAPERENDERER.rect(gameObj.getComponentTransform().getCenter().x-1.5f, gameObj.getComponentTransform().getCenter().y-1.5f,3,3);
                     SHAPERENDERER.setColor(Color.RED);
-                    SHAPERENDERER.rect(gameObj.getComponentCubeCollider().getPosition().x, gameObj.getComponentCubeCollider().getPosition().y, (float) gameObj.getComponentCubeCollider().getSize().x, (float) gameObj.getComponentCubeCollider().getSize().y);
+                    SHAPERENDERER.rect(gameObj.getComponentBoxCollider().getPosition().x, gameObj.getComponentBoxCollider().getPosition().y, (float) gameObj.getComponentBoxCollider().getSize().x, (float) gameObj.getComponentBoxCollider().getSize().y);
                 }
             }
         }

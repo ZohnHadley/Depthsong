@@ -1,11 +1,11 @@
 package co.px.depthsong.screens;
 
-import co.px.depthsong.core.engine_managers.enums.EnumNetworkState;
-import co.px.depthsong.core.models.util.VirtualMouse;
-import co.px.depthsong.core.models.GUIBaseScreen;
-import co.px.depthsong.core.models.entities.ClientPlayer;
-import co.px.depthsong.core.engine_managers.GameManager;
-import co.px.depthsong.core.engine_managers.ScreenManager;
+import co.px.depthsong.engineCore.engine_managers.enums.EnumNetworkState;
+import co.px.depthsong.engineCore.models.util.VirtualMouse;
+import co.px.depthsong.engineCore.models.GUIBaseScreen;
+import co.px.depthsong.engineCore.models.entities.ClientPlayer;
+import co.px.depthsong.engineCore.engine_managers.GameManager;
+import co.px.depthsong.engineCore.engine_managers.ScreenManager;
 import co.px.depthsong.enginUtils.GeneralTimer;
 import co.px.depthsong.enginUtils.GameScreensList;
 import com.badlogic.gdx.graphics.Color;

@@ -2,14 +2,14 @@ package co.px.depthsong.screens.local_game_screens;
 //import Thread
 import java.lang.Thread;
 
-import co.px.depthsong.core.engine_managers.enums.EnumNetworkClientConnectionStates;
-import co.px.depthsong.core.models.util.VirtualMouse;
-import co.px.depthsong.core.engine_managers.GameManager;
-import co.px.depthsong.core.engine_managers.NetworkManager;
-import co.px.depthsong.core.engine_managers.ScreenManager;
+import co.px.depthsong.engineCore.engine_managers.enums.EnumNetworkClientConnectionStates;
+import co.px.depthsong.engineCore.models.util.VirtualMouse;
+import co.px.depthsong.engineCore.engine_managers.GameManager;
+import co.px.depthsong.engineCore.engine_managers.NetworkManager;
+import co.px.depthsong.engineCore.engine_managers.ScreenManager;
 import co.px.depthsong.network.Local.HostServer;
 import co.px.depthsong.network.NetworkMachine;
-import co.px.depthsong.core.models.GUIBaseScreen;
+import co.px.depthsong.engineCore.models.GUIBaseScreen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
