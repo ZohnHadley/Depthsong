@@ -1,7 +1,7 @@
 package co.px.depthsong.engineCore.engine_managers;
 
 import co.px.depthsong.ECS.core.EntityContext;
-import co.px.depthsong.ECS.systems.RenderingSystem;
+import co.px.depthsong.ECS.runtime.systems.RenderingSystem;
 import co.px.depthsong.engineCore.engine_managers.enums.EnumNetworkState;
 import co.px.depthsong.engineCore.models.util.GameCamera;
 import co.px.depthsong.engineCore.models.util.VirtualMouse;

@@ -1,8 +1,7 @@
-package co.px.depthsong.ECS.components;
+package co.px.depthsong.ECS.core;
 
 import co.px.depthsong.ECS.core.abstractClasses.EcsComponent;
 import co.px.depthsong.ECS.core.abstractClasses.EcsEntity;
-import co.px.depthsong.ECS.core.EntityContext;
 import com.badlogic.gdx.Gdx;
 import lombok.AccessLevel;
 import lombok.Getter;

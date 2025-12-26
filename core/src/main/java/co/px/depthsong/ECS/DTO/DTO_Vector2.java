@@ -1,4 +1,4 @@
-package co.px.depthsong.ECS.components.DTO;
+package co.px.depthsong.ECS.DTO;
 
 import com.badlogic.gdx.math.Vector2;
 import lombok.AllArgsConstructor;

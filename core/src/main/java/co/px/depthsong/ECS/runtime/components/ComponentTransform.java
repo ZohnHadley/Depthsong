@@ -1,4 +1,4 @@
-package co.px.depthsong.ECS.components.runtime;
+package co.px.depthsong.ECS.runtime.components;
 
 import co.px.depthsong.ECS.core.abstractClasses.EcsComponent;
 import com.badlogic.gdx.math.Vector3;

@@ -1,7 +1,7 @@
 package co.px.depthsong.engineCore.models.util;
 
 import co.px.depthsong.ECS.core.abstractClasses.EcsEntity;
-import co.px.depthsong.ECS.components.runtime.ComponentTransform;
+import co.px.depthsong.ECS.runtime.components.ComponentTransform;
 import co.px.depthsong.ECS.core.EntityContext;
 import co.px.depthsong.enginUtils.GeneralUtils;
 import com.badlogic.gdx.Gdx;

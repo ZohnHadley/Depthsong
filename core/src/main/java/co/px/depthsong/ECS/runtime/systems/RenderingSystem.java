@@ -1,4 +1,4 @@
-package co.px.depthsong.ECS.systems;
+package co.px.depthsong.ECS.runtime.systems;
 
 import co.px.depthsong.ECS.core.abstractClasses.EcsEntity;
 import co.px.depthsong.ECS.core.EntityContext;

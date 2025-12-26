@@ -1,9 +1,9 @@
 package co.px.depthsong.engineCore.models;
 
 import co.px.depthsong.ECS.core.abstractClasses.EcsEntity;
-import co.px.depthsong.ECS.components.runtime.ComponentBoxCollider;
-import co.px.depthsong.ECS.components.runtime.ComponentSprite;
-import co.px.depthsong.ECS.components.runtime.ComponentTransform;
+import co.px.depthsong.ECS.runtime.components.ComponentBoxCollider;
+import co.px.depthsong.ECS.runtime.components.ComponentSprite;
+import co.px.depthsong.ECS.runtime.components.ComponentTransform;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;

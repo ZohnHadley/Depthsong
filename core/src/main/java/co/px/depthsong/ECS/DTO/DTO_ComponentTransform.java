@@ -1,6 +1,6 @@
-package co.px.depthsong.ECS.components.DTO;
+package co.px.depthsong.ECS.DTO;
 
-import co.px.depthsong.ECS.components.runtime.ComponentTransform;
+import co.px.depthsong.ECS.runtime.components.ComponentTransform;
 import com.badlogic.gdx.math.Vector3;
 import lombok.*;
 

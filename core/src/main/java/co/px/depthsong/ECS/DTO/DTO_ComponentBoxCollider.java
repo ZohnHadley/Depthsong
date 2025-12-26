@@ -1,6 +1,6 @@
-package co.px.depthsong.ECS.components.DTO;
+package co.px.depthsong.ECS.DTO;
 
-import co.px.depthsong.ECS.components.runtime.ComponentBoxCollider;
+import co.px.depthsong.ECS.runtime.components.ComponentBoxCollider;
 import com.badlogic.gdx.math.Vector2;
 import lombok.*;
 

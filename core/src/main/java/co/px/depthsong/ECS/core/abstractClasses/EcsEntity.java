@@ -1,6 +1,6 @@
 package co.px.depthsong.ECS.core.abstractClasses;
 
-import co.px.depthsong.ECS.components.ComponentList;
+import co.px.depthsong.ECS.core.ComponentList;
 import co.px.depthsong.ECS.core.EntityContext;
 import co.px.depthsong.engineCore.engine_managers.GameManager;
 import com.fasterxml.jackson.annotation.JsonIgnore;
