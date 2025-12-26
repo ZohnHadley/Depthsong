@@ -156,7 +156,7 @@ public class RenderingSystem {
     }
 
     public void render() {
-        ScreenUtils.clear(0.7f, 0.7f, 0.16f, 1f);
+        ScreenUtils.clear(0.7f, 0.7f, 1f, 1f);
         //if (gameManager.isPlayerCreated()) {
 
         GAME_VIEW_BATCH.begin();

@@ -5,7 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import lombok.AccessLevel;
+import lombok.Getter;
 
+@Getter
 public class PlayerObj {
     private @JsonProperty("clientServer_id") int clientServer_id;
     private @JsonProperty("username") String username = "N/A";
@@ -14,6 +17,7 @@ public class PlayerObj {
     private @JsonProperty("y") int y;
     private @JsonProperty("localChannelAddress") String localChannelAddress = "N/A"; //TODO make so it throws error when null
 
+    @Getter(AccessLevel.NONE)
     private @JsonProperty("hasServerID") boolean hasServerID = false;
 
     public PlayerObj() {
@@ -44,30 +48,6 @@ public class PlayerObj {
         this.y = y;
     }
 
-
-    public int getClientServer_id() {
-        return this.clientServer_id;
-    }
-
-    public String getUsername() {
-        return this.username;
-    }
-
-    public String getSpriteKey() {
-        return this.spriteKey;
-    }
-
-    public int getX() {
-        return this.x;
-    }
-
-    public int getY() {
-        return this.y;
-    }
-
-    public String getLocalChannelAddress() {
-        return this.localChannelAddress;
-    }
 
     public boolean getHasServerID() {
         return hasServerID;

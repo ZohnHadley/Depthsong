@@ -31,9 +31,8 @@ public class EntityContext {
     }
 
     public void addEntity(EcsEntity ecsEntity) {
-
         ecsEntity.setId(contextEntityCount);
-         entities.put(ecsEntity.getId(), ecsEntity);
+        entities.put(ecsEntity.getId(), ecsEntity);
         contextEntityCount++;
     }
 
