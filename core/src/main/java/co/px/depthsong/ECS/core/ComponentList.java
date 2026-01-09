@@ -18,13 +18,13 @@ public class ComponentList {
     private final EntityContext context = EntityContext.getInstance();
 
     @Getter
-    private final EcsEntity entity;
+    private final Long entityID;
 
     @Getter
     private List<EcsComponent> list = new ArrayList<>();
 
-    public ComponentList(EcsEntity param_entity){
-        entity = param_entity;
+    public ComponentList(Long entityID){
+        this.entityID = entityID;
     }
 
     public void add(EcsComponent param_Ecs_component)
@@ -47,6 +47,7 @@ public class ComponentList {
         }
 
         list.add(param_Ecs_component);
+        EcsEntity entity = context.getEntity(entityID);
 
 
         String componentType = param_Ecs_component.getClass().getTypeName();
@@ -68,26 +69,23 @@ public class ComponentList {
             throw new RuntimeException("Component not found in entity.");
         }
 
-        if (list.contains(param_Ecs_component))
-        {
-            list.remove(param_Ecs_component);
-            param_Ecs_component.setParentEntity(null);
 
-            String componentType = param_Ecs_component.getClass().getTypeName();
-            if (context.getGroups().contains(componentType) &&
-                context.getGroups().get(componentType).size() > 1) {
-                context.getGroups().get(componentType).remove(entity);
-            }
-            if(context.getGroups().get(componentType).size() <= 1){
-                context.getGroups().remove(componentType);
-            }
+        list.remove(param_Ecs_component);
+        EcsEntity entity = context.getEntity(entityID);
 
-            context.getGroups().get(param_Ecs_component.getClass().getTypeName()).remove(entity);
+        param_Ecs_component.setParentEntity(null);
+
+        String componentType = param_Ecs_component.getClass().getTypeName();
+        if (context.getGroups().contains(componentType) &&
+            context.getGroups().get(componentType).size() > 1) {
+            context.getGroups().get(componentType).remove(entity);
         }
-        else
-        {
-            throw new RuntimeException("Component not found in entity.");
+        if(context.getGroups().get(componentType).size() <= 1){
+            context.getGroups().remove(componentType);
         }
+
+        context.getGroups().get(param_Ecs_component.getClass().getTypeName()).remove(entity);
+
     }
 
     public EcsComponent get(Type param_component_type)

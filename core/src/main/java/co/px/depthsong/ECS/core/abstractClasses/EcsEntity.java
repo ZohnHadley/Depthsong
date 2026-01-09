@@ -24,21 +24,15 @@ public abstract class EcsEntity {
     @JsonIgnore
     private final GameManager gameManager = GameManager.getInstance();
 
-
     private Long id = 0L;
     private String name;
-    private EcsEntity parent = null;
-    private Boolean isVisible = false;
 
-    @JsonIgnore
     private ComponentList componentList;
-    private List<EcsTag> entityTags = new ArrayList<>();
 
     public EcsEntity()
     {
         name = "Untitled_Entity";
-        parent = null;
-        componentList = new ComponentList(this);
+        componentList = new ComponentList(this.getId());
 
         context.addEntity(this);
     }

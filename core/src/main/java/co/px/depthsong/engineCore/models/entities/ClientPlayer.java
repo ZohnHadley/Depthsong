@@ -2,13 +2,20 @@ package co.px.depthsong.engineCore.models.entities;
 
 import co.px.depthsong.enginUtils.GameSprites;
 import co.px.depthsong.engineCore.models.abstractClasses.Player;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.*;
 
 @Getter
 @Setter
+@JsonIncludeProperties({ "name", "healthPoints", "componentTransform" })
+@JsonPropertyOrder({ "name", "healthPoints", "componentTransform" })
 public class ClientPlayer extends Player {
 
-    private  static ClientPlayer instance;
+    @JsonIgnore
+    private static ClientPlayer instance;
+
     private String name;
     private int healthPoints;
 
@@ -27,4 +34,5 @@ public class ClientPlayer extends Player {
         }
         return instance;
     }
+
 }

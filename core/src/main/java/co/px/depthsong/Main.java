@@ -9,6 +9,7 @@ import co.px.depthsong.engineCore.engine_managers.GameManager;
 import co.px.depthsong.enginUtils.JsonUtil;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 
 
@@ -26,17 +27,17 @@ public class Main extends ApplicationAdapter {
     GameLevel testlevel;
     @Override
     public void create() {
-        jsonUtil = JsonUtil.getInstance();
-        //frameBuffer = new FrameBuffer(Pixmap.Format.RGB888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
+//        jsonUtil = JsonUtil.getInstance();
+        frameBuffer = new FrameBuffer(Pixmap.Format.RGB888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
 
         gameManager = GameManager.getInstance();
         gameLevelService = GameLevelService.getInstance();
         gameManager.getScreenManager().setCurrentScreen(GameScreensList.mainMenu);
-        ClientPlayer player = ClientPlayer.getInstance();
-        Gdx.app.log("main", ""+jsonUtil.toJson(player));
-//        testlevel = new  GameLevel();
-//        testlevel.setTitle("firstLevel");
-//        gameLevelService.save(testlevel);
+//        ClientPlayer player = ClientPlayer.getInstance();
+//        Gdx.app.log("main", ""+jsonUtil.toJson(player));
+
+        gameLevelService.loadAll();
+
     }
 
     // This method is called every frame. optional methode could just use render

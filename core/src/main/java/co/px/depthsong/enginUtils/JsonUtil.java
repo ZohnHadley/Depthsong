@@ -33,11 +33,15 @@ public class JsonUtil {
         }
     }
 
-//    public <T> T fromJson(String json, Class<T> objClass) {
-//        if (json == null || json.isBlank() || objClass == null) {
-//            throw new RuntimeException("JsonUtil : err fromJson");
-//        }
-//
-//    }
+    public <T> T fromJson(String json, Class<T> objClass) {
+        try {
+            if (json == null || json.isBlank() || objClass == null) {
+                throw new RuntimeException("JsonUtil : err fromJson");
+            }
+            return objectMapper.readValue(json, objClass);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

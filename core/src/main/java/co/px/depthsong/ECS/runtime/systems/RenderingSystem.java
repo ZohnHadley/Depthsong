@@ -2,6 +2,7 @@ package co.px.depthsong.ECS.runtime.systems;
 
 import co.px.depthsong.ECS.core.abstractClasses.EcsEntity;
 import co.px.depthsong.ECS.core.EntityContext;
+import co.px.depthsong.ECS.core.interfaces.IEcsSystem;
 import co.px.depthsong.engineCore.models.GameObject2D;
 import co.px.depthsong.engineCore.models.abstractClasses.Tile;
 import co.px.depthsong.engineCore.models.util.GameCamera;
@@ -20,7 +21,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 
 @Getter
-public class RenderingSystem {
+public class RenderingSystem implements IEcsSystem {
     @Getter(AccessLevel.NONE)
     private static RenderingSystem instance = null;
 

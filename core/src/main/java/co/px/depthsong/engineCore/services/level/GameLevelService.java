@@ -4,6 +4,7 @@ import co.px.depthsong.engineCore.engine_managers.GameLevelManager;
 import co.px.depthsong.engineCore.models.GameLevel;
 import co.px.depthsong.enginUtils.JsonUtil;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,13 +34,16 @@ public class GameLevelService {
             throw  new RuntimeException("Failure to load levels");
         }
 
-//        for(FileHandle file : Gdx.files.local(levelsFolderPath).list()){
-//            if(file.extension().equalsIgnoreCase("json")){
-//                GameLevel level = json.fromJson(file.readString(), GameLevel.class);
-//                Gdx.app.log("GameLevelService", level.title +  " " + level);
-//            }
-//
-//        }
+        Gdx.app.log("GameLevelService", "Loading Levels ...");
+
+        //TODO: (polishing) later add game level file name structure like level_fileName.json and check that it matches this pattern
+        for(FileHandle file : Gdx.files.local(levelsFolderPath).list()){
+            if(file.extension().equalsIgnoreCase("json")){
+                GameLevel level = json.fromJson(file.readString(), GameLevel.class);
+                Gdx.app.log("GameLevelService", "Loading "+level.getTitle());
+                listLevels.add(level);
+            }
+        }
     }
 
     public void save(GameLevel level){

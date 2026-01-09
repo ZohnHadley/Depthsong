@@ -10,14 +10,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class DTO_Vector2{
+public class DTOVector2 {
     private float x = 0;
     private float y = 0;
 
-    public static DTO_Vector2 fromVector2(Vector2 vector2){
-        return new DTO_Vector2(vector2.x, vector2.y);
+    public static DTOVector2 fromVector2(Vector2 vector2){
+        return new DTOVector2(vector2.x, vector2.y);
     }
-    public static Vector2 toVector2(DTO_Vector2 dto){
+    public static Vector2 toVector2(DTOVector2 dto){
         return new Vector2(dto.x, dto.y);
     }
 }

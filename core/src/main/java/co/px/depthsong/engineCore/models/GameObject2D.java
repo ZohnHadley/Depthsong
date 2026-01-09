@@ -1,24 +1,28 @@
 package co.px.depthsong.engineCore.models;
 
+import co.px.depthsong.ECS.DTO.DTOComponentBoxCollider;
+import co.px.depthsong.ECS.DTO.DTOComponentTransform;
 import co.px.depthsong.ECS.core.abstractClasses.EcsEntity;
 import co.px.depthsong.ECS.runtime.components.ComponentBoxCollider;
 import co.px.depthsong.ECS.runtime.components.ComponentSprite;
 import co.px.depthsong.ECS.runtime.components.ComponentTransform;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 public class GameObject2D extends EcsEntity {
+    @JsonIgnore
     protected ComponentSprite componentSprite;
+    @JsonIgnore
     protected ComponentBoxCollider componentBoxCollider;
-    private ComponentTransform componentTransform;
 
-    protected final ShapeRenderer SHAPERENDERER = new ShapeRenderer();
+    private ComponentTransform componentTransform;
 
     public GameObject2D() {
         super();
@@ -35,9 +39,14 @@ public class GameObject2D extends EcsEntity {
         this.getComponentList().add(componentBoxCollider);
     }
 
+    @JsonProperty("componentTransform")
+    public DTOComponentTransform getDTOComponentTransform(){
+        return DTOComponentTransform.toDTO(componentTransform);
+    }
 
-    public void update(float delta){
-
+    @JsonProperty("componentBoxCollider")
+    public DTOComponentBoxCollider getDTOComponentBoxCollider(){
+        return DTOComponentBoxCollider.toDTO(componentBoxCollider);
     }
 
     public void draw(SpriteBatch batch){
