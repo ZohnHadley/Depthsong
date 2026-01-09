@@ -40,9 +40,9 @@ public class GameScreenGUIBaseOver extends GUIBaseScreen {
         button_disconnect.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (gameManager.getNetworkState() == EnumNetworkState.Online) {
+                if (gameManager.getNetworkManager().getNetworkState() == EnumNetworkState.Online) {
                     gameManager.getNetworkManager().disconnect();
-                    gameManager.setNetworkState(EnumNetworkState.Offline);
+                    gameManager.getNetworkManager().setNetworkState(EnumNetworkState.Offline);
                 }
 
                 gameManager.getEntityContext().clearContext();

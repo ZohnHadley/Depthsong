@@ -24,7 +24,6 @@ public class GameManager {
     private GameCamera gameCamera;
     private VirtualMouse virtualMouse;
 
-    private EnumNetworkState networkState = EnumNetworkState.Offline;
     private boolean isInGame = false;
     private boolean isPlayerCreated = false;
 

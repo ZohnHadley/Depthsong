@@ -1,6 +1,7 @@
 package co.px.depthsong.engineCore.engine_managers;
 
 import co.px.depthsong.engineCore.engine_managers.enums.EnumNetworkClientConnectionStates;
+import co.px.depthsong.engineCore.engine_managers.enums.EnumNetworkState;
 import co.px.depthsong.network.NetworkMachine;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +16,7 @@ public class NetworkManager {
     private NetworkMachine hostServer;
     private Thread hostServerThread;
 
-
+    private EnumNetworkState networkState = EnumNetworkState.Offline;
 
     private EnumNetworkClientConnectionStates connectionState;
 
