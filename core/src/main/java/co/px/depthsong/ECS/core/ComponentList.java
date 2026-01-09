@@ -21,7 +21,7 @@ public class ComponentList {
     private final Long entityID;
 
     @Getter
-    private List<EcsComponent> list = new ArrayList<>();
+    private List<EcsComponent> componentsList = new ArrayList<>();
 
     public ComponentList(Long entityID){
         this.entityID = entityID;
@@ -35,7 +35,7 @@ public class ComponentList {
             return;
         }
 
-        if (list.contains(param_Ecs_component))
+        if (componentsList.contains(param_Ecs_component))
         {
             Gdx.app.log("","Component already exists in entity.");
             return;
@@ -46,7 +46,7 @@ public class ComponentList {
             context.getGroups().put(param_Ecs_component.getClass().getTypeName(), new ArrayList<>());
         }
 
-        list.add(param_Ecs_component);
+        componentsList.add(param_Ecs_component);
         EcsEntity entity = context.getEntity(entityID);
 
 
@@ -64,13 +64,13 @@ public class ComponentList {
             throw new NullPointerException("Component cannot be null.");
         }
 
-        if (!list.contains(param_Ecs_component))
+        if (!componentsList.contains(param_Ecs_component))
         {
             throw new RuntimeException("Component not found in entity.");
         }
 
 
-        list.remove(param_Ecs_component);
+        componentsList.remove(param_Ecs_component);
         EcsEntity entity = context.getEntity(entityID);
 
         param_Ecs_component.setParentEntity(null);
@@ -94,7 +94,7 @@ public class ComponentList {
         {
             throw new NullPointerException("getComponent:" + " Component type cannot be null.");
         }
-        for(EcsComponent ecsComponent : list){
+        for(EcsComponent ecsComponent : componentsList){
             if(ecsComponent.getClass() == param_component_type){
                 return ecsComponent;
             }
@@ -109,7 +109,7 @@ public class ComponentList {
             throw new NullPointerException("");
         }
 
-        for (EcsComponent ecsComponent : list)
+        for (EcsComponent ecsComponent : componentsList)
         {
             if (ecsComponent.getClass() == param_component_type)
             {

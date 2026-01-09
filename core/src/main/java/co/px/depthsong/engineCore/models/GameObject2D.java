@@ -49,14 +49,4 @@ public class GameObject2D extends EcsEntity {
         return DTOComponentBoxCollider.toDTO(componentBoxCollider);
     }
 
-    public void draw(SpriteBatch batch){
-
-        this.componentTransform.setSize(new Vector3(this.componentSprite.getSprite().getWidth(), this.componentSprite.getSprite().getHeight(), 0));
-
-        this.getComponentBoxCollider().setSize(new Vector2(this.componentSprite.getSprite().getWidth(), this.componentSprite.getSprite().getHeight()));
-        this.getComponentBoxCollider().setPosition(new Vector2(this.getComponentTransform().getPosition().x, this.getComponentTransform().getPosition().y));
-
-        this.componentSprite.getSprite().setPosition(this.getComponentTransform().getPosition().x, this.getComponentTransform().getPosition().y);
-        this.componentSprite.getSprite().draw(batch);
-    }
 }

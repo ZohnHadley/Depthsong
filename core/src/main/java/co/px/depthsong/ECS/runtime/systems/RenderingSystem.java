@@ -1,20 +1,22 @@
 package co.px.depthsong.ECS.runtime.systems;
 
+import co.px.depthsong.ECS.core.ComponentList;
 import co.px.depthsong.ECS.core.abstractClasses.EcsEntity;
 import co.px.depthsong.ECS.core.EntityContext;
 import co.px.depthsong.ECS.core.interfaces.IEcsSystem;
+import co.px.depthsong.ECS.runtime.components.ComponentBoxCollider;
+import co.px.depthsong.ECS.runtime.components.ComponentSprite;
+import co.px.depthsong.ECS.runtime.components.ComponentTransform;
 import co.px.depthsong.engineCore.models.GameObject2D;
-import co.px.depthsong.engineCore.models.abstractClasses.Tile;
 import co.px.depthsong.engineCore.models.util.GameCamera;
-import co.px.depthsong.engineCore.models.util.VirtualMouse;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import lombok.AccessLevel;
@@ -26,150 +28,155 @@ public class RenderingSystem implements IEcsSystem {
     private static RenderingSystem instance = null;
 
     @Getter(AccessLevel.NONE)
-    private final SpriteBatch GAME_VIEW_BATCH;
-    private FrameBuffer gameViewFrameBuffer;
-
+    private final SpriteBatch LEVEL_SPRITE_BATCH;
+    @Getter(AccessLevel.NONE)
+    private final SpriteBatch ENTITIES_SPRITE_BATCH;
     @Getter(AccessLevel.NONE)
     private final SpriteBatch UI_BATCH;
-
+    @Getter(AccessLevel.NONE)
     private final ShapeRenderer SHAPERENDERER;
+
+    private FrameBuffer gameViewFrameBuffer;
+
     private int window_width;
     private int window_height;
 
     private RenderingSystem() {
         instance = this;
-        GAME_VIEW_BATCH = new SpriteBatch();
-        gameViewFrameBuffer = new FrameBuffer(Pixmap.Format.RGB888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
+
+        LEVEL_SPRITE_BATCH = new SpriteBatch();
+        ENTITIES_SPRITE_BATCH = new SpriteBatch();
         UI_BATCH = new SpriteBatch();
         SHAPERENDERER = new ShapeRenderer();
+
+        gameViewFrameBuffer = new FrameBuffer(Pixmap.Format.RGB888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
         window_width = Gdx.graphics.getWidth();
         window_height = Gdx.graphics.getHeight();
     }
 
     public static RenderingSystem getInstance() {
-        if(instance == null){
+        if (instance == null) {
             instance = new RenderingSystem();
         }
         return instance;
     }
 
-    private void refreshDimensions(){
+    public void resize() {
+
         window_width = Gdx.graphics.getWidth();
         window_height = Gdx.graphics.getHeight();
-    }
 
-    public void resize() {
-        refreshDimensions();
         float scale = (float) window_width / window_height;
         int width = window_width;
         int height = window_height;
 
-        if(scale > 1.5f){
+        if (scale > 1.5f) {
             //landscape screen
-            width = (int)(height * scale);
+            width = (int) (height * scale);
         } else {
             //portrait
-            height = (int)(width / scale);
+            height = (int) (width / scale);
         }
 
-        int posX = (int)((window_width*0.5f) - (width*0.5f));
-        int posY = (int) ((window_height*0.5f) - (height*0.5f));
+        // int posX = (int) ((window_width * 0.5f) - (width * 0.5f));
+        // int posY = (int) ((window_height * 0.5f) - (height * 0.5f));
         GameCamera.getInstance().setViewPort(width, height);
         //gameManager.getScreenManager().getCurrentScreen().resize(posX, posY, width, height);
     }
 
-    private boolean isVisible(Vector3 position,
-                              Sprite sprite,
-                              OrthographicCamera camera,
-                              float margin,
-                              boolean positionIsCenter) {
+    private void drawEntity(EcsEntity object) {
+        ComponentList components = object.getComponentList();
 
-        // Camera bounds (world space, zoom-aware)
-        float halfW = (camera.viewportWidth  * camera.zoom) * 0.5f;
-        float halfH = (camera.viewportHeight * camera.zoom) * 0.5f;
+        ComponentTransform transform = (ComponentTransform) components.get(ComponentTransform.class);
+        ComponentBoxCollider boxCollider = (ComponentBoxCollider) components.get(ComponentBoxCollider.class);
 
-        float camLeft   = camera.position.x - halfW - margin;
-        float camRight  = camera.position.x + halfW + margin;
-        float camBottom = camera.position.y - halfH - margin;
-        float camTop    = camera.position.y + halfH + margin;
+        //if entity has sprite
+        if (components.has(ComponentSprite.class)) {
+            ComponentSprite sprite = (ComponentSprite) components.get(ComponentSprite.class);
 
-        // Object bounds
-        float w = sprite.getWidth();
-        float h = sprite.getHeight();
-
-        float objLeft, objBottom;
-        if (positionIsCenter) {
-            objLeft   = position.x - w * 0.5f;
-            objBottom = position.y - h * 0.5f;
-        } else {
-            objLeft   = position.x;
-            objBottom = position.y;
+            boxCollider.setSize(new Vector2(sprite.getSprite().getWidth(), sprite.getSprite().getHeight()));
+            boxCollider.setPosition(new Vector2(transform.getPosition().x, transform.getPosition().y));
+            transform.setSize(new Vector3(sprite.getSprite().getWidth(), sprite.getSprite().getHeight(), 0));
+            sprite.getSprite().setPosition(transform.getPosition().x, transform.getPosition().y);
+            sprite.getSprite().draw(ENTITIES_SPRITE_BATCH);
         }
-
-        float objRight = objLeft + w;
-        float objTop   = objBottom + h;
-
-        // AABB overlap
-        return objRight > camLeft &&
-            objLeft  < camRight &&
-            objTop   > camBottom &&
-            objBottom < camTop;
     }
-
 
     private void renderEntities() {
         boolean collided = false;
 
         for (EcsEntity ent : EntityContext.getInstance().getEntities().values()) {
             if (ent instanceof GameObject2D) {
+
                 GameObject2D gameObj = (GameObject2D) ent;
-                if(isVisible(gameObj.getComponentTransform().getPosition(), gameObj.getComponentSprite().getSprite(), GameCamera.getInstance().getCamera(), 8f, false)){
-                    gameObj.draw(GAME_VIEW_BATCH);
+                ComponentList gameObjectComponentList = ent.getComponentList();
+
+                Sprite gameObjectSprite = ((ComponentSprite) gameObjectComponentList.get(ComponentSprite.class)).getSprite();
+
+                if (isVisible(gameObj.getComponentTransform().getPosition(), gameObjectSprite.getWidth(), gameObjectSprite.getHeight(), GameCamera.getInstance().getCamera(), 8f, false)) {
+                    drawEntity(gameObj);
                 }
             }
         }
 
     }
 
-    private void renderDebug(){
-        SHAPERENDERER.setProjectionMatrix(GameCamera.getInstance().getCamera().combined);
-        SHAPERENDERER.begin(ShapeRenderer.ShapeType.Line);
-        SHAPERENDERER.setColor(Color.WHITE);
-        for (EcsEntity ent : EntityContext.getInstance().getEntities().values()) {
-            if (ent instanceof GameObject2D && !(ent instanceof Tile)) {
-                GameObject2D gameObj = (GameObject2D) ent;
-                if(isVisible(gameObj.getComponentTransform().getPosition(), gameObj.getComponentSprite().getSprite(), GameCamera.getInstance().getCamera(), 8f, false)){
-                    SHAPERENDERER.rect(gameObj.getComponentTransform().getCenter().x-1.5f, gameObj.getComponentTransform().getCenter().y-1.5f,3,3);
-                    SHAPERENDERER.setColor(Color.RED);
-                    SHAPERENDERER.rect(gameObj.getComponentBoxCollider().getPosition().x, gameObj.getComponentBoxCollider().getPosition().y, (float) gameObj.getComponentBoxCollider().getSize().x, (float) gameObj.getComponentBoxCollider().getSize().y);
-                }
-            }
-        }
-        SHAPERENDERER.setColor(Color.BLUE);
+    private boolean isVisible(Vector3 position,
+                              float width, float height,
+                              OrthographicCamera camera,
+                              float margin,
+                              boolean positionIsCenter) {
 
-        // VirtualMouse in world space
-        SHAPERENDERER.rect(
-            VirtualMouse.getInstance().getPosition().x,
-            VirtualMouse.getInstance().getPosition().y,
-            (float) VirtualMouse.getInstance().getDimensions().getWidth(), (float) VirtualMouse.getInstance().getDimensions().getHeight()
-        );
-        SHAPERENDERER.end();
+        // Camera bounds (world space, zoom-aware)
+        float halfW = (camera.viewportWidth * camera.zoom) * 0.5f;
+        float halfH = (camera.viewportHeight * camera.zoom) * 0.5f;
+
+        float camLeft = camera.position.x - halfW - margin;
+        float camRight = camera.position.x + halfW + margin;
+        float camBottom = camera.position.y - halfH - margin;
+        float camTop = camera.position.y + halfH + margin;
+
+        // Object bounds
+        float w = width;
+        float h = height;
+
+        float objLeft, objBottom;
+        if (positionIsCenter) {
+            objLeft = position.x - w * 0.5f;
+            objBottom = position.y - h * 0.5f;
+        } else {
+            objLeft = position.x;
+            objBottom = position.y;
+        }
+
+        float objRight = objLeft + w;
+        float objTop = objBottom + h;
+
+        // AABB overlap
+        return objRight > camLeft &&
+            objLeft < camRight &&
+            objTop > camBottom &&
+            objBottom < camTop;
     }
 
     public void render() {
-        ScreenUtils.clear(0.7f, 0.7f, 1f, 1f);
+        ScreenUtils.clear(0.5f, 0.7f, 1f, 1f);
         //if (gameManager.isPlayerCreated()) {
+        LEVEL_SPRITE_BATCH.begin();
+        LEVEL_SPRITE_BATCH.setProjectionMatrix(GameCamera.getInstance().getCamera().combined);
 
-        GAME_VIEW_BATCH.begin();
-        GAME_VIEW_BATCH.setProjectionMatrix(GameCamera.getInstance().getCamera().combined);
-            renderEntities();
-        GAME_VIEW_BATCH.end();
+        LEVEL_SPRITE_BATCH.end();
 
-        renderDebug();
+        ENTITIES_SPRITE_BATCH.begin();
+        ENTITIES_SPRITE_BATCH.setProjectionMatrix(GameCamera.getInstance().getCamera().combined);
+        renderEntities();
+        ENTITIES_SPRITE_BATCH.end();
+
     }
 
     public void dispose() {
-        GAME_VIEW_BATCH.dispose();
+        LEVEL_SPRITE_BATCH.dispose();
+        ENTITIES_SPRITE_BATCH.dispose();
         UI_BATCH.dispose();
     }
 }
