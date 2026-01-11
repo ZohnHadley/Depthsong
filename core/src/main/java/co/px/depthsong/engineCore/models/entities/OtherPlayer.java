@@ -1,6 +1,6 @@
 package co.px.depthsong.engineCore.models.entities;
 
-import co.px.depthsong.engineCore.models.abstractClasses.Player;
+import co.px.depthsong.engineCore.models.GameObject2D;
 import lombok.*;
 
 @Builder
@@ -8,6 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
-public class OtherPlayer extends Player {
+public class OtherPlayer extends GameObject2D {
     private Long serverId;
 }

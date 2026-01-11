@@ -3,6 +3,8 @@ package co.px.depthsong.ECS.core;
 
 import co.px.depthsong.ECS.core.abstractClasses.EcsEntity;
 import co.px.depthsong.engineCore.models.entities.ClientPlayer;
+import com.badlogic.gdx.Gdx;
+import com.sun.jdi.InterfaceType;
 import lombok.Getter;
 
 import java.lang.reflect.Type;
@@ -15,12 +17,15 @@ public class EntityContext {
 
     private static EntityContext instance = null;
     private static Long contextEntityCount = 0L;
-    private Hashtable<Long, EcsEntity> entities = new Hashtable<>();
+    private Hashtable<Long, EcsEntity> entities;
     //organises entities into groups based on components they have
-    private Hashtable<String, List<EcsEntity>> entityGroups = new Hashtable<>();
+    private Hashtable<String, List<EcsEntity>> entityComponentGroups;
     private EcsEntity player;
 
-    private EntityContext() { }
+    private EntityContext() {
+        entities = new Hashtable<>();
+        entityComponentGroups = new Hashtable<>();
+    }
 
     public static EntityContext getInstance() {
         if (instance == null) {
@@ -72,14 +77,9 @@ public class EntityContext {
             return null;
         }
     }
+
     public EcsEntity getPlayer() {
-        if(entities.isEmpty()) {
-            return null;
-        }
-        if (player == null) {
-            player = getAllEntitiesOfType(ClientPlayer.class).getFirst();
-        }
-        return player;
+        return getAllEntitiesOfType(ClientPlayer.class).getFirst();
     }
 
     // public List<Entity> getAllEntitiesFromGroup(String group) {
@@ -89,29 +89,25 @@ public class EntityContext {
     //         return new List<Entity>();
     //     }
     // }
-    public List<EcsEntity> getAllEntitiesOfType(Type param_entity_type){
-        if(param_entity_type == null){
+    public List<EcsEntity> getAllEntitiesOfType(Class type){
+        if(type == null){
             throw new NullPointerException("EntityType cannot be null.");
-        }
-        if(entities.isEmpty()){
-//            throw new NullPointerException("Entity list is empty.");
-            return new ArrayList<>();
         }
 
         List<EcsEntity> result = new ArrayList<>();
-        for (var entity : entities.values()) {
-            if (entity.getClass().equals(param_entity_type)) {
+        for (EcsEntity entity : entities.values()) {
+            if (type.isAssignableFrom(entity.getClass())) {
                 result.add(entity);
             }
         }
         return result;
     }
 
-    public List<EcsEntity> getAllEntitiesWithComponent(Type param_component_type){
+    public List<EcsEntity> getAllEntitiesWithComponent(Class type){
         List<EcsEntity> result = new ArrayList<>();
 
         for (EcsEntity ecsEntity : entities.values()) {
-            if (ecsEntity.getComponentList().has(param_component_type)) {
+            if (ecsEntity.getComponentList().has(type)) {
                 result.add(ecsEntity);
             }
         }
@@ -129,7 +125,7 @@ public class EntityContext {
             boolean hasAllComponents = true;
             for (Type componentType : ComponentTypes)
             {
-                if (!ecsEntity.getComponentList().has((Type) ComponentTypes))
+                if (!ecsEntity.getComponentList().has(ComponentTypes.getClass()))
                 {
                     hasAllComponents = false;
                     //when last component is not found (has all == false), break out of the loop and return a empty list
@@ -148,11 +144,11 @@ public class EntityContext {
 
     //get all groups
     public Hashtable<String, List<EcsEntity>> getGroups() {
-        return entityGroups;
+        return entityComponentGroups;
     }
 
     public void clearContext(){
-        entityGroups.clear();
+        entityComponentGroups.clear();
         entities.clear();
     }
 }

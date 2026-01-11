@@ -24,6 +24,7 @@ import lombok.Getter;
 
 @Getter
 public class RenderingSystem implements IEcsSystem {
+
     @Getter(AccessLevel.NONE)
     private static RenderingSystem instance = null;
 
@@ -82,6 +83,10 @@ public class RenderingSystem implements IEcsSystem {
         // int posY = (int) ((window_height * 0.5f) - (height * 0.5f));
         GameCamera.getInstance().setViewPort(width, height);
         //gameManager.getScreenManager().getCurrentScreen().resize(posX, posY, width, height);
+    }
+
+    private void drawCurrentLevel(){
+
     }
 
     private void drawEntity(EcsEntity object) {
@@ -160,11 +165,11 @@ public class RenderingSystem implements IEcsSystem {
     }
 
     public void render() {
-        ScreenUtils.clear(0.5f, 0.7f, 1f, 1f);
+        ScreenUtils.clear(0.3f, 0.5f, 1f, 1f);
         //if (gameManager.isPlayerCreated()) {
         LEVEL_SPRITE_BATCH.begin();
         LEVEL_SPRITE_BATCH.setProjectionMatrix(GameCamera.getInstance().getCamera().combined);
-
+        drawCurrentLevel();
         LEVEL_SPRITE_BATCH.end();
 
         ENTITIES_SPRITE_BATCH.begin();

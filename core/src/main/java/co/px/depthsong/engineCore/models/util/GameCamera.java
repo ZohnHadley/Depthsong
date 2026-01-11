@@ -1,5 +1,6 @@
 package co.px.depthsong.engineCore.models.util;
 
+import co.px.depthsong.ECS.core.ComponentList;
 import co.px.depthsong.ECS.core.abstractClasses.EcsEntity;
 import co.px.depthsong.ECS.runtime.components.ComponentTransform;
 import co.px.depthsong.ECS.core.EntityContext;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 public class GameCamera {
@@ -17,8 +19,9 @@ public class GameCamera {
     private static GameCamera instance;
     private float cameraZoom = 0.5f;
 
+    @Getter
+    @Setter
     private EcsEntity target;
-    private Vector2 targetPosition;
     @Getter(AccessLevel.NONE)
     private Vector2 position;
 
@@ -26,8 +29,7 @@ public class GameCamera {
     private GameCamera() {
         camera = new OrthographicCamera(GeneralUtils.display_width,  GeneralUtils.display_height);
         position = new Vector2(0, 0);
-        if (EntityContext.getInstance().getPlayer() != null)
-            setTarget(EntityContext.getInstance().getPlayer());
+
     }
 
     public static GameCamera getInstance() {
@@ -39,21 +41,20 @@ public class GameCamera {
 
     public void update(float deltaTime) {
         // Handle zoom controls
-        if (Gdx.input.isKeyPressed(Input.Keys.Q) && cameraZoom < 0.75f) {
+        if (Gdx.input.isKeyPressed(Input.Keys.Q) && cameraZoom < 0.50f) {
             cameraZoom += 0.02f;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.E) && cameraZoom > 0.25f) {
+        if (Gdx.input.isKeyPressed(Input.Keys.E) && cameraZoom > 0.40f) {
             cameraZoom -= 0.02f;
         }
 
         // Move position (your WASD movement)
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) position.y += 32 * deltaTime * 10f;
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) position.y -= 32 * deltaTime * 10f;
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) position.x += 32 * deltaTime * 10f;
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) position.x -= 32 * deltaTime * 10f;
+//        if (Gdx.input.isKeyPressed(Input.Keys.W)) position.y += 32 * deltaTime * 10f;
+//        if (Gdx.input.isKeyPressed(Input.Keys.S)) position.y -= 32 * deltaTime * 10f;
+//        if (Gdx.input.isKeyPressed(Input.Keys.D)) position.x += 32 * deltaTime * 10f;
+//        if (Gdx.input.isKeyPressed(Input.Keys.A)) position.x -= 32 * deltaTime * 10f;
+        moveCameraToTarget();
 
-        // Apply target or manual position
-        camera.position.set(position.x, position.y, 0);
 
         // Apply zoom smoothly
         camera.zoom = (float) GeneralUtils.lerp(camera.zoom, cameraZoom, 0.7f);
@@ -64,8 +65,11 @@ public class GameCamera {
 
 
     private void moveCameraToTarget() {
-        targetPosition.x = ((ComponentTransform)target.getComponentList().get(ComponentTransform.class)).getPosition().x;
-        targetPosition.y = ((ComponentTransform)target.getComponentList().get(ComponentTransform.class)).getPosition().y;
+
+        ComponentList targetComponents = target.getComponentList();
+        ComponentTransform transform = ((ComponentTransform)targetComponents.get(ComponentTransform.class));
+
+        Vector2 targetPosition = new Vector2(transform.getPosition().x, transform.getPosition().y);
 
         camera.position.set(GeneralUtils.lerp(camera.position, targetPosition, 0.1f));
     }
@@ -82,8 +86,4 @@ public class GameCamera {
     }
 
 
-    public void setTarget(EcsEntity target) {
-        this.target = target;
-        targetPosition = GeneralUtils.vector3ToVector2(((ComponentTransform)target.getComponentList().get(ComponentTransform.class)).getPosition());
-    }
 }

@@ -14,12 +14,12 @@ public class VirtualMouse {
     private static VirtualMouse instance;
 
     private Vector2 position;
-    private Dimension2D dimensions;
+    private Vector2 dimensions;
 
     private boolean isInUi = false;
 
     private VirtualMouse() {
-        dimensions = new Dimension(3, 3);
+        dimensions = new Vector2(3, 3);
         position = new Vector2(0, 0);
     }
 
@@ -44,8 +44,8 @@ public class VirtualMouse {
         world = gameCamera.getCamera().unproject(world);
         // Apply to virtual mouse position
         position.set(
-            world.x - (float) dimensions.getWidth() / 2f +0.65f,
-            world.y - (float) dimensions.getHeight() / 2f -0.65f
+            world.x - dimensions.x * 0.5f +0.65f,
+            world.y - dimensions.y * 0.5f -0.65f
         );
     }
 

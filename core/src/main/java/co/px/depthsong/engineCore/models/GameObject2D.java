@@ -3,6 +3,7 @@ package co.px.depthsong.engineCore.models;
 import co.px.depthsong.ECS.DTO.DTOComponentBoxCollider;
 import co.px.depthsong.ECS.DTO.DTOComponentTransform;
 import co.px.depthsong.ECS.core.abstractClasses.EcsEntity;
+import co.px.depthsong.ECS.core.interfaces.BaseScript;
 import co.px.depthsong.ECS.runtime.components.ComponentBoxCollider;
 import co.px.depthsong.ECS.runtime.components.ComponentSprite;
 import co.px.depthsong.ECS.runtime.components.ComponentTransform;
@@ -16,13 +17,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class GameObject2D extends EcsEntity {
+public class GameObject2D extends EcsEntity implements BaseScript {
     @JsonIgnore
     protected ComponentSprite componentSprite;
     @JsonIgnore
     protected ComponentBoxCollider componentBoxCollider;
-
-    private ComponentTransform componentTransform;
+    @JsonIgnore
+    protected ComponentTransform componentTransform;
 
     public GameObject2D() {
         super();
@@ -49,4 +50,13 @@ public class GameObject2D extends EcsEntity {
         return DTOComponentBoxCollider.toDTO(componentBoxCollider);
     }
 
+    @Override
+    public void Start() {
+
+    }
+
+    @Override
+    public void Update(float deltaTime) {
+
+    }
 }

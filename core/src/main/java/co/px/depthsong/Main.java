@@ -1,12 +1,13 @@
 package co.px.depthsong;
 
+import co.px.depthsong.ECS.core.EntityContext;
 import co.px.depthsong.engineCore.models.GameLevel;
-import co.px.depthsong.engineCore.services.level.GameLevelService;
+import co.px.depthsong.engineCore.engine_managers.GameLevelManager;
 import co.px.depthsong.enginUtils.GeneralTimer;
 import co.px.depthsong.enginUtils.GameScreensList;
-import co.px.depthsong.engineCore.models.entities.ClientPlayer;
 import co.px.depthsong.engineCore.engine_managers.GameManager;
 import co.px.depthsong.enginUtils.JsonUtil;
+import co.px.depthsong.engineCore.models.entities.ClientPlayer;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -18,25 +19,21 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
  */
 public class Main extends ApplicationAdapter {
 
-    //////
-    private GameLevelService gameLevelService;
     private GameManager gameManager;
     FrameBuffer frameBuffer;
 
-    JsonUtil jsonUtil;
-    GameLevel testlevel;
     @Override
     public void create() {
 //        jsonUtil = JsonUtil.getInstance();
+        gameManager = GameManager.getInstance();
         frameBuffer = new FrameBuffer(Pixmap.Format.RGB888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
 
-        gameManager = GameManager.getInstance();
-        gameLevelService = GameLevelService.getInstance();
         gameManager.getScreenManager().setCurrentScreen(GameScreensList.mainMenu);
-//        ClientPlayer player = ClientPlayer.getInstance();
-//        Gdx.app.log("main", ""+jsonUtil.toJson(player));
+        ClientPlayer player = ClientPlayer.getInstance();
+        player.getComponentTransform().setPosition(0,10,0);
+        gameManager.getGameCamera().setTarget(EntityContext.getInstance().getPlayer());
 
-        gameLevelService.loadAll();
+//        gameLevelManager.loadAll();
 
     }
 

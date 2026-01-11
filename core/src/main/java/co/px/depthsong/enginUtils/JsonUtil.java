@@ -2,6 +2,8 @@ package co.px.depthsong.enginUtils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -28,6 +30,18 @@ public class JsonUtil {
     public <T> String toJson(T object ){
         try{
             return objectMapper.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public JsonNode fromJson(String json) {
+        try {
+            if (json == null || json.isBlank()) {
+                throw new RuntimeException("JsonUtil : err fromJson");
+            }
+            JsonNode rootNode = objectMapper.readTree(json);
+            return rootNode;
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

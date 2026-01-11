@@ -102,16 +102,16 @@ public class ComponentList {
         return null;
     }
 
-    public Boolean has(Type param_component_type)
+    public Boolean has(Class type)
     {
-        if (param_component_type == null)
+        if (type == null)
         {
             throw new NullPointerException("");
         }
 
         for (EcsComponent ecsComponent : componentsList)
         {
-            if (ecsComponent.getClass() == param_component_type)
+            if (type.isAssignableFrom(ecsComponent.getClass()))
             {
                 return true;
             }
