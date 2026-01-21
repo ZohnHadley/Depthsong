@@ -6,6 +6,7 @@ import co.px.depthsong.engineCore.models.GameObject2D;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector3;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
@@ -23,6 +24,7 @@ public class ClientPlayer extends GameObject2D {
 
     private String name;
     private int healthPoints;
+    private Sprite sprite;
     private Vector3 position = getComponentTransform().getPosition();
 
     private ClientPlayer(){
@@ -43,7 +45,7 @@ public class ClientPlayer extends GameObject2D {
 
     @Override
     public void Update(float deltaTime) {
-        this.getComponentSprite().getSprite().setColor(Color.YELLOW);
+
         this.getComponentSprite().getSprite().setFlip(false,false);
         this.getComponentSprite().setSprite(GameSprites.getInstance().getSprite("skier_default"));
 
@@ -58,6 +60,7 @@ public class ClientPlayer extends GameObject2D {
             this.getComponentSprite().setSprite(GameSprites.getInstance().getSprite("skier_turning"));
             this.getComponentSprite().getSprite().setFlip(true,false);
         }
+        this.getComponentSprite().getSprite().setColor(Color.YELLOW);
     }
 
     public void respawn() {

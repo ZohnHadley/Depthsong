@@ -8,6 +8,7 @@ import co.px.depthsong.enginUtils.GameScreensList;
 import co.px.depthsong.engineCore.engine_managers.GameManager;
 import co.px.depthsong.enginUtils.JsonUtil;
 import co.px.depthsong.engineCore.models.entities.ClientPlayer;
+import co.px.depthsong.engineCore.models.entities.OtherPlayer;
 import co.px.depthsong.engineCore.models.entities.PineTree;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -29,7 +30,8 @@ public class Main extends ApplicationAdapter {
         gameManager = GameManager.getInstance();
 //        frameBuffer = new FrameBuffer(Pixmap.Format.RGB888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
 
-          ClientPlayer.getInstance();
+        ClientPlayer.getInstance();
+        new OtherPlayer();
         PineTree pineTree = new PineTree();
         pineTree.getComponentTransform().setPosition(10,10,10);
         gameManager.getGameCamera().setTarget(EntityContext.getInstance().getPlayer());

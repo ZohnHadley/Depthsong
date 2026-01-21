@@ -123,9 +123,9 @@ public class RenderingSystem implements IEcsSystem {
                     ENTITIES_SPRITE_BATCH.begin();
                     Sprite gameObjectSprite = ((ComponentSprite) gameObjectComponentList.get(ComponentSprite.class)).getSprite();
 
-//                    if (isVisible(gameObj.getComponentTransform().getPosition(), gameObjectSprite.getWidth(), gameObjectSprite.getHeight(), GameCamera.getInstance(), 8f, false)) {
+                    if (isVisible(gameObj.getComponentTransform().getPosition(), gameObjectSprite.getWidth(), gameObjectSprite.getHeight(), GameCamera.getInstance(), 8f, false)) {
                         drawEntity(gameObj);
-//                    }
+                    }
                     ENTITIES_SPRITE_BATCH.end();
                 }
                 //TODO: add different renderables (sprite shapes, mesh ...)

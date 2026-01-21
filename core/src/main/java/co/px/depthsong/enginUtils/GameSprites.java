@@ -2,6 +2,7 @@ package co.px.depthsong.enginUtils;
 
 import co.px.depthsong.engineCore.util.SpriteSheet;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.HashMap;
@@ -34,7 +35,7 @@ public class GameSprites {
     }
 
     public Sprite getSprite(String spriteName) {
-        return spriteMap.get(spriteName);
+        return new Sprite(spriteMap.get(spriteName));
     }
 
 
