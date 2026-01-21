@@ -1,12 +1,12 @@
 package co.px.depthsong.engineCore.engine_managers;
 
-import co.px.depthsong.engineCore.models.GUIBaseScreen;
+import co.px.depthsong.engineCore.models.GUIScreen;
 import com.badlogic.gdx.Gdx;
 
 public class ScreenManager {
     private static ScreenManager instance = null;
-    private GUIBaseScreen currentScreen;
-    private GUIBaseScreen previousScreen;
+    private GUIScreen currentScreen;
+    private GUIScreen previousScreen;
 
     private ScreenManager() {
     }
@@ -18,16 +18,16 @@ public class ScreenManager {
         return instance;
     }
 
-    public GUIBaseScreen getCurrentScreen() {
+    public GUIScreen getCurrentScreen() {
 
         return currentScreen;
     }
 
-    public GUIBaseScreen getPreviousScreen() {
+    public GUIScreen getPreviousScreen() {
         return previousScreen;
     }
 
-    public void setCurrentScreen(GUIBaseScreen screen) {
+    public void setCurrentScreen(GUIScreen screen) {
         if (currentScreen != null) {
             previousScreen = currentScreen;
             currentScreen.clear();

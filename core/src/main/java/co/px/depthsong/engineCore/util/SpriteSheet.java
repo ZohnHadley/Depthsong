@@ -1,4 +1,4 @@
-package co.px.depthsong.engineCore.models.util;
+package co.px.depthsong.engineCore.util;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;

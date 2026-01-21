@@ -1,22 +1,20 @@
 package co.px.depthsong.screens.inGame_screens;
 
-import co.px.depthsong.engineCore.models.util.VirtualMouse;
+import co.px.depthsong.engineCore.util.VirtualMouse;
 import co.px.depthsong.ECS.core.EntityContext;
 import co.px.depthsong.engineCore.models.entities.ClientPlayer;
 import co.px.depthsong.engineCore.engine_managers.GameManager;
 import co.px.depthsong.engineCore.engine_managers.ScreenManager;
-import co.px.depthsong.engineCore.models.GUIBaseScreen;
+import co.px.depthsong.engineCore.models.GUIScreen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 
-public class GameScreenInGUIBase extends GUIBaseScreen {
+public class GameScreenInGUI extends GUIScreen {
 
-    private final GameManager gameManager;
     private final ScreenManager screenManager;
     {
-        gameManager = GameManager.getInstance();
         screenManager = ScreenManager.getInstance();
     }
 
@@ -24,14 +22,14 @@ public class GameScreenInGUIBase extends GUIBaseScreen {
     private Label playerHealthLabel;
     private ClientPlayer clientPlayer;
 
-    public GameScreenInGUIBase(String _title) {
+    public GameScreenInGUI(String _title) {
         super(_title, new Stage());
     }
 
     @Override
     public void show() {
         //get player //if removed this wont work
-        clientPlayer = (ClientPlayer) gameManager.getEntityContext().getPlayer();
+        clientPlayer = (ClientPlayer) EntityContext.getInstance().getPlayer();
         //at the start of the game the mouse is not in the ui
         VirtualMouse.getInstance().setIsInUi(false);
         GameManager.getInstance().setInGame(true);
@@ -49,7 +47,7 @@ public class GameScreenInGUIBase extends GUIBaseScreen {
         Stack panel_stack = new Stack();
         panel_stack.setFillParent(true);
 
-        Image background_panel = new Image(GUIBaseScreen.skin.getDrawable("white"));
+        Image background_panel = new Image(this.getSkin().getDrawable("white"));
         background_panel.setColor(0, 0, 0, 1);
         background_panel.setFillParent(true);
         panel_stack.add(background_panel);
@@ -58,8 +56,8 @@ public class GameScreenInGUIBase extends GUIBaseScreen {
         top_ui_group.space(16);
         top_ui_group.pad(10);
         top_ui_group.setWidth(500);
-        top_ui_group.addActor(new Label("Player in game screen", GUIBaseScreen.skin));
-        top_ui_group.addActor(new Label("TurnTimer", GUIBaseScreen.skin));
+        top_ui_group.addActor(new Label("Player in game screen", this.getSkin()));
+        top_ui_group.addActor(new Label("TurnTimer", this.getSkin()));
         panel_stack.add(top_ui_group);
         listenForMouseOver(panel_stack);
         //////////////////////////
@@ -75,7 +73,7 @@ public class GameScreenInGUIBase extends GUIBaseScreen {
         Stack panel_stack = new Stack();
         panel_stack.setFillParent(true);
 
-        Image background_panel = new Image(GUIBaseScreen.skin.getDrawable("white"));
+        Image background_panel = new Image(this.getSkin().getDrawable("white"));
         background_panel.setColor(0, 0, 0, 1);
         background_panel.setFillParent(true);
         panel_stack.add(background_panel);
@@ -100,12 +98,12 @@ public class GameScreenInGUIBase extends GUIBaseScreen {
         health_bar_stack.setFillParent(true);
 
         int playerHealth = clientPlayer.getHealthPoints();
-        playerHealthBar = new ProgressBar(0, playerHealth, 1, false, GUIBaseScreen.skin);
+        playerHealthBar = new ProgressBar(0, playerHealth, 1, false, this.getSkin());
         playerHealthBar.setValue(playerHealth);
         playerHealthBar.setAnimateDuration(0.15f);
         health_bar_stack.add(playerHealthBar);
 
-        playerHealthLabel = new Label("HP:" + playerHealth, GUIBaseScreen.skin);
+        playerHealthLabel = new Label("HP:" + playerHealth, this.getSkin());
         health_bar_stack.add(playerHealthLabel);
 
         Container<Stack> health_bar_container = new Container<>(health_bar_stack);

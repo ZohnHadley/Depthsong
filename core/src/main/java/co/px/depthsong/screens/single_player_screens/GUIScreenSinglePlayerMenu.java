@@ -1,50 +1,55 @@
 package co.px.depthsong.screens.single_player_screens;
 
-import co.px.depthsong.engineCore.models.util.VirtualMouse;
+import co.px.depthsong.engineCore.util.VirtualMouse;
 import co.px.depthsong.engineCore.engine_managers.GameManager;
 import co.px.depthsong.engineCore.engine_managers.ScreenManager;
-import co.px.depthsong.engineCore.models.GUIBaseScreen;
+import co.px.depthsong.engineCore.models.GUIScreen;
 import co.px.depthsong.enginUtils.GameScreensList;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 
-public class GUIBaseScreenSinglePlayerPauseMenu extends GUIBaseScreen {
+public class GUIScreenSinglePlayerMenu extends GUIScreen {
 
     private final ScreenManager screenManager;
 
     private Label label_screenTitle;
-    private Button button_resumeGame;
-    private Button button_saveGame;
+    private Button button_newGame;
     private Button button_loadGame;
-    private Button button_quitGame;
+    private Button button_back;
 
-    public GUIBaseScreenSinglePlayerPauseMenu(String _title) {
+    public GUIScreenSinglePlayerMenu(String _title) {
         super(_title);
         screenManager = ScreenManager.getInstance();
     }
 
     private void prepareComponents() {
-        label_screenTitle = new Label("Pause Menu", GUIBaseScreen.skin);
+        label_screenTitle = new Label("Single Player", this.getSkin());
+        label_screenTitle.setFontScale(2);
 
-        button_resumeGame = new TextButton("Resume Game", GUIBaseScreen.skin);
-        button_resumeGame.pad(10);
-        button_resumeGame.addListener(new InputListener() {
+
+        button_newGame = new TextButton("New Game", this.getSkin());
+        button_newGame.pad(10);
+        button_newGame.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                screenManager.setCurrentScreen(GameScreensList.inGameScreen);
+                screenManager.setCurrentScreen(GameScreensList.characterCreator);
                 return true;
             }
         });
 
-        button_saveGame = new TextButton("Save Game", GUIBaseScreen.skin);
-        button_saveGame.pad(10);
-
-        button_loadGame = new TextButton("Load Game", GUIBaseScreen.skin);
+        button_loadGame = new TextButton("Load Game", this.getSkin());
         button_loadGame.pad(10);
+        button_loadGame.addListener(new InputListener() {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                //TODO: implement load game (functionality and menu)
+                //screenManager.setCurrentScreen(Global_Screens.loadGameMenu);
+                return true;
+            }
+        });
 
-        button_quitGame = new TextButton("Quit game to main menu", GUIBaseScreen.skin);
-        button_quitGame.pad(10);
-        button_quitGame.addListener(new InputListener() {
+        button_back = new TextButton("Back", this.getSkin());
+        button_back.pad(10);
+        button_back.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 screenManager.setCurrentScreen(GameScreensList.mainMenu);
                 return true;
@@ -59,7 +64,7 @@ public class GUIBaseScreenSinglePlayerPauseMenu extends GUIBaseScreen {
         prepareComponents();
 
         Stack panel_stack = new Stack();
-        Image background_image = new Image(GUIBaseScreen.skin.getDrawable("white"));
+        Image background_image = new Image(this.getSkin().getDrawable("white"));
         background_image.setColor(0, 0, 0, 1);
         panel_stack.add(background_image);
 
@@ -67,13 +72,18 @@ public class GUIBaseScreenSinglePlayerPauseMenu extends GUIBaseScreen {
         verticalGroup.space(10);
         verticalGroup.center();
 
+
         verticalGroup.addActor(label_screenTitle);
-        verticalGroup.addActor(button_resumeGame);
-        verticalGroup.addActor(button_saveGame);
+        //add empty
+        verticalGroup.addActor(new Label("", this.getSkin()));
+        //
+        verticalGroup.addActor(button_newGame);
         verticalGroup.addActor(button_loadGame);
+        verticalGroup.addActor(button_back);
 
         panel_stack.add(verticalGroup);
-        getTable().addActor(panel_stack);
+        listenForMouseOver(panel_stack);
         getTable().add(panel_stack).expand().fill();
     }
+
 }

@@ -1,4 +1,4 @@
-package co.px.depthsong.engineCore.models.util;
+package co.px.depthsong.engineCore.util;
 
 import co.px.depthsong.enginUtils.GeneralTimer;
 import com.badlogic.gdx.graphics.g2d.Sprite;

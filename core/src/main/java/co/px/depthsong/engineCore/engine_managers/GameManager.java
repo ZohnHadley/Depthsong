@@ -3,9 +3,9 @@ package co.px.depthsong.engineCore.engine_managers;
 import co.px.depthsong.ECS.core.EntityContext;
 import co.px.depthsong.ECS.runtime.systems.RenderingSystem;
 import co.px.depthsong.ECS.runtime.systems.UpdateSystem;
-import co.px.depthsong.engineCore.engine_managers.enums.EnumNetworkState;
-import co.px.depthsong.engineCore.models.util.GameCamera;
-import co.px.depthsong.engineCore.models.util.VirtualMouse;
+import co.px.depthsong.enginUtils.GameScreensList;
+import co.px.depthsong.engineCore.util.GameCamera;
+import co.px.depthsong.engineCore.util.VirtualMouse;
 import com.badlogic.gdx.Gdx;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -24,10 +24,10 @@ public class GameManager {
     private UpdateSystem updateSystem;
     private RenderingSystem renderingSystem;
 
+    private NetworkManager networkManager;
     private GameCamera gameCamera;
     private VirtualMouse virtualMouse;
-    private ScreenManager screenManager;
-    private NetworkManager networkManager;
+//    private ScreenManager screenManager;
 
     private boolean isInGame = false;
     private boolean isPlayerCreated = false;
@@ -44,8 +44,10 @@ public class GameManager {
 
         gameCamera = GameCamera.getInstance();
         virtualMouse = VirtualMouse.getInstance();
-        screenManager = ScreenManager.getInstance();
+//        screenManager = ScreenManager.getInstance();
         networkManager = NetworkManager.getInstance();
+
+//        screenManager.setCurrentScreen(GameScreensList.inGameScreen);
     }
 
     public static GameManager getInstance() {
@@ -57,8 +59,10 @@ public class GameManager {
     }
 
     public void update(float deltaTime) {
-        getGameCamera().update(deltaTime);
+        getGameCamera().refresh(deltaTime);
         getVirtualMouse().update(deltaTime);
+
+//        screenManager.getCurrentScreen().update();
         updateSystem.update(deltaTime);
         renderingSystem.render();
     }

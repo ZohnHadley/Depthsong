@@ -1,40 +1,58 @@
 package co.px.depthsong.engineCore.models;
 
-import co.px.depthsong.engineCore.models.interfaces.GUIScreen;
-import co.px.depthsong.engineCore.models.util.VirtualMouse;
+import co.px.depthsong.engineCore.util.GameCamera;
+import co.px.depthsong.engineCore.util.VirtualMouse;
 import co.px.depthsong.engineCore.engine_managers.GameManager;
+import co.px.depthsong.screens.GUIScreenContext;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import lombok.Getter;
+import lombok.Setter;
 
 
 @Getter
-public class GUIBaseScreen implements GUIScreen {
+@Setter
+public class GUIScreen{
+
+    private final GUIScreenContext guiScreenContext = GUIScreenContext.getInstance();
+
+    private Long id;
+    private final Skin skin;
+
     private final Stage stage;
     private final Table table;
     private final String title;
 
-    public GUIBaseScreen(String _title) {
-        this.title = _title;
+    public GUIScreen(String title) {
+        this.title = title;
         this.stage = new Stage();
-        Gdx.input.setInputProcessor(this.stage); // Make the stage consume events
+
+        this.skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
 
         this.table = new Table(skin);
         this.table.setFillParent(true);
 
         this.stage.addActor(this.table);
+        Gdx.input.setInputProcessor(this.stage); // Make the stage consume events
+
+        guiScreenContext.addScreen(this);
     }
 
-    public GUIBaseScreen(String _title, Stage _stage) {
-        this.title = _title;
-        this.stage = _stage;
-        Gdx.input.setInputProcessor(this.stage); // Make the stage consume events
+    public GUIScreen(String title, Stage stage) {
+        this.title = title;
+        this.stage = stage;
+
+        skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
 
         this.table = new Table(skin);
         this.table.setFillParent(true);
 
         this.stage.addActor(this.table);
+        Gdx.input.setInputProcessor(this.stage); // Make the stage consume events
+
+        guiScreenContext.addScreen(this);
     }
 
     protected void listenForMouseOver(Group group) {
@@ -57,7 +75,6 @@ public class GUIBaseScreen implements GUIScreen {
 
     }
 
-    public void show() {}
 
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
@@ -66,15 +83,16 @@ public class GUIBaseScreen implements GUIScreen {
         stage.getViewport().setScreenBounds(x, y, width, height);
     }
 
+    public void show() {}
+
     public void update() {
         stage.act(Gdx.graphics.getDeltaTime());
     }
 
-
-
-    public void render() {
+    public void render(GameCamera camera) {
+        stage.getViewport().setScreenWidth((int) camera.viewportWidth);
+        stage.getViewport().setScreenHeight((int) camera.viewportHeight);
         stage.getViewport().apply();
-        stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
     }
 

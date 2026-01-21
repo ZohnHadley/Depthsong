@@ -7,15 +7,18 @@ import co.px.depthsong.ECS.core.interfaces.IEcsSystem;
 import co.px.depthsong.ECS.runtime.components.ComponentBoxCollider;
 import co.px.depthsong.ECS.runtime.components.ComponentSprite;
 import co.px.depthsong.ECS.runtime.components.ComponentTransform;
+import co.px.depthsong.ECS.utils.MasterShapeRenderer;
+import co.px.depthsong.engineCore.engine_managers.GameManager;
 import co.px.depthsong.engineCore.models.GameObject2D;
-import co.px.depthsong.engineCore.models.util.GameCamera;
+import co.px.depthsong.engineCore.util.GameCamera;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -35,7 +38,7 @@ public class RenderingSystem implements IEcsSystem {
     @Getter(AccessLevel.NONE)
     private final SpriteBatch UI_BATCH;
     @Getter(AccessLevel.NONE)
-    private final ShapeRenderer SHAPERENDERER;
+    private MasterShapeRenderer SHAPERENDERER = MasterShapeRenderer.getInstance();
 
     private FrameBuffer gameViewFrameBuffer;
 
@@ -48,7 +51,6 @@ public class RenderingSystem implements IEcsSystem {
         LEVEL_SPRITE_BATCH = new SpriteBatch();
         ENTITIES_SPRITE_BATCH = new SpriteBatch();
         UI_BATCH = new SpriteBatch();
-        SHAPERENDERER = new ShapeRenderer();
 
         gameViewFrameBuffer = new FrameBuffer(Pixmap.Format.RGB888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
         window_width = Gdx.graphics.getWidth();
@@ -96,7 +98,6 @@ public class RenderingSystem implements IEcsSystem {
         ComponentBoxCollider boxCollider = (ComponentBoxCollider) components.get(ComponentBoxCollider.class);
 
         //if entity has sprite
-        if (components.has(ComponentSprite.class)) {
             ComponentSprite sprite = (ComponentSprite) components.get(ComponentSprite.class);
 
             boxCollider.setSize(new Vector2(sprite.getSprite().getWidth(), sprite.getSprite().getHeight()));
@@ -104,23 +105,32 @@ public class RenderingSystem implements IEcsSystem {
             transform.setSize(new Vector3(sprite.getSprite().getWidth(), sprite.getSprite().getHeight(), 0));
             sprite.getSprite().setPosition(transform.getPosition().x, transform.getPosition().y);
             sprite.getSprite().draw(ENTITIES_SPRITE_BATCH);
-        }
     }
 
     private void renderEntities() {
+
         boolean collided = false;
 
-        for (EcsEntity ent : EntityContext.getInstance().getEntities().values()) {
-            if (ent instanceof GameObject2D) {
+        ENTITIES_SPRITE_BATCH.setProjectionMatrix(GameCamera.getInstance().combined);
 
+        for (EcsEntity ent : EntityContext.getInstance().getEntities().values()) {
+
+            if (ent instanceof GameObject2D) {
                 GameObject2D gameObj = (GameObject2D) ent;
                 ComponentList gameObjectComponentList = ent.getComponentList();
 
-                Sprite gameObjectSprite = ((ComponentSprite) gameObjectComponentList.get(ComponentSprite.class)).getSprite();
+                if(gameObjectComponentList.has(ComponentSprite.class)) {
+                    ENTITIES_SPRITE_BATCH.begin();
+                    Sprite gameObjectSprite = ((ComponentSprite) gameObjectComponentList.get(ComponentSprite.class)).getSprite();
 
-                if (isVisible(gameObj.getComponentTransform().getPosition(), gameObjectSprite.getWidth(), gameObjectSprite.getHeight(), GameCamera.getInstance().getCamera(), 8f, false)) {
-                    drawEntity(gameObj);
+//                    if (isVisible(gameObj.getComponentTransform().getPosition(), gameObjectSprite.getWidth(), gameObjectSprite.getHeight(), GameCamera.getInstance(), 8f, false)) {
+                        drawEntity(gameObj);
+//                    }
+                    ENTITIES_SPRITE_BATCH.end();
                 }
+                //TODO: add different renderables (sprite shapes, mesh ...)
+                //else if no component Sprite then if have shape or quad render
+
             }
         }
 
@@ -128,7 +138,7 @@ public class RenderingSystem implements IEcsSystem {
 
     private boolean isVisible(Vector3 position,
                               float width, float height,
-                              OrthographicCamera camera,
+                              GameCamera camera,
                               float margin,
                               boolean positionIsCenter) {
 
@@ -136,10 +146,10 @@ public class RenderingSystem implements IEcsSystem {
         float halfW = (camera.viewportWidth * camera.zoom) * 0.5f;
         float halfH = (camera.viewportHeight * camera.zoom) * 0.5f;
 
-        float camLeft = camera.position.x - halfW - margin;
-        float camRight = camera.position.x + halfW + margin;
-        float camBottom = camera.position.y - halfH - margin;
-        float camTop = camera.position.y + halfH + margin;
+        float camLeft = camera.getVirtual_position().x - halfW - margin;
+        float camRight = camera.getVirtual_position().x + halfW + margin;
+        float camBottom = camera.getVirtual_position().y - halfH - margin;
+        float camTop = camera.getVirtual_position().y + halfH + margin;
 
         // Object bounds
         float w = width;
@@ -165,17 +175,9 @@ public class RenderingSystem implements IEcsSystem {
     }
 
     public void render() {
-        ScreenUtils.clear(0.3f, 0.5f, 1f, 1f);
-        //if (gameManager.isPlayerCreated()) {
-        LEVEL_SPRITE_BATCH.begin();
-        LEVEL_SPRITE_BATCH.setProjectionMatrix(GameCamera.getInstance().getCamera().combined);
-        drawCurrentLevel();
-        LEVEL_SPRITE_BATCH.end();
+        ScreenUtils.clear(0.85f, 0.85f, 1f, 1f);
 
-        ENTITIES_SPRITE_BATCH.begin();
-        ENTITIES_SPRITE_BATCH.setProjectionMatrix(GameCamera.getInstance().getCamera().combined);
         renderEntities();
-        ENTITIES_SPRITE_BATCH.end();
 
     }
 

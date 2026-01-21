@@ -82,13 +82,6 @@ public class EntityContext {
         return getAllEntitiesOfType(ClientPlayer.class).getFirst();
     }
 
-    // public List<Entity> getAllEntitiesFromGroup(String group) {
-    //     if (entityGroups.contains(group)) {
-    //         return entityGroups[group];
-    //     } else {
-    //         return new List<Entity>();
-    //     }
-    // }
     public List<EcsEntity> getAllEntitiesOfType(Class type){
         if(type == null){
             throw new NullPointerException("EntityType cannot be null.");
@@ -108,33 +101,6 @@ public class EntityContext {
 
         for (EcsEntity ecsEntity : entities.values()) {
             if (ecsEntity.getComponentList().has(type)) {
-                result.add(ecsEntity);
-            }
-        }
-
-        return result;
-    }
-
-    //TODO fix might cause error
-    public List<EcsEntity> getAllEntitiesWithComponents(List<Type> ComponentTypes)
-    {
-        List<EcsEntity> result = new ArrayList<>();
-
-        for (EcsEntity ecsEntity : entities.values())
-        {
-            boolean hasAllComponents = true;
-            for (Type componentType : ComponentTypes)
-            {
-                if (!ecsEntity.getComponentList().has(ComponentTypes.getClass()))
-                {
-                    hasAllComponents = false;
-                    //when last component is not found (has all == false), break out of the loop and return a empty list
-                    break;
-                }
-            }
-
-            if (hasAllComponents)
-            {
                 result.add(ecsEntity);
             }
         }

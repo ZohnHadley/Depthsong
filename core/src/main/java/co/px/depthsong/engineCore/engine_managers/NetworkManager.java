@@ -13,6 +13,7 @@ public class NetworkManager {
 
     private NetworkMachine clientServer;
     private Thread clientServerThread;
+
     private NetworkMachine hostServer;
     private Thread hostServerThread;
 

@@ -1,6 +1,6 @@
 package co.px.depthsong.screens;
 
-import co.px.depthsong.engineCore.models.GUIBaseScreen;
+import co.px.depthsong.engineCore.models.GUIScreen;
 import co.px.depthsong.engineCore.engine_managers.ScreenManager;
 import co.px.depthsong.enginUtils.GameScreensList;
 import com.badlogic.gdx.graphics.Color;
@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 
-public class GUIBaseScreenMainMenu extends GUIBaseScreen {
+public class GUIScreenMainMenu extends GUIScreen {
 
 
     private final ScreenManager screenManager;
@@ -18,18 +18,18 @@ public class GUIBaseScreenMainMenu extends GUIBaseScreen {
     private Button button_localGame;
     private Button button_settings;
 
-    public GUIBaseScreenMainMenu(String _title) {
+    public GUIScreenMainMenu(String _title) {
         super(_title, new Stage());
         screenManager = ScreenManager.getInstance();
     }
 
     private void prepareComponents(){
 
-        label_screenTitle = new Label("Crypts&Runes", GUIBaseScreen.skin);
+        label_screenTitle = new Label("Skier", this.getSkin());
         label_screenTitle.setFontScale(2);
 
 
-        button_offlineGame = new TextButton("single player", GUIBaseScreen.skin);
+        button_offlineGame = new TextButton("single player", this.getSkin());
         button_offlineGame.pad(10);
         button_offlineGame.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -38,7 +38,7 @@ public class GUIBaseScreenMainMenu extends GUIBaseScreen {
             }
         });
 
-        button_localGame = new TextButton("local game", GUIBaseScreen.skin);
+        button_localGame = new TextButton("local game", this.getSkin());
         button_localGame.pad(10);
         button_localGame.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -48,7 +48,7 @@ public class GUIBaseScreenMainMenu extends GUIBaseScreen {
         });
 
         //TODO add a settings screen
-        button_settings = new TextButton("settings", GUIBaseScreen.skin);
+        button_settings = new TextButton("settings", this.getSkin());
         button_settings.pad(10);
 
     }
@@ -60,8 +60,9 @@ public class GUIBaseScreenMainMenu extends GUIBaseScreen {
         prepareComponents();
 
         Stack panel_stack = new Stack();
-        Image background_image = new Image(GUIBaseScreen.skin.getDrawable("white"));
+        Image background_image = new Image(this.getSkin().getDrawable("white"));
         background_image.setColor(new Color(0f, 0f, 0f, 1f));
+        background_image.setFillParent(true);
         panel_stack.add(background_image);
 
 
@@ -72,7 +73,7 @@ public class GUIBaseScreenMainMenu extends GUIBaseScreen {
 
         verticalGroup.addActor(label_screenTitle);
         //space
-        verticalGroup.addActor(new Label("", GUIBaseScreen.skin));
+        verticalGroup.addActor(new Label("", this.getSkin()));
         //
         verticalGroup.addActor(button_offlineGame);
         verticalGroup.addActor(button_localGame);

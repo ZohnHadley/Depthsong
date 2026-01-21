@@ -1,8 +1,8 @@
 package co.px.depthsong.screens;
 
 import co.px.depthsong.engineCore.engine_managers.enums.EnumNetworkState;
-import co.px.depthsong.engineCore.models.util.VirtualMouse;
-import co.px.depthsong.engineCore.models.GUIBaseScreen;
+import co.px.depthsong.engineCore.util.VirtualMouse;
+import co.px.depthsong.engineCore.models.GUIScreen;
 import co.px.depthsong.engineCore.models.entities.ClientPlayer;
 import co.px.depthsong.engineCore.engine_managers.GameManager;
 import co.px.depthsong.engineCore.engine_managers.ScreenManager;
@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
-public class GameScreenGUIBaseOver extends GUIBaseScreen {
+public class GameScreenGUIOver extends GUIScreen {
 
     private final GameManager gameManager;
     private final ScreenManager screenManager;
@@ -24,17 +24,17 @@ public class GameScreenGUIBaseOver extends GUIBaseScreen {
     private Button button_disconnect;
     private Button button_respawn;
 
-    public GameScreenGUIBaseOver(String _title) {
+    public GameScreenGUIOver(String _title) {
         super(_title);
         gameManager = GameManager.getInstance();
         screenManager = ScreenManager.getInstance();
     }
 
     private void prepareComponents() {
-        label_screenTitle = new Label("Game Over", GUIBaseScreen.skin);
+        label_screenTitle = new Label("Game Over", this.getSkin());
         label_screenTitle.setColor(1, 1, 1, 1);
 
-        button_disconnect = new TextButton("Disconnect", GUIBaseScreen.skin);
+        button_disconnect = new TextButton("Disconnect", this.getSkin());
         button_disconnect.setColor(Color.RED);
         button_disconnect.pad(10);
         button_disconnect.addListener(new InputListener() {
@@ -53,7 +53,7 @@ public class GameScreenGUIBaseOver extends GUIBaseScreen {
             }
         });
 
-        button_respawn = new TextButton("Respawn", GUIBaseScreen.skin);
+        button_respawn = new TextButton("Respawn", this.getSkin());
         button_respawn.setColor(Color.GOLD);
         button_respawn.pad(10);
         button_respawn.addListener(new ChangeListener() {
@@ -74,7 +74,7 @@ public class GameScreenGUIBaseOver extends GUIBaseScreen {
         Stack panel_stack = new Stack();
         panel_stack.setFillParent(true);
 
-        Image background_panel = new Image(GUIBaseScreen.skin.getDrawable("white"));
+        Image background_panel = new Image(this.getSkin().getDrawable("white"));
         background_panel.setColor(0, 0, 0, 0.5f);
         panel_stack.add(background_panel);
 
@@ -87,7 +87,7 @@ public class GameScreenGUIBaseOver extends GUIBaseScreen {
         verticalGroup.addActor(label_screenTitle);
 
         //add empty
-        verticalGroup.addActor(new Label("", GUIBaseScreen.skin));
+        verticalGroup.addActor(new Label("", this.getSkin()));
         //
 
         verticalGroup.addActor(button_disconnect);

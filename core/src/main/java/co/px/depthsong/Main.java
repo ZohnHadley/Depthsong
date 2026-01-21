@@ -8,6 +8,7 @@ import co.px.depthsong.enginUtils.GameScreensList;
 import co.px.depthsong.engineCore.engine_managers.GameManager;
 import co.px.depthsong.enginUtils.JsonUtil;
 import co.px.depthsong.engineCore.models.entities.ClientPlayer;
+import co.px.depthsong.engineCore.models.entities.PineTree;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -20,17 +21,17 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 public class Main extends ApplicationAdapter {
 
     private GameManager gameManager;
-    FrameBuffer frameBuffer;
+//    FrameBuffer frameBuffer;
 
     @Override
     public void create() {
 //        jsonUtil = JsonUtil.getInstance();
         gameManager = GameManager.getInstance();
-        frameBuffer = new FrameBuffer(Pixmap.Format.RGB888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
+//        frameBuffer = new FrameBuffer(Pixmap.Format.RGB888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
 
-        gameManager.getScreenManager().setCurrentScreen(GameScreensList.mainMenu);
-        ClientPlayer player = ClientPlayer.getInstance();
-        player.getComponentTransform().setPosition(0,10,0);
+          ClientPlayer.getInstance();
+        PineTree pineTree = new PineTree();
+        pineTree.getComponentTransform().setPosition(10,10,10);
         gameManager.getGameCamera().setTarget(EntityContext.getInstance().getPlayer());
 
 //        gameLevelManager.loadAll();
@@ -48,10 +49,8 @@ public class Main extends ApplicationAdapter {
 
     @Override
     public void resize(int width, int height) {
-        // This method is called when the window is resized.
-        // You can use it to adjust the viewport size.
 
-        gameManager.getScreenManager().getCurrentScreen().resize(width, height);
+//        gameManager.getScreenManager().getCurrentScreen().resize(width, height);
         gameManager.getRenderingSystem().resize();
     }
 

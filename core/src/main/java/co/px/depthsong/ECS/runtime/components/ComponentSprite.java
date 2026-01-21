@@ -9,7 +9,6 @@ import com.badlogic.gdx.math.Vector3;
 import lombok.*;
 
 @AllArgsConstructor
-
 @Getter
 @Setter
 public class ComponentSprite extends EcsComponent {

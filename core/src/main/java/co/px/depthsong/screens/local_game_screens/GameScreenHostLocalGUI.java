@@ -3,20 +3,20 @@ package co.px.depthsong.screens.local_game_screens;
 import java.lang.Thread;
 
 import co.px.depthsong.engineCore.engine_managers.enums.EnumNetworkClientConnectionStates;
-import co.px.depthsong.engineCore.models.util.VirtualMouse;
+import co.px.depthsong.engineCore.util.VirtualMouse;
 import co.px.depthsong.engineCore.engine_managers.GameManager;
 import co.px.depthsong.engineCore.engine_managers.NetworkManager;
 import co.px.depthsong.engineCore.engine_managers.ScreenManager;
 import co.px.depthsong.network.Local.HostServer;
 import co.px.depthsong.network.NetworkMachine;
-import co.px.depthsong.engineCore.models.GUIBaseScreen;
+import co.px.depthsong.engineCore.models.GUIScreen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 
-public class GameScreenHostLocalGUIBase extends GUIBaseScreen {
+public class GameScreenHostLocalGUI extends GUIScreen {
     private final GameManager gameManager ;
     private final ScreenManager screenManager;
     private final NetworkManager networkManager;
@@ -40,7 +40,7 @@ public class GameScreenHostLocalGUIBase extends GUIBaseScreen {
 
 
 
-    public GameScreenHostLocalGUIBase(String _title) {
+    public GameScreenHostLocalGUI(String _title) {
         super(_title, new Stage());
         valueIpAddress = "localhost";
         valuePort = "8080";
@@ -64,14 +64,14 @@ public class GameScreenHostLocalGUIBase extends GUIBaseScreen {
     }
 
     private void prepareComponents() {
-        label_screenTitle = new Label("Host Local Game", GUIBaseScreen.skin);
+        label_screenTitle = new Label("Host Local Game", this.getSkin());
         label_screenTitle.setFontScale(2);
 
-        label_inputError_port = new Label("Invalid port", GUIBaseScreen.skin);
-        label_input_port = new Label("Port", GUIBaseScreen.skin);
+        label_inputError_port = new Label("Invalid port", this.getSkin());
+        label_input_port = new Label("Port", this.getSkin());
 
-        textField_port = new TextField(valuePort, GUIBaseScreen.skin);
-        textField_port = new TextField(valuePort, GUIBaseScreen.skin);
+        textField_port = new TextField(valuePort, this.getSkin());
+        textField_port = new TextField(valuePort, this.getSkin());
         textField_port.setTextFieldFilter(new TextField.TextFieldFilter.DigitsOnlyFilter());
         textField_port.setMaxLength(5);
         textField_port.addListener(new InputListener() {
@@ -85,7 +85,7 @@ public class GameScreenHostLocalGUIBase extends GUIBaseScreen {
             }
         });
 
-        button_launch_game = new TextButton("launch game", GUIBaseScreen.skin);
+        button_launch_game = new TextButton("launch game", this.getSkin());
         button_launch_game.setColor(Color.GREEN);
         button_launch_game.pad(10);
         button_launch_game.addListener(new InputListener() {
@@ -95,7 +95,7 @@ public class GameScreenHostLocalGUIBase extends GUIBaseScreen {
             }
         });
 
-        button_back = new TextButton("Back", GUIBaseScreen.skin);
+        button_back = new TextButton("Back", this.getSkin());
         button_back.setColor(Color.RED);
         button_back.pad(10);
         button_back.addListener(new InputListener() {
@@ -114,7 +114,7 @@ public class GameScreenHostLocalGUIBase extends GUIBaseScreen {
         prepareComponents();
 
         Stack stack = new Stack();
-        Image background_image = new Image(GUIBaseScreen.skin.getDrawable("white"));
+        Image background_image = new Image(this.getSkin().getDrawable("white"));
         background_image.setColor(new Color(0f, 0f, 0f, 1f));
         stack.add(background_image);
 
@@ -123,7 +123,7 @@ public class GameScreenHostLocalGUIBase extends GUIBaseScreen {
         verticalGroup.center();
         verticalGroup.addActor(label_screenTitle);
         //add empty
-        verticalGroup.addActor(new Label("", GUIBaseScreen.skin));
+        verticalGroup.addActor(new Label("", this.getSkin()));
         //
 
         label_inputError_port.setColor(1, 1, 1, 0);

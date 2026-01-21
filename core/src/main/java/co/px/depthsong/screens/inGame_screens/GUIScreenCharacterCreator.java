@@ -1,10 +1,10 @@
 package co.px.depthsong.screens.inGame_screens;
 
 import co.px.depthsong.engineCore.engine_managers.enums.EnumNetworkClientConnectionStates;
-import co.px.depthsong.engineCore.models.util.VirtualMouse;
+import co.px.depthsong.engineCore.util.VirtualMouse;
 import co.px.depthsong.engineCore.engine_managers.GameManager;
 import co.px.depthsong.engineCore.engine_managers.ScreenManager;
-import co.px.depthsong.engineCore.models.GUIBaseScreen;
+import co.px.depthsong.engineCore.models.GUIScreen;
 import co.px.depthsong.enginUtils.GameScreensList;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 
-public class GUIBaseScreenCharacterCreator extends GUIBaseScreen {
+public class GUIScreenCharacterCreator extends GUIScreen {
 
     private final GameManager gameManager;
     private final ScreenManager screenManager;
@@ -23,7 +23,7 @@ public class GUIBaseScreenCharacterCreator extends GUIBaseScreen {
     private Button button_createCharacter;
     private Button button_back;
 
-    public GUIBaseScreenCharacterCreator(String _title) {
+    public GUIScreenCharacterCreator(String _title) {
         super(_title, new Stage());
         gameManager = GameManager.getInstance();
         screenManager = ScreenManager.getInstance();
@@ -31,13 +31,13 @@ public class GUIBaseScreenCharacterCreator extends GUIBaseScreen {
 
     private void prepareComponents() {
 
-        label_screenTitle = new Label("Character Creation", GUIBaseScreen.skin);
+        label_screenTitle = new Label("Character Creation", this.getSkin());
         label_screenTitle.setFontScale(2);
 
-        label_userName = new Label("UserName", GUIBaseScreen.skin);
-        textField_userName = new TextField("", GUIBaseScreen.skin);
+        label_userName = new Label("UserName", this.getSkin());
+        textField_userName = new TextField("", this.getSkin());
 
-        button_createCharacter = new TextButton("Create Character", GUIBaseScreen.skin);
+        button_createCharacter = new TextButton("Create Character", this.getSkin());
         button_createCharacter.pad(10);
         button_createCharacter.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -46,7 +46,7 @@ public class GUIBaseScreenCharacterCreator extends GUIBaseScreen {
             }
         });
 
-        button_back = new TextButton("Back", GUIBaseScreen.skin);
+        button_back = new TextButton("Back", this.getSkin());
         button_back.pad(10);
         button_back.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -69,7 +69,7 @@ public class GUIBaseScreenCharacterCreator extends GUIBaseScreen {
         prepareComponents();
 
         Stack panel_stack = new Stack();
-        Image background_image = new Image(GUIBaseScreen.skin.getDrawable("white"));
+        Image background_image = new Image(this.getSkin().getDrawable("white"));
         background_image.setColor(new Color(0f, 0f, 0f, 1f));
         panel_stack.add(background_image);
 
@@ -79,7 +79,7 @@ public class GUIBaseScreenCharacterCreator extends GUIBaseScreen {
 
         verticalGroup.addActor(label_screenTitle);
         //add empty
-        verticalGroup.addActor(new Label("", GUIBaseScreen.skin));
+        verticalGroup.addActor(new Label("", this.getSkin()));
         //
 
         verticalGroup.addActor(label_userName);

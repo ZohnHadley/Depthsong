@@ -1,12 +1,12 @@
 package co.px.depthsong.screens.local_game_screens;
 
 import co.px.depthsong.engineCore.engine_managers.enums.EnumNetworkClientConnectionStates;
-import co.px.depthsong.engineCore.models.util.VirtualMouse;
+import co.px.depthsong.engineCore.util.VirtualMouse;
 import co.px.depthsong.engineCore.engine_managers.GameManager;
 import co.px.depthsong.engineCore.engine_managers.NetworkManager;
 import co.px.depthsong.engineCore.engine_managers.ScreenManager;
 import co.px.depthsong.network.Local.ClientServer;
-import co.px.depthsong.engineCore.models.GUIBaseScreen;
+import co.px.depthsong.engineCore.models.GUIScreen;
 import co.px.depthsong.enginUtils.GameScreensList;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -14,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 
-public class GameScreenJoinLocalGUIBase extends GUIBaseScreen {
+public class GameScreenJoinLocalGUI extends GUIScreen {
     private final GameManager gameManager ;
     private final ScreenManager screenManager;
     private final NetworkManager networkManager;
@@ -44,18 +44,18 @@ public class GameScreenJoinLocalGUIBase extends GUIBaseScreen {
 
 
 
-    public GameScreenJoinLocalGUIBase(String _title) {
+    public GameScreenJoinLocalGUI(String _title) {
         super(_title, new Stage());
         ipAddress = "localhost";
         port = "8080";
 
-        label_ipAddress_error = new Label("Invalid IP address", GUIBaseScreen.skin);
+        label_ipAddress_error = new Label("Invalid IP address", this.getSkin());
         label_ipAddress_error.setColor(Color.RED);
 
-        label_port_error = new Label("Invalid port", GUIBaseScreen.skin);
+        label_port_error = new Label("Invalid port", this.getSkin());
         label_port_error.setColor(Color.RED);
 
-        label_connection_error = new Label("Connection error", GUIBaseScreen.skin);
+        label_connection_error = new Label("Connection error", this.getSkin());
         label_connection_error.setColor(Color.RED);
 
         gameManager = GameManager.getInstance();
@@ -76,18 +76,18 @@ public class GameScreenJoinLocalGUIBase extends GUIBaseScreen {
     }
 
     private void prepareComponents() {
-        label_screenTitle = new Label("Joining Local Game", GUIBaseScreen.skin);
+        label_screenTitle = new Label("Joining Local Game", this.getSkin());
         label_screenTitle.setFontScale(2);
 
-        label_ipAddress = new Label("IP Address", GUIBaseScreen.skin);
-        textField_ipAddress = new TextField(ipAddress, GUIBaseScreen.skin);
+        label_ipAddress = new Label("IP Address", this.getSkin());
+        textField_ipAddress = new TextField(ipAddress, this.getSkin());
 
-        label_port = new Label("Port", GUIBaseScreen.skin);
-        textField_port = new TextField(port, GUIBaseScreen.skin);
+        label_port = new Label("Port", this.getSkin());
+        textField_port = new TextField(port, this.getSkin());
         textField_port.setTextFieldFilter(new TextField.TextFieldFilter.DigitsOnlyFilter());
         textField_port.setMaxLength(5);
 
-        button_join_game = new TextButton("join game", GUIBaseScreen.skin);
+        button_join_game = new TextButton("join game", this.getSkin());
         button_join_game.pad(10);
         button_join_game.setColor(Color.GREEN);
         button_join_game.addListener(new InputListener() {
@@ -106,7 +106,7 @@ public class GameScreenJoinLocalGUIBase extends GUIBaseScreen {
             }
         });
 
-        button_back = new TextButton("Back", GUIBaseScreen.skin);
+        button_back = new TextButton("Back", this.getSkin());
         button_back.pad(10);
         button_back.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -123,7 +123,7 @@ public class GameScreenJoinLocalGUIBase extends GUIBaseScreen {
         prepareComponents();
 
         Stack panel_stack = new Stack();
-        Image background_image = new Image(GUIBaseScreen.skin.getDrawable("white"));
+        Image background_image = new Image(this.getSkin().getDrawable("white"));
         background_image.setColor(new Color(0f, 0f, 0f, 1f));
         panel_stack.add(background_image);
 
@@ -134,7 +134,7 @@ public class GameScreenJoinLocalGUIBase extends GUIBaseScreen {
 
         verticalGroup.addActor(label_screenTitle);
         //add empty
-        verticalGroup.addActor(new Label("", GUIBaseScreen.skin));
+        verticalGroup.addActor(new Label("", this.getSkin()));
         //
         verticalGroup.addActor(label_ipAddress);
         verticalGroup.addActor(textField_ipAddress);

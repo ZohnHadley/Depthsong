@@ -25,6 +25,8 @@ public class GameObject2D extends EcsEntity implements BaseScript {
     @JsonIgnore
     protected ComponentTransform componentTransform;
 
+
+
     public GameObject2D() {
         super();
         this.componentTransform = new ComponentTransform();

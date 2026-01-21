@@ -9,16 +9,9 @@ public class ClientInfo {
 
     protected final String IP;
     protected final int PORT;
-
     protected final Channel channel;
 
-
     protected boolean isItThisClientTurn = false;
-
-
-
-    //////CONSTRUCTORS
-
 
     public ClientInfo(String name, String _IP, int _PORT, Channel channel) {
         this.clientName = name;

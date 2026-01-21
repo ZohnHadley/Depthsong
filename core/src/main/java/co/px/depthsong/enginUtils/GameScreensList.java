@@ -1,21 +1,21 @@
 package co.px.depthsong.enginUtils;
 
-import co.px.depthsong.screens.GameScreenGUIBaseOver;
-import co.px.depthsong.screens.GUIBaseScreenMainMenu;
-import co.px.depthsong.screens.single_player_screens.GUIBaseScreenSinglePlayerMenu;
-import co.px.depthsong.screens.inGame_screens.GUIBaseScreenCharacterCreator;
-import co.px.depthsong.screens.inGame_screens.GameScreenInGUIBase;
-import co.px.depthsong.screens.local_game_screens.GameScreenHostLocalGUIBase;
-import co.px.depthsong.screens.local_game_screens.GameScreenJoinLocalGUIBase;
-import co.px.depthsong.screens.local_game_screens.GameScreenLocalGUIBaseMenu;
+import co.px.depthsong.screens.GameScreenGUIOver;
+import co.px.depthsong.screens.GUIScreenMainMenu;
+import co.px.depthsong.screens.single_player_screens.GUIScreenSinglePlayerMenu;
+import co.px.depthsong.screens.inGame_screens.GUIScreenCharacterCreator;
+import co.px.depthsong.screens.inGame_screens.GameScreenInGUI;
+import co.px.depthsong.screens.local_game_screens.GameScreenHostLocalGUI;
+import co.px.depthsong.screens.local_game_screens.GameScreenJoinLocalGUI;
+import co.px.depthsong.screens.local_game_screens.GameScreenLocalGUIMenu;
 
 public class GameScreensList {
-    public static GUIBaseScreenMainMenu mainMenu = new GUIBaseScreenMainMenu("mainMenu");
-    public static GUIBaseScreenSinglePlayerMenu playOfflineMenu = new GUIBaseScreenSinglePlayerMenu("playOfflineMenu");
-    public static GameScreenInGUIBase inGameScreen = new GameScreenInGUIBase("inGameScreen");
-    public static GameScreenGUIBaseOver gameOverMenu = new GameScreenGUIBaseOver("gameOverMenu");
-    public static GameScreenLocalGUIBaseMenu localGameMenu = new GameScreenLocalGUIBaseMenu("localGameMenu");
-    public static GameScreenHostLocalGUIBase hostLocalGameMenu = new GameScreenHostLocalGUIBase("hostLocalGameMenu");
-    public static GameScreenJoinLocalGUIBase joinLocalGameMenu = new GameScreenJoinLocalGUIBase("joinLocalGameMenu");
-    public static GUIBaseScreenCharacterCreator characterCreator = new GUIBaseScreenCharacterCreator("characterCreator");
+    public static GUIScreenMainMenu mainMenu = new GUIScreenMainMenu("mainMenu");
+    public static GUIScreenSinglePlayerMenu playOfflineMenu = new GUIScreenSinglePlayerMenu("playOfflineMenu");
+    public static GameScreenInGUI inGameScreen = new GameScreenInGUI("inGameScreen");
+    public static GameScreenGUIOver gameOverMenu = new GameScreenGUIOver("gameOverMenu");
+    public static GameScreenLocalGUIMenu localGameMenu = new GameScreenLocalGUIMenu("localGameMenu");
+    public static GameScreenHostLocalGUI hostLocalGameMenu = new GameScreenHostLocalGUI("hostLocalGameMenu");
+    public static GameScreenJoinLocalGUI joinLocalGameMenu = new GameScreenJoinLocalGUI("joinLocalGameMenu");
+    public static GUIScreenCharacterCreator characterCreator = new GUIScreenCharacterCreator("characterCreator");
 }

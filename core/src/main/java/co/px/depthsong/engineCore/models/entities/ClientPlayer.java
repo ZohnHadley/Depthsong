@@ -5,6 +5,7 @@ import co.px.depthsong.enginUtils.GameSprites;
 import co.px.depthsong.engineCore.models.GameObject2D;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector3;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
@@ -27,7 +28,7 @@ public class ClientPlayer extends GameObject2D {
     private ClientPlayer(){
         this.name = "Player";
         this.healthPoints = 15;
-        this.getComponentSprite().setSprite(GameSprites.getInstance().getSprite("viking"));
+        this.getComponentSprite().setSprite(GameSprites.getInstance().getSprite("skier_default"));
     }
 
     public static ClientPlayer getInstance(){
@@ -42,10 +43,21 @@ public class ClientPlayer extends GameObject2D {
 
     @Override
     public void Update(float deltaTime) {
+        this.getComponentSprite().getSprite().setColor(Color.YELLOW);
+        this.getComponentSprite().getSprite().setFlip(false,false);
+        this.getComponentSprite().setSprite(GameSprites.getInstance().getSprite("skier_default"));
+
         if (Gdx.input.isKeyPressed(Input.Keys.W)) position.y += 5 * deltaTime * 10f;
         if (Gdx.input.isKeyPressed(Input.Keys.S)) position.y -= 5 * deltaTime * 10f;
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) position.x += 5 * deltaTime * 10f;
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) position.x -= 5 * deltaTime * 10f;
+        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+            position.x += 5 * deltaTime * 10f;
+            this.getComponentSprite().setSprite(GameSprites.getInstance().getSprite("skier_turning"));
+        };
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            position.x -= 5 * deltaTime * 10f;
+            this.getComponentSprite().setSprite(GameSprites.getInstance().getSprite("skier_turning"));
+            this.getComponentSprite().getSprite().setFlip(true,false);
+        }
     }
 
     public void respawn() {

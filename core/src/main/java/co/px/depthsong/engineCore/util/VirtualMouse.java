@@ -1,12 +1,9 @@
-package co.px.depthsong.engineCore.models.util;
+package co.px.depthsong.engineCore.util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import lombok.Getter;
-
-import java.awt.*;
-import java.awt.geom.Dimension2D;
 
 @Getter
 public class VirtualMouse {
@@ -41,7 +38,7 @@ public class VirtualMouse {
 
         // Convert to world space (camera-adjusted)
         Vector3 world = new Vector3(screenX, screenY, 0);
-        world = gameCamera.getCamera().unproject(world);
+        world = gameCamera.unproject(world);
         // Apply to virtual mouse position
         position.set(
             world.x - dimensions.x * 0.5f +0.65f,
