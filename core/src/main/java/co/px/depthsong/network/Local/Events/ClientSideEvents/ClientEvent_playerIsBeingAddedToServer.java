@@ -1,7 +1,7 @@
 package co.px.depthsong.network.Local.Events.ClientSideEvents;
 
-import co.px.depthsong.ECS.runtime.components.ComponentTransform;
-import co.px.depthsong.ECS.core.EntityContext;
+import co.px.depthsong.engin.ECS.runtime.components.ComponentTransform;
+import co.px.depthsong.engin.ECS.core.EntityContext;
 import co.px.depthsong.network.Local.ClientServer;
 import co.px.depthsong.network.Local.Model.NetworkMessage;
 import co.px.depthsong.network.Local.Model.PlayerObj;

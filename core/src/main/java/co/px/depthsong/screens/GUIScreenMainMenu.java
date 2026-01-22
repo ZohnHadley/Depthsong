@@ -1,8 +1,8 @@
 package co.px.depthsong.screens;
 
-import co.px.depthsong.engineCore.models.GUIScreen;
-import co.px.depthsong.engineCore.engine_managers.ScreenManager;
-import co.px.depthsong.enginUtils.GameScreensList;
+import co.px.depthsong.engin.engineCore.model.GUIScreen;
+import co.px.depthsong.engin.engineCore.engine_managers.ScreenManager;
+import co.px.depthsong.engin.enginUtils.GameScreensList;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;

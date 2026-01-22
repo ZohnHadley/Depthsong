@@ -1,13 +1,13 @@
 package co.px.depthsong.network.Local.Handlers.ClientHandlers;
 
-import co.px.depthsong.ECS.core.EntityContext;
-import co.px.depthsong.engineCore.engine_managers.enums.EnumActivationState;
-import co.px.depthsong.engineCore.engine_managers.enums.EnumNetworkClientConnectionStates;
-import co.px.depthsong.engineCore.models.entities.ClientPlayer;
+import co.px.depthsong.engin.ECS.core.EntityContext;
+import co.px.depthsong.engin.engineCore.engine_managers.enums.EnumActivationState;
+import co.px.depthsong.engin.engineCore.engine_managers.enums.EnumNetworkClientConnectionStates;
+import co.px.depthsong.game.models.entities.ClientPlayer;
 import co.px.depthsong.network.Local.Model.CurrentTurnTimeObject;
 import co.px.depthsong.network.Local.Model.NetworkMessage;
 import co.px.depthsong.network.Local.Model.PlayerObj;
-import co.px.depthsong.engineCore.engine_managers.GameManager;
+import co.px.depthsong.engin.engineCore.engine_managers.GameManager;
 
 import co.px.depthsong.network.Local.ClientServer;
 import co.px.depthsong.network.Local.Events.ClientSideEvents.ClientEvent_ServerRespondedToAddingPlayer;

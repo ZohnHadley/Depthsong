@@ -1,6 +1,6 @@
 package co.px.depthsong.screens;
 
-import co.px.depthsong.engineCore.models.GUIScreen;
+import co.px.depthsong.engin.engineCore.model.GUIScreen;
 import lombok.Getter;
 
 import java.util.Hashtable;

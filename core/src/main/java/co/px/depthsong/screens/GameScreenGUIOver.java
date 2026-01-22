@@ -1,13 +1,13 @@
 package co.px.depthsong.screens;
 
-import co.px.depthsong.engineCore.engine_managers.enums.EnumNetworkState;
-import co.px.depthsong.engineCore.util.VirtualMouse;
-import co.px.depthsong.engineCore.models.GUIScreen;
-import co.px.depthsong.engineCore.models.entities.ClientPlayer;
-import co.px.depthsong.engineCore.engine_managers.GameManager;
-import co.px.depthsong.engineCore.engine_managers.ScreenManager;
-import co.px.depthsong.enginUtils.GeneralTimer;
-import co.px.depthsong.enginUtils.GameScreensList;
+import co.px.depthsong.engin.engineCore.engine_managers.enums.EnumNetworkState;
+import co.px.depthsong.engin.engineCore.util.VirtualMouse;
+import co.px.depthsong.engin.engineCore.model.GUIScreen;
+import co.px.depthsong.game.models.entities.ClientPlayer;
+import co.px.depthsong.engin.engineCore.engine_managers.GameManager;
+import co.px.depthsong.engin.engineCore.engine_managers.ScreenManager;
+import co.px.depthsong.engin.enginUtils.GeneralTimer;
+import co.px.depthsong.engin.enginUtils.GameScreensList;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -101,7 +101,8 @@ public class GameScreenGUIOver extends GUIScreen {
     private GeneralTimer counter = null;
 
     private void onRespawnButtonClicked() {
-        counter = new GeneralTimer();
+        //TODO fix timer
+        counter = GeneralTimer.getInstance();
 
     }
 
