@@ -5,7 +5,7 @@ import co.px.depthsong.engin.engineCore.util.VirtualMouse;
 import co.px.depthsong.engin.engineCore.engine_managers.GameManager;
 import co.px.depthsong.engin.engineCore.engine_managers.NetworkManager;
 import co.px.depthsong.engin.engineCore.engine_managers.ScreenManager;
-import co.px.depthsong.network.Local.ClientServer;
+import co.px.depthsong.engin.network.Local.ClientServer;
 import co.px.depthsong.engin.engineCore.model.GUIScreen;
 import co.px.depthsong.engin.enginUtils.GameScreensList;
 import com.badlogic.gdx.graphics.Color;

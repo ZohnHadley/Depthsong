@@ -2,7 +2,8 @@ package co.px.depthsong.engin.engineCore.engine_managers;
 
 import co.px.depthsong.engin.engineCore.engine_managers.enums.EnumNetworkClientConnectionStates;
 import co.px.depthsong.engin.engineCore.engine_managers.enums.EnumNetworkState;
-import co.px.depthsong.network.NetworkMachine;
+import co.px.depthsong.engin.engineCore.engine_managers.enums.EnumNetworkTitle;
+import co.px.depthsong.engin.network.NetworkMachine;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +12,7 @@ import lombok.Setter;
 public class NetworkManager {
     private static NetworkManager instance;
 
+    private EnumNetworkTitle currentNetworkTitle;
     private NetworkMachine clientServer;
     private Thread clientServerThread;
 
@@ -20,6 +22,7 @@ public class NetworkManager {
     private EnumNetworkState networkState = EnumNetworkState.Offline;
 
     private EnumNetworkClientConnectionStates connectionState;
+
 
     public static NetworkManager getInstance() {
         if (instance == null) {
@@ -37,12 +40,12 @@ public class NetworkManager {
     public void disconnect(){
         try {
             getClientServer().close();
-            //clientServerThread.interrupt();
+            clientServerThread.interrupt();
             setClientServer(null);
             if (getHostServer() != null) {
 
                 getHostServer().close();
-                //hostServerThread.interrupt();
+                hostServerThread.interrupt();
                 setHostServer(null);
             }
 

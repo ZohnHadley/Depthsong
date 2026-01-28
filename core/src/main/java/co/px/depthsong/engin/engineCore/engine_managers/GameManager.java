@@ -5,6 +5,7 @@ import co.px.depthsong.engin.ECS.runtime.systems.RenderingSystem;
 import co.px.depthsong.engin.ECS.runtime.systems.BaseScriptSystem;
 import co.px.depthsong.engin.engineCore.util.GameCamera;
 import co.px.depthsong.engin.engineCore.util.VirtualMouse;
+import co.px.depthsong.engin.network.Local.HostServer;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -44,7 +45,14 @@ public class GameManager {
         virtualMouse = VirtualMouse.getInstance();
 //        screenManager = ScreenManager.getInstance();
         networkManager = NetworkManager.getInstance();
+        try{
+            networkManager.setHostServer(new HostServer(4444));
+//            networkManager.getHostServer().start();
+            networkManager.setHostServerThread(Thread.startVirtualThread(networkManager.getHostServer()));
 
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 //        screenManager.setCurrentScreen(GameScreensList.inGameScreen);
     }
 
