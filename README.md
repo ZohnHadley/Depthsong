@@ -7,6 +7,6 @@ At the time i was obessed with games like Ace of Spades, Minecraft, NetHack and 
 What I liked about most of these games is that they all allowed the user to interact with the environment and also had the option of having multiple users 
 share the same experiences withing the same environent at the same time.
  
-I had some experience making games (mostley unfinished and single player only) as a past time I decided to try somthing new. 
-I was inspired by the games mentioned above and decided that for this project il try my hand in making a simple 2D "multy user application" (multiplayer game).  
+I had some experience making games as a past time (mostley unfinished and single player only) + my experience gain in my 420-455-AL PROGRAMMATION APPLIQUÉE EN SIMULATION OU JEUX class 
+I decided to try somthing new for this project. Inspired by the games mentioned above and decided that for this project il try my hand in making a simple 2D "multy user application" (multiplayer game).  
 
