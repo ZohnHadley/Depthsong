@@ -3,14 +3,17 @@ package co.px.depthsong.engin.engineCore.engine_managers;
 import co.px.depthsong.engin.engineCore.engine_managers.enums.EnumNetworkClientConnectionStates;
 import co.px.depthsong.engin.engineCore.engine_managers.enums.EnumNetworkState;
 import co.px.depthsong.engin.engineCore.engine_managers.enums.EnumNetworkTitle;
+import co.px.depthsong.engin.network.Local.ClientServer;
+import co.px.depthsong.engin.network.Local.HostServer;
 import co.px.depthsong.engin.network.NetworkMachine;
+import co.px.depthsong.engin.network.ServerUtil;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class NetworkManager {
-    private static NetworkManager instance;
+public class NetworkMachineManager {
+    private static NetworkMachineManager instance;
 
     private EnumNetworkTitle currentNetworkTitle;
     private NetworkMachine clientServer;
@@ -19,14 +22,14 @@ public class NetworkManager {
     private NetworkMachine hostServer;
     private Thread hostServerThread;
 
-    private EnumNetworkState networkState = EnumNetworkState.Offline;
+    private EnumNetworkState networkState = EnumNetworkState.OFFLINE;
 
     private EnumNetworkClientConnectionStates connectionState;
 
 
-    public static NetworkManager getInstance() {
+    public static NetworkMachineManager getInstance() {
         if (instance == null) {
-            instance = new NetworkManager();
+            instance = new NetworkMachineManager();
         }
         return instance;
     }
@@ -35,7 +38,15 @@ public class NetworkManager {
         connectionState = state;
     }
 
-    public void connect(){}
+    public void startHostServer(int port){
+        this.setHostServer(new HostServer(port));
+        this.setHostServerThread(Thread.startVirtualThread(this.hostServer));
+    }
+
+    public void startClientServer(String serverIP, int port){
+        this.clientServer = new ClientServer(serverIP, port);
+        this.clientServerThread = Thread.startVirtualThread(this.clientServer);
+    }
 
     public void disconnect(){
         try {
@@ -57,10 +68,10 @@ public class NetworkManager {
     }
 
     private void printLogError(String message) {
-        System.err.println(message);
+        ServerUtil.err(message);
     }
 
     private void printLog(String message) {
-        System.out.println(message);
+        ServerUtil.log(message);
     }
 }

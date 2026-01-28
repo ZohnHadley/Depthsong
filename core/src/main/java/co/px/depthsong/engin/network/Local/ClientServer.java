@@ -4,6 +4,7 @@ import co.px.depthsong.engin.engineCore.engine_managers.GameManager;
 import co.px.depthsong.engin.network.Local.Initializers.ClientChannelInitializer;
 import co.px.depthsong.engin.network.Local.Model.GameMasters.ClientServerGameMaster;
 import co.px.depthsong.engin.network.NetworkMachine;
+import co.px.depthsong.engin.network.ServerUtil;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;
@@ -11,7 +12,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
-public class ClientServer implements NetworkMachine {
+public class ClientServer extends NetworkMachine {
 
     private final GameManager gameManager;
 
@@ -56,8 +57,10 @@ public class ClientServer implements NetworkMachine {
 
     }
 
+    @Override
     public void start() throws Exception {
         try {
+            ServerUtil.log("client server started");
 
             CLIENT_BOOTSTRAP.group(WORK_GROUP);
             CLIENT_BOOTSTRAP.channel(NioSocketChannel.class);
@@ -65,12 +68,15 @@ public class ClientServer implements NetworkMachine {
             CLIENT_BOOTSTRAP.option(ChannelOption.SO_KEEPALIVE, true);
 
             ChannelFuture channel_future = CLIENT_BOOTSTRAP.connect(HOST_SERVER_IP, HOST_SERVER_PORT).sync();
+            //listen when server start
 
             channel_future = channel_future.addListener(future -> {
                 if (future.isSuccess()) {
-                    clientServerRunning = true;
+                    ServerUtil.log("client server has started");
                 } else {
-                    clientServerRunning = false;
+                    ServerUtil.err("client server has failed to start");
+                    //TODO : remove if retry isn't working on client server IDK
+                    close();
                 }
             });
 
@@ -81,23 +87,22 @@ public class ClientServer implements NetworkMachine {
     }
 
     @Override
+    public boolean isRunning() {
+        return clientServerRunning;
+    }
+
+    @Override
+    public void close() throws InterruptedException {
+        WORK_GROUP.shutdownGracefully();
+    }
+
+    @Override
     public void run() {
         try {
             start();
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-
-    //close
-    public void close() throws InterruptedException {
-        WORK_GROUP.shutdownGracefully();
-    }
-
-    @Override
-    public boolean isRunning() {
-        return clientServerRunning;
     }
 
 }

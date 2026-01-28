@@ -1,10 +1,15 @@
 package co.px.depthsong.engin.network;
 
-public interface NetworkMachine extends Runnable {
+import lombok.NoArgsConstructor;
 
-    void start() throws Exception;
+@NoArgsConstructor
+public abstract class NetworkMachine implements Runnable {
 
-    void close() throws Exception;
+    public String ip_address = "";
 
-    boolean isRunning();
+    public void start() throws Exception {}
+
+    public void close() throws Exception {}
+
+    public boolean isRunning() {return false;}
 }

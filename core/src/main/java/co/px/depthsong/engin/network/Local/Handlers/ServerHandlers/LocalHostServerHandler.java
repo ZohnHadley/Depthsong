@@ -1,10 +1,11 @@
 package co.px.depthsong.engin.network.Local.Handlers.ServerHandlers;
 
+import co.px.depthsong.engin.engineCore.engine_managers.NetworkMachineManager;
 import co.px.depthsong.engin.network.Local.Events.ServerSideEvents.ServerEvent_receivingPlayer;
 import co.px.depthsong.engin.network.Local.Model.ServerTracker.ServerConnectionContext;
+import co.px.depthsong.engin.network.ServerUtil;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
-import co.px.depthsong.engin.network.PrintColors;
 import co.px.depthsong.engin.network.Local.Model.NetworkMessage;
 import co.px.depthsong.engin.network.Local.Model.PlayerObj;
 import co.px.depthsong.engin.network.Local.Model.GameMasters.ServerGameMaster;
@@ -14,15 +15,14 @@ import java.net.InetSocketAddress;
 //(fixed) a probleme https://stackoverflow.com/questions/23788582/channelhandler-is-not-a-sharable-handler
 
 public class LocalHostServerHandler extends ChannelHandlerAdapter {
-
+    private NetworkMachineManager networkMachineManager = NetworkMachineManager.getInstance();
 
     private ServerGameMaster serverGameMaster = ServerGameMaster.getInstance();
     private final ServerConnectionContext serverConnectionContext = new ServerConnectionContext();
     private InetSocketAddress address;
 
-    private boolean isDebugging = true;
 
-    private PlayerObj recievedPlayer;
+    private PlayerObj receivedPlayer;
 
     @Override
     public void channelRegistered(ChannelHandlerContext context) {
@@ -32,9 +32,8 @@ public class LocalHostServerHandler extends ChannelHandlerAdapter {
 
         address = (InetSocketAddress) context.channel().remoteAddress();
 
-        if (serverConnectionContext.getCurrentChannel() != null) {
-
-            print(false, "client registered");
+         if (serverConnectionContext.getCurrentChannel() != null) {
+            ServerUtil.log("server", "client registered");
         }
     }
 
@@ -53,13 +52,13 @@ public class LocalHostServerHandler extends ChannelHandlerAdapter {
 
         serverGameMaster.getChannel_context_list().add(serverConnectionContext);
 
-        print(false, "client connected");
+        ServerUtil.log("server", "client connected");
 
     }
 
     @Override
     public void channelRead(ChannelHandlerContext context, Object message) {
-        print(false, "message reçu");
+        ServerUtil.log("server", "message reçu");
 
         if (message instanceof NetworkMessage) {
             NetworkMessage networkMessage = (NetworkMessage) message;
@@ -70,14 +69,14 @@ public class LocalHostServerHandler extends ChannelHandlerAdapter {
 
             //when a player joins the server
             if (networkMessage.getContent() instanceof PlayerObj) {
-                recievedPlayer = (PlayerObj) networkMessage.getContent();
+                receivedPlayer = (PlayerObj) networkMessage.getContent();
                 serverConnectionContext.setChannelRecievedPlayerObj(true);
 
-                print(false, "receiving player " + recievedPlayer);
+                ServerUtil.log("server", "receiving player " + receivedPlayer);
 
                 if (serverConnectionContext.isFinishedConnectingPlayer()) {
                     //update the player from list with new object information
-                    serverGameMaster.updatePlayer(recievedPlayer);
+                    serverGameMaster.updatePlayer(receivedPlayer);
                     //send the player to all other clients
                     serverGameMaster.sendToAllChannelsExcept(networkMessage, serverConnectionContext.getCurrentChannel());
                 }
@@ -90,11 +89,11 @@ public class LocalHostServerHandler extends ChannelHandlerAdapter {
 
     @Override
     public void userEventTriggered(ChannelHandlerContext context, Object event) {
-        print(false, "event triggered " + event.getClass().getName());
+        ServerUtil.log("server","event triggered " + event.getClass().getName());
 
         if (event instanceof ServerEvent_receivingPlayer) {
-            if (!recievedPlayer.getHasServerID()) {
-                serverConnectionContext.setCurrentPlayer(recievedPlayer);
+            if (!receivedPlayer.getHasServerID()) {
+                serverConnectionContext.setCurrentPlayer(receivedPlayer);
                 new ServerEvent_receivingPlayer().confirmToClientThatPlayerHasBeenReceived(serverConnectionContext, context);
             }
         }
@@ -103,7 +102,7 @@ public class LocalHostServerHandler extends ChannelHandlerAdapter {
 
     @Override
     public void channelUnregistered(ChannelHandlerContext context) {
-        print(true, "client disconnected");
+        ServerUtil.err("server", "client disconnected");
         serverConnectionContext.getCurrentChannel().close();
         ServerGameMaster.clientCounter.decrementAndGet();
     }
@@ -111,7 +110,7 @@ public class LocalHostServerHandler extends ChannelHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext context, Throwable cause) {
-        print(true, cause.getMessage());
+        ServerUtil.err("server",cause.getMessage());
         cause.printStackTrace();
         serverConnectionContext.getCurrentChannel().close();
     }
@@ -119,17 +118,5 @@ public class LocalHostServerHandler extends ChannelHandlerAdapter {
     public ChannelHandlerContext getContext() {
         return serverConnectionContext.getCurrentContext();
 
-    }
-
-
-    private void print(boolean isError, String message) {
-        if (!isDebugging) {
-            return;
-        }
-        if (!isError) {
-            System.out.println(PrintColors.ANSI_YELLOW + "(server) : " + message + PrintColors.ANSI_RESET);
-        } else {
-            System.err.println("(server) err : " + message);
-        }
     }
 }

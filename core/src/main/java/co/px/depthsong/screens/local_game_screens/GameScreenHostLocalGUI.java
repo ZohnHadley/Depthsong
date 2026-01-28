@@ -5,7 +5,7 @@ import java.lang.Thread;
 import co.px.depthsong.engin.engineCore.engine_managers.enums.EnumNetworkClientConnectionStates;
 import co.px.depthsong.engin.engineCore.util.VirtualMouse;
 import co.px.depthsong.engin.engineCore.engine_managers.GameManager;
-import co.px.depthsong.engin.engineCore.engine_managers.NetworkManager;
+import co.px.depthsong.engin.engineCore.engine_managers.NetworkMachineManager;
 import co.px.depthsong.engin.engineCore.engine_managers.ScreenManager;
 import co.px.depthsong.engin.network.Local.HostServer;
 import co.px.depthsong.engin.network.NetworkMachine;
@@ -19,7 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 public class GameScreenHostLocalGUI extends GUIScreen {
     private final GameManager gameManager ;
     private final ScreenManager screenManager;
-    private final NetworkManager networkManager;
+    private final NetworkMachineManager networkMachineManager;
 
     private Label label_screenTitle;
     private Label label_input_port;
@@ -48,7 +48,7 @@ public class GameScreenHostLocalGUI extends GUIScreen {
 
         gameManager = GameManager.getInstance();
         screenManager = ScreenManager.getInstance();
-        networkManager = gameManager.getNetworkManager();
+        networkMachineManager = gameManager.getNetworkMachineManager();
     }
 
     private void isIpValid(String ip) {
@@ -146,12 +146,12 @@ public class GameScreenHostLocalGUI extends GUIScreen {
 
         try {
             //launch host server
-            networkManager.setHostServer(new HostServer(Integer.parseInt(valuePort)));
-            networkManager.setHostServerThread(Thread.startVirtualThread(networkManager.getHostServer()));
+            networkMachineManager.setHostServer(new HostServer(Integer.parseInt(valuePort)));
+            networkMachineManager.setHostServerThread(Thread.startVirtualThread(networkMachineManager.getHostServer()));
 
         } catch (Exception e) {
-            networkManager.setHostServer(null);
-            networkManager.setCurrentConnectedState(EnumNetworkClientConnectionStates.DISCONNECTED);
+            networkMachineManager.setHostServer(null);
+            networkMachineManager.setCurrentConnectedState(EnumNetworkClientConnectionStates.DISCONNECTED);
             printLogError(e.getMessage());
         }
 

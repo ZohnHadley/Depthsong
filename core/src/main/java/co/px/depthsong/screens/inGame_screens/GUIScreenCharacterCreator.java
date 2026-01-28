@@ -50,8 +50,8 @@ public class GUIScreenCharacterCreator extends GUIScreen {
         button_back.pad(10);
         button_back.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (gameManager.getNetworkManager().getConnectionState() == EnumNetworkClientConnectionStates.CONNECTED) {
-                    gameManager.getNetworkManager().disconnect();
+                if (gameManager.getNetworkMachineManager().getConnectionState() == EnumNetworkClientConnectionStates.CONNECTED) {
+                    gameManager.getNetworkMachineManager().disconnect();
                 }
                 gameManager.setInGame(false);
 

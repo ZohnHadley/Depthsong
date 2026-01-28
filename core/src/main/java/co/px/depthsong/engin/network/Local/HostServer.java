@@ -2,6 +2,7 @@ package co.px.depthsong.engin.network.Local;
 
 
 import co.px.depthsong.engin.network.NetworkMachine;
+import co.px.depthsong.engin.network.ServerUtil;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -10,7 +11,7 @@ import io.netty.util.concurrent.ScheduledFuture;
 import co.px.depthsong.engin.network.PrintColors;
 import co.px.depthsong.engin.network.Local.Initializers.ServerChannelInitializer;
 
-public class HostServer implements NetworkMachine {
+public class HostServer extends NetworkMachine {
 
 
 
@@ -30,8 +31,9 @@ public class HostServer implements NetworkMachine {
         workerGroup = new NioEventLoopGroup();
     }
 
+    @Override
     public void start() throws Exception {
-        System.out.println(PrintColors.ANSI_CYAN + "(netty server) est commencé" + PrintColors.ANSI_RESET);
+        ServerUtil.log("host server started");
 
         try {
             ServerBootstrap bootStrap = new ServerBootstrap();
@@ -45,25 +47,26 @@ public class HostServer implements NetworkMachine {
             //listen when server start
             channel_future = channel_future.addListener(future -> {
                 if (future.isSuccess()) {
-                    System.out.println(PrintColors.ANSI_GREEN + "Server started on port " + port + PrintColors.ANSI_RESET);
-                    serverRunning = true;
+                    ServerUtil.log("host server started on port "  + " " + port);
                 } else {
-                    System.out.println(PrintColors.ANSI_RED + "Server failed to start on port " + port + PrintColors.ANSI_RESET);
-                    serverRunning = false;
+                    ServerUtil.err("host server failed to start on port  " + port);
+//                    close();
                 }
             });
 
             channel_future.channel().closeFuture().sync();
         } finally {
             close();
+            ServerUtil.err("host server CLOSED");
         }
     }
 
+    @Override
     public boolean isRunning() {
         return serverRunning;
     }
 
-
+    @Override
     public void close() {
         workerGroup.shutdownGracefully();
         bossGroup.shutdownGracefully();

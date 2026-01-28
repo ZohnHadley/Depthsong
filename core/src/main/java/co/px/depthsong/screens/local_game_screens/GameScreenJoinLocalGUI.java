@@ -3,7 +3,7 @@ package co.px.depthsong.screens.local_game_screens;
 import co.px.depthsong.engin.engineCore.engine_managers.enums.EnumNetworkClientConnectionStates;
 import co.px.depthsong.engin.engineCore.util.VirtualMouse;
 import co.px.depthsong.engin.engineCore.engine_managers.GameManager;
-import co.px.depthsong.engin.engineCore.engine_managers.NetworkManager;
+import co.px.depthsong.engin.engineCore.engine_managers.NetworkMachineManager;
 import co.px.depthsong.engin.engineCore.engine_managers.ScreenManager;
 import co.px.depthsong.engin.network.Local.ClientServer;
 import co.px.depthsong.engin.engineCore.model.GUIScreen;
@@ -17,7 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 public class GameScreenJoinLocalGUI extends GUIScreen {
     private final GameManager gameManager ;
     private final ScreenManager screenManager;
-    private final NetworkManager networkManager;
+    private final NetworkMachineManager networkMachineManager;
 
     //fireUserEventTriggered
 
@@ -60,7 +60,7 @@ public class GameScreenJoinLocalGUI extends GUIScreen {
 
         gameManager = GameManager.getInstance();
         screenManager = ScreenManager.getInstance();
-        networkManager = gameManager.getNetworkManager();
+        networkMachineManager = gameManager.getNetworkMachineManager();
     }
 
     private void isIpValid(String ip) {
@@ -94,12 +94,12 @@ public class GameScreenJoinLocalGUI extends GUIScreen {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 try {
                     //launch host local server
-                    networkManager.setClientServer(new ClientServer(ipAddress, Integer.parseInt(port)));
-                    networkManager.setClientServerThread(Thread.startVirtualThread(networkManager.getClientServer()));
+                    networkMachineManager.setClientServer(new ClientServer(ipAddress, Integer.parseInt(port)));
+                    networkMachineManager.setClientServerThread(Thread.startVirtualThread(networkMachineManager.getClientServer()));
 
                 } catch (Exception e) {
-                    networkManager.setClientServer(null);
-                    networkManager.setCurrentConnectedState(EnumNetworkClientConnectionStates.DISCONNECTED);
+                    networkMachineManager.setClientServer(null);
+                    networkMachineManager.setCurrentConnectedState(EnumNetworkClientConnectionStates.DISCONNECTED);
                     printLogError(e.getMessage());
                 }
                 return true;
@@ -158,16 +158,16 @@ public class GameScreenJoinLocalGUI extends GUIScreen {
         ipAddress = textField_ipAddress.getText();
         port = textField_port.getText();
 
-        if (networkManager.getClientServer() != null && networkManager.getClientServer().isRunning() && networkManager.getConnectionState() == EnumNetworkClientConnectionStates.CONNECTED) {
+        if (networkMachineManager.getClientServer() != null && networkMachineManager.getClientServer().isRunning() && networkMachineManager.getConnectionState() == EnumNetworkClientConnectionStates.CONNECTED) {
 
             connectionError = false;
             screenManager.setCurrentScreen(GameScreensList.characterCreator);
 
         }
 
-        if (networkManager.getClientServer() != null
-            && !networkManager.getClientServer().isRunning()
-            && (networkManager.getConnectionState() == EnumNetworkClientConnectionStates.DISCONNECTED)) {
+        if (networkMachineManager.getClientServer() != null
+            && !networkMachineManager.getClientServer().isRunning()
+            && (networkMachineManager.getConnectionState() == EnumNetworkClientConnectionStates.DISCONNECTED)) {
             connectionError = true;
             label_connection_error.setColor(1, 0, 0, 1);
         }

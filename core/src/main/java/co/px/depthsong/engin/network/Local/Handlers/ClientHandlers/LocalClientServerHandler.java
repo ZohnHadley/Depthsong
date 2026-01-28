@@ -3,6 +3,7 @@ package co.px.depthsong.engin.network.Local.Handlers.ClientHandlers;
 import co.px.depthsong.engin.ECS.core.EntityContext;
 import co.px.depthsong.engin.engineCore.engine_managers.enums.EnumActivationState;
 import co.px.depthsong.engin.engineCore.engine_managers.enums.EnumNetworkClientConnectionStates;
+import co.px.depthsong.engin.network.ServerUtil;
 import co.px.depthsong.game.models.entities.ClientPlayer;
 import co.px.depthsong.engin.network.Local.Model.CurrentTurnTimeObject;
 import co.px.depthsong.engin.network.Local.Model.NetworkMessage;
@@ -40,23 +41,23 @@ public class LocalClientServerHandler extends ChannelHandlerAdapter {
 
     @Override
     public void channelRegistered(ChannelHandlerContext context) {
-        print(false, "connected");
+        ServerUtil.log("host server","registered channel");
         channel = context.channel();
-        gameManager.getNetworkManager().setCurrentConnectedState(EnumNetworkClientConnectionStates.CONNECTED);
+        gameManager.getNetworkMachineManager().setCurrentConnectedState(EnumNetworkClientConnectionStates.CONNECTED);
 
 
     }
 
     @Override
     public void channelActive(ChannelHandlerContext context) {
-        print(false, "active");
+        ServerUtil.log("host server","active");
 
 
         //localAddress = getLocalChannel().getAddress().toString() + ":" + getLocalChannel().getPort();
 
         channel = context.channel();
-        gameManager.getNetworkManager().setCurrentConnectedState(EnumNetworkClientConnectionStates.CONNECTED);
-        if (gameManager.getNetworkManager().getConnectionState() == EnumNetworkClientConnectionStates.DISCONNECTED) {
+        gameManager.getNetworkMachineManager().setCurrentConnectedState(EnumNetworkClientConnectionStates.CONNECTED);
+        if (gameManager.getNetworkMachineManager().getConnectionState() == EnumNetworkClientConnectionStates.DISCONNECTED) {
             context.close();
         }
 
@@ -70,7 +71,7 @@ public class LocalClientServerHandler extends ChannelHandlerAdapter {
 
         if (message instanceof NetworkMessage) {
             NetworkMessage networkMessage = (NetworkMessage) message;
-            print(false, "message received : " + networkMessage.getContent());
+            ServerUtil.log("host server", "message received : " + networkMessage.getContent());
 
             if (networkMessage.getContent() instanceof PlayerObj) {
                 PlayerObj player = (PlayerObj) networkMessage.getContent();
@@ -85,13 +86,13 @@ public class LocalClientServerHandler extends ChannelHandlerAdapter {
                     && !player.getLocalChannelAddress().equals(getLocalChannel().getAddress() + ":" + getLocalChannel().getPort()))
                 {
                     ClientServer.clientServerGameMaster.addPlayer(player);
-                    print(false, player.getClientServer_id() + " " + player.getUsername() + " joined server");
+                    ServerUtil.log("host server", player.getClientServer_id() + " " + player.getUsername() + " joined server");
                 }
 
 
                 scheduledFuture_update_player_on_server = context.executor().scheduleWithFixedDelay(() -> {
 //                    if (gameManager.isNetworked() && Player.updatePlayerOnServer && clientServerGameMaster.getCurrentPlayerWasIdentifiedByServer()) {
-                    if (gameManager.getNetworkManager().getConnectionState() == EnumNetworkClientConnectionStates.CONNECTED && clientServerGameMaster.getCurrentPlayerWasIdentifiedByServer()) {
+                    if (gameManager.getNetworkMachineManager().getConnectionState() == EnumNetworkClientConnectionStates.CONNECTED && clientServerGameMaster.getCurrentPlayerWasIdentifiedByServer()) {
 
                         ClientPlayer entity_Client_player = (ClientPlayer) gameManager.getEntityContext().getPlayer();
                         currentPlayer.setX((int) entity_Client_player.getComponentTransform().getPosition().x);
@@ -105,7 +106,7 @@ public class LocalClientServerHandler extends ChannelHandlerAdapter {
 
             if (networkMessage.getContent() instanceof CurrentTurnTimeObject) {
                 CurrentTurnTimeObject currentTurnTimeObject = (CurrentTurnTimeObject) networkMessage.getContent();
-                print(false, "time left for turn : " + (currentTurnTimeObject.getSeconds()));
+                ServerUtil.log("time left for turn : " + (currentTurnTimeObject.getSeconds()));
             }
         }
     }
@@ -116,7 +117,7 @@ public class LocalClientServerHandler extends ChannelHandlerAdapter {
 
         EntityContext entMng = gameManager.getEntityContext();
 
-        print(false, "user event triggered " + event.getClass().getName());
+        ServerUtil.log("host server", "user event triggered " + event.getClass().getName());
 
         //adding player to server
         if (event instanceof ClientEvent_playerIsBeingAddedToServer) {
@@ -133,8 +134,8 @@ public class LocalClientServerHandler extends ChannelHandlerAdapter {
         if (event instanceof IdleStateEvent) {
 
             if (((IdleStateEvent) event).state() == IdleState.READER_IDLE) {
-                print(false, "timeout : nothing received from server (disconnected)");
-                gameManager.getNetworkManager().setCurrentConnectedState(EnumNetworkClientConnectionStates.CONNECTED);
+                ServerUtil.log("host server", "timeout : nothing received from server (disconnected)");
+                gameManager.getNetworkMachineManager().setCurrentConnectedState(EnumNetworkClientConnectionStates.CONNECTED);
                 context.close();
             }
         }
@@ -142,15 +143,15 @@ public class LocalClientServerHandler extends ChannelHandlerAdapter {
 
     @Override
     public void channelUnregistered(ChannelHandlerContext context) {
-        print(false, "disconnected");
-        gameManager.getNetworkManager().setCurrentConnectedState(EnumNetworkClientConnectionStates.CONNECTED);
+        ServerUtil.log("host server", "disconnected");
+        gameManager.getNetworkMachineManager().setCurrentConnectedState(EnumNetworkClientConnectionStates.CONNECTED);
         context.close();
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext context, Throwable cause) {
-        print(true, "exception caught");
-        gameManager.getNetworkManager().setCurrentConnectedState(EnumNetworkClientConnectionStates.CONNECTED);
+        ServerUtil.err("host server", "exception caught");
+        gameManager.getNetworkMachineManager().setCurrentConnectedState(EnumNetworkClientConnectionStates.CONNECTED);
         cause.printStackTrace();
         context.close();
     }
@@ -164,14 +165,5 @@ public class LocalClientServerHandler extends ChannelHandlerAdapter {
     }
 
 
-    private void print(boolean isError, String message) {
-        if (isDebugging == EnumActivationState.OFF) {
-            return;
-        }
-        if (!isError) {
-            System.out.println(PrintColors.ANSI_BLUE + "(client) : " + message + PrintColors.ANSI_RESET);
-        } else {
-            System.err.println("(client) err : " + message);
-        }
-    }
+
 }

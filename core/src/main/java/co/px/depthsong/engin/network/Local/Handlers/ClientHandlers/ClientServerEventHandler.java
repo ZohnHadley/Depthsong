@@ -30,7 +30,6 @@ public class ClientServerEventHandler extends ChannelHandlerAdapter {
 
 
 
-
     //OVERRIDES
     @Override
     public void channelRegistered(ChannelHandlerContext context) {

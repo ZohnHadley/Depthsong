@@ -5,6 +5,7 @@ import co.px.depthsong.engin.network.Local.Model.GameMasters.ServerGameMaster;
 import co.px.depthsong.engin.network.Local.Model.NetworkMessage;
 import co.px.depthsong.engin.network.Local.Model.ServerTracker.ServerConnectionContext;
 import co.px.depthsong.engin.network.PrintColors;
+import co.px.depthsong.engin.network.ServerUtil;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.concurrent.ScheduledFuture;
@@ -41,17 +42,17 @@ public class HostServerEventHandler extends ChannelHandlerAdapter {
     private void trigger_receiving_player(ChannelHandlerContext context) {
         ServerConnectionContext scc = serverGameMaster.getChannel_context_list().getLast();
         scheduledFuture_receiving_a_player = context.executor().scheduleAtFixedRate(() -> {
-            //print(false, "waiting for player to join ...");
-            //print(false, ""+serverGameMaster.getChannel_context_list().size());
-            /*print(false, "" + (scc.getCurrentClientAddressInformation() != null));
-            print(false, "" + (scc.isChannelRecievedPlayerObj()));
-            print(false, "" + (scc.getCurrentPlayer() == null));*/
+            //ServerUtil.log("server", "waiting for player to join ...");
+            //ServerUtil.log("server", ""+serverGameMaster.getChannel_context_list().size());
+            /*ServerUtil.log("server", "" + (scc.getCurrentClientAddressInformation() != null));
+            ServerUtil.log("server", "" + (scc.isChannelRecievedPlayerObj()));
+            ServerUtil.log("server", "" + (scc.getCurrentPlayer() == null));*/
 
             if (scc.isChannelRecievedPlayerObj()
                 && scc.getCurrentPlayer() == null
             ) {
 
-                print(false, "stopped waiting for player to join (state changed)");
+                ServerUtil.log("server", "stopped waiting for player to join (state changed)");
 
                 context.fireUserEventTriggered(new ServerEvent_receivingPlayer());
 
@@ -70,7 +71,7 @@ public class HostServerEventHandler extends ChannelHandlerAdapter {
             if (scc.getCurrentPlayer() != null
                 && send_new_player_to_connected_players == false
             ) {
-                print(false, "sending new player to connected players");
+                ServerUtil.log("server", "sending new player to connected players");
                 send_new_player_to_connected_players = true;
                 serverGameMaster.sendAllPlayersToChannel(scc.getCurrentChannel());
 
@@ -86,7 +87,7 @@ public class HostServerEventHandler extends ChannelHandlerAdapter {
             if (scc.getCurrentPlayer() != null
                 && send_new_player_to_connected_players
             ) {
-                print(false, "sending connected players to new player");
+                ServerUtil.log("server", "sending connected players to new player");
 
                 NetworkMessage networkMessage = new NetworkMessage(NetworkMessage.MessageType.PLAYER_OBJECT, scc.getCurrentPlayer());
                 serverGameMaster.sendToAllChannelsExcept(networkMessage, scc.getCurrentChannel());
@@ -98,15 +99,4 @@ public class HostServerEventHandler extends ChannelHandlerAdapter {
         }, 250, 250, TimeUnit.MILLISECONDS);
     }
 
-
-    private void print(boolean isError, String message) {
-        if (!isDebugging) {
-            return;
-        }
-        if (!isError) {
-            System.out.println(PrintColors.ANSI_CYAN + "(" + PrintColors.ANSI_GREEN + "*" + PrintColors.ANSI_CYAN + "server event manager) : " + message + PrintColors.ANSI_RESET);
-        } else {
-            System.err.println("(server event manager) err : " + message);
-        }
-    }
 }
