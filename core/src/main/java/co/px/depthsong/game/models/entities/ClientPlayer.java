@@ -14,8 +14,8 @@ import lombok.*;
 
 @Getter
 @Setter
-@JsonIncludeProperties({ "name", "healthPoints", "componentTransform" })
-@JsonPropertyOrder({ "name", "healthPoints", "componentTransform" })
+@JsonIncludeProperties({ "name", "healthPoints", "componentTransform", "componentBoxCollider", "componentSprite" })
+@JsonPropertyOrder({ "name", "healthPoints", "componentTransform", "componentBoxCollider", "componentSprite" })
 public class ClientPlayer extends GameObject2D {
 
     @JsonIgnore
@@ -33,7 +33,7 @@ public class ClientPlayer extends GameObject2D {
     private ClientPlayer(){
         this.name = "Player";
         this.healthPoints = 15;
-        this.getComponentSprite().setSprite(GameSprites.getInstance().getSprite("skier_default"));
+        this.getComponentSprite().setSprite("skier_default");
     }
 
     public static ClientPlayer getInstance(){
@@ -50,28 +50,28 @@ public class ClientPlayer extends GameObject2D {
     public void Update(float deltaTime) {
 
         this.getComponentSprite().getSprite().setFlip(false,false);
-        this.getComponentSprite().setSprite(GameSprites.getInstance().getSprite("skier_default"));
+        this.getComponentSprite().setSprite("skier_default");
         position.y -= gravity * deltaTime ;
 
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             position.y += speed * deltaTime;
-            this.getComponentSprite().setSprite(GameSprites.getInstance().getSprite("skier_braking"));
+            this.getComponentSprite().setSprite("skier_braking");
 
         }
         else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             position.y -= speed * deltaTime;
-            this.getComponentSprite().setSprite(GameSprites.getInstance().getSprite("skier_speeding"));
+            this.getComponentSprite().setSprite("skier_speeding");
 
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             position.x += speed * deltaTime ;
             position.y += speed * 0.2f * deltaTime;
-            this.getComponentSprite().setSprite(GameSprites.getInstance().getSprite("skier_turning"));
+            this.getComponentSprite().setSprite("skier_turning");
         }
         else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             position.x -= speed * deltaTime ;
             position.y += speed * 0.2f * deltaTime;
-            this.getComponentSprite().setSprite(GameSprites.getInstance().getSprite("skier_turning"));
+            this.getComponentSprite().setSprite("skier_turning");
             this.getComponentSprite().getSprite().setFlip(true,false);
         }
 

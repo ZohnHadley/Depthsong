@@ -11,7 +11,6 @@ import lombok.*;
 public class OtherPlayer extends GameObject2D {
     private Long serverId;
     public OtherPlayer(){
-        this.getComponentSprite().setSprite(GameSprites.getInstance().getSprite("skier_default"));
-
+        this.getComponentSprite().setSprite("skier_default");
     }
 }

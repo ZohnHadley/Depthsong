@@ -1,6 +1,7 @@
 package co.px.depthsong.game.models;
 
 import co.px.depthsong.engin.ECS.DTO.DTOComponentBoxCollider;
+import co.px.depthsong.engin.ECS.DTO.DTOComponentSprite;
 import co.px.depthsong.engin.ECS.DTO.DTOComponentTransform;
 import co.px.depthsong.engin.ECS.core.abstractClasses.EcsEntity;
 import co.px.depthsong.engin.ECS.core.interfaces.BaseScript;
@@ -24,7 +25,6 @@ public class GameObject2D extends EcsEntity implements BaseScript {
     protected ComponentTransform componentTransform;
 
 
-
     public GameObject2D() {
         super();
         this.componentTransform = new ComponentTransform();
@@ -40,15 +40,22 @@ public class GameObject2D extends EcsEntity implements BaseScript {
         this.getComponentList().add(componentBoxCollider);
     }
 
+    //JSON : serialize ECS Components
     @JsonProperty("componentTransform")
     public DTOComponentTransform getDTOComponentTransform(){
         return DTOComponentTransform.toDTO(componentTransform);
+    }
+
+    @JsonProperty("componentSprite")
+    public DTOComponentSprite getDTOComponentSprite(){
+        return DTOComponentSprite.toDTO(componentSprite);
     }
 
     @JsonProperty("componentBoxCollider")
     public DTOComponentBoxCollider getDTOComponentBoxCollider(){
         return DTOComponentBoxCollider.toDTO(componentBoxCollider);
     }
+    //
 
     @Override
     public void Start() {

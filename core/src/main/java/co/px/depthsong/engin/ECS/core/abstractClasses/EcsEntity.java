@@ -7,10 +7,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 @ToString
-@AllArgsConstructor
 @Getter
 @Setter
-public abstract class EcsEntity {
+public class EcsEntity {
 
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
@@ -32,6 +31,14 @@ public abstract class EcsEntity {
         componentList = new ComponentList(this.getId());
 
         context.addEntity(this);
+    }
+
+    public EcsEntity(String name, ComponentList componentList){
+        this.name = name;
+        this.componentList = componentList;
+
+        context.addEntity(this);
+        this.componentList.setEntityID(this.id);
     }
 
 }

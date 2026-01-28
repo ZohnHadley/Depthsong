@@ -19,7 +19,7 @@ public class PineTree  extends GameObject2D {
 
     public PineTree(){
         this.name = "PineTree";
-        this.getComponentSprite().setSprite(GameSprites.getInstance().getSprite("pine_tree"));
+        this.getComponentSprite().setSprite("pine_tree");
     }
 
 }

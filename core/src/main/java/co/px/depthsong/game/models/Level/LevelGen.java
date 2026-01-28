@@ -1,8 +1,7 @@
-package co.px.depthsong.game.models.entities;
+package co.px.depthsong.game.models.Level;
 
 import co.px.depthsong.engin.ECS.core.abstractClasses.EcsEntity;
 import co.px.depthsong.engin.ECS.core.interfaces.BaseScript;
-import co.px.depthsong.game.models.Level.GroundColumn;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import lombok.Getter;
@@ -17,6 +16,7 @@ public class LevelGen extends EcsEntity implements BaseScript {
 
     private static LevelGen instance;
     private HashMap<Float, List<GroundColumn>> columns = new HashMap<>();
+    private List<EcsEntity> obstacles = new ArrayList<>();
 
     public static LevelGen getInstance(){
         if(instance == null){
@@ -58,14 +58,16 @@ public class LevelGen extends EcsEntity implements BaseScript {
                 column.setColor(col);
                 column.setDimension(2,(6-height_offset));
                 column.setPosition(column_x_position+row_x_position_adjusted, row_index);
-//                column.setDimension(3f,height_offset);
                 columns.get(row_x_position_adjusted).add(column);
             }
 
-
-
-//            columns.add(new Vector2(-x_width*0.5f + offset, 32+height_offset));
         }
+        genObstacle();
+
+    }
+
+    private void genObstacle(){
+
     }
 
     @Override

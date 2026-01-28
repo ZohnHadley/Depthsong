@@ -17,14 +17,21 @@ public class ComponentList {
     @Setter(AccessLevel.NONE)
     private final EntityContext context = EntityContext.getInstance();
 
+
     @Getter
-    private final Long entityID;
+    @Setter
+    private Long entityID;
 
     @Getter
     private List<EcsComponent> componentsList = new ArrayList<>();
 
     public ComponentList(Long entityID){
         this.entityID = entityID;
+    }
+
+    public ComponentList(Long entityID, List<EcsComponent> componentsList){
+        this.entityID = entityID;
+        this.componentsList = componentsList;
     }
 
     public void add(EcsComponent param_Ecs_component)
