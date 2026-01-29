@@ -95,7 +95,9 @@ public class GameScreenJoinLocalGUI extends GUIScreen {
                 try {
                     //launch host local server
                     networkMachineManager.setClientServer(new ClientServer(ipAddress, Integer.parseInt(port)));
-                    networkMachineManager.setClientServerThread(Thread.startVirtualThread(networkMachineManager.getClientServer()));
+//TODO virt thread
+
+//                    networkMachineManager.setClientServerThread(Thread.startVirtualThread(networkMachineManager.getClientServer()));
 
                 } catch (Exception e) {
                     networkMachineManager.setClientServer(null);
@@ -157,16 +159,16 @@ public class GameScreenJoinLocalGUI extends GUIScreen {
 
         ipAddress = textField_ipAddress.getText();
         port = textField_port.getText();
-
-        if (networkMachineManager.getClientServer() != null && networkMachineManager.getClientServer().isRunning() && networkMachineManager.getConnectionState() == EnumNetworkClientConnectionStates.CONNECTED) {
-
-            connectionError = false;
-            screenManager.setCurrentScreen(GameScreensList.characterCreator);
-
-        }
+//TODO virt thread
+//        if (networkMachineManager.getClientServer() != null && networkMachineManager.getClientServer().isRunning() && networkMachineManager.getConnectionState() == EnumNetworkClientConnectionStates.CONNECTED) {
+//
+//            connectionError = false;
+//            screenManager.setCurrentScreen(GameScreensList.characterCreator);
+//
+//        }
 
         if (networkMachineManager.getClientServer() != null
-            && !networkMachineManager.getClientServer().isRunning()
+            && !networkMachineManager.getClientServer().getIsRunning()
             && (networkMachineManager.getConnectionState() == EnumNetworkClientConnectionStates.DISCONNECTED)) {
             connectionError = true;
             label_connection_error.setColor(1, 0, 0, 1);

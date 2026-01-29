@@ -1,9 +1,9 @@
 package co.px.depthsong.engin.network.Local.Initializers;
 
 import co.px.depthsong.engin.network.Local.Handlers.ServerHandlers.LocalHostServerHandler;
-import co.px.depthsong.engin.network.Local.Handlers.ServerHandlers.HostServerEventHandler;
-import co.px.depthsong.engin.network.Local.decoder_incoder.CustomDecoder;
-import co.px.depthsong.engin.network.Local.decoder_incoder.CustomEncoder;
+import co.px.depthsong.engin.network.Local.decoder_incoder.NioCustomDecoder;
+import co.px.depthsong.engin.network.Local.decoder_incoder.NioCustomEncoder;
+import co.px.depthsong.engin.network.ServerUtil;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -20,11 +20,9 @@ public class ServerChannelInitializer extends ChannelInitializer<SocketChannel> 
     protected void initChannel(SocketChannel channel) throws Exception {
         ChannelPipeline pipeline = channel.pipeline();
 
-
-        pipeline.addLast(new CustomEncoder());
-        pipeline.addLast(new CustomDecoder());
+        pipeline.addLast(new NioCustomEncoder());
+        pipeline.addLast(new NioCustomDecoder());
         //main handler
-        pipeline.addLast(new HostServerEventHandler());
         pipeline.addLast(new LocalHostServerHandler());
         pipeline.addLast(new DelimiterBasedFrameDecoder(512, Delimiters.lineDelimiter()));
 

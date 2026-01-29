@@ -28,7 +28,7 @@ public class Main extends ApplicationAdapter {
 
         ClientPlayer.getInstance();
         gameManager.getGameCamera().setTarget(EntityContext.getInstance().getPlayer());
-        Gdx.app.log("AAA",""+jsonUtil.toJson(ClientPlayer.getInstance()));
+//        Gdx.app.log("AAA",""+jsonUtil.toJson(ClientPlayer.getInstance()));
     }
 
     // This method is called every frame. optional methode could just use render
@@ -59,7 +59,7 @@ public class Main extends ApplicationAdapter {
 
     @Override
     public void dispose() {
-        gameManager.getRenderingSystem().dispose();
+        gameManager.dispose();
     }
 
 

@@ -1,15 +1,56 @@
 package co.px.depthsong.engin.network;
 
-import lombok.NoArgsConstructor;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.EventLoopGroup;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.util.concurrent.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 
-@NoArgsConstructor
-public abstract class NetworkMachine implements Runnable {
+@Getter
+@Setter
+public abstract class NetworkMachine {
 
-    public String ip_address = "";
 
-    public void start() throws Exception {}
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
+    private boolean isRunning = false;
 
-    public void close() throws Exception {}
+    private ChannelFuture channel_future;
 
-    public boolean isRunning() {return false;}
+    public NetworkMachine(){
+    }
+
+    public abstract ChannelFuture start() throws Exception;
+
+    public void close() throws Exception {
+
+    }
+
+    public boolean getIsRunning() {
+        try
+        {
+            if(channel_future.sync() != null){
+                isRunning = true;
+            }
+        }
+        catch (Exception e){
+            ServerUtil.err(e.getMessage());
+            isRunning = false;
+        }
+        return isRunning;
+    }
+
+    public void setIsRunning(boolean val){
+        try
+        {
+            if(channel_future.sync() != null){
+                isRunning = val;
+            }
+        }
+        catch (Exception e){
+            ServerUtil.err(e.getMessage());
+        }
+    }
 }

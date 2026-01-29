@@ -147,7 +147,7 @@ public class GameScreenHostLocalGUI extends GUIScreen {
         try {
             //launch host server
             networkMachineManager.setHostServer(new HostServer(Integer.parseInt(valuePort)));
-            networkMachineManager.setHostServerThread(Thread.startVirtualThread(networkMachineManager.getHostServer()));
+//            networkMachineManager.setHostServerThread(Thread.startVirtualThread(networkMachineManager));
 
         } catch (Exception e) {
             networkMachineManager.setHostServer(null);

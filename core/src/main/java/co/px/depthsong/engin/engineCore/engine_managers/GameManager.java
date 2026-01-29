@@ -22,13 +22,13 @@ public class GameManager {
     private BaseScriptSystem baseScriptSystem;
     private RenderingSystem renderingSystem;
 
+    private Thread networkVertualThread;
     private NetworkMachineManager networkMachineManager;
     private GameCamera gameCamera;
     private VirtualMouse virtualMouse;
 //    private ScreenManager screenManager;
 
     private boolean isInGame = false;
-    private boolean isPlayerCreated = false;
 
 
 
@@ -44,7 +44,7 @@ public class GameManager {
         virtualMouse = VirtualMouse.getInstance();
 //        screenManager = ScreenManager.getInstance();
         networkMachineManager = NetworkMachineManager.getInstance();
-        networkMachineManager.startHostServer(1234);
+        networkVertualThread = Thread.startVirtualThread(networkMachineManager);
 
 
 //        screenManager.setCurrentScreen(GameScreensList.inGameScreen);
@@ -69,6 +69,12 @@ public class GameManager {
 //        screenManager.getCurrentScreen().update();
         baseScriptSystem.update(deltaTime);
         renderingSystem.render();
+    }
+
+    public void dispose(){
+        networkMachineManager.disconnect();
+        networkVertualThread.interrupt();
+        renderingSystem.dispose();
     }
 
 }

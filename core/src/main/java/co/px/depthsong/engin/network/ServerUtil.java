@@ -9,7 +9,7 @@ public class ServerUtil {
         if (isDebugging == EnumActivationState.OFF) {
             return;
         }
-        System.out.println(PrintColors.ANSI_YELLOW + message + PrintColors.ANSI_RESET);
+        System.out.println(PrintColors.ANSI_YELLOW.getValue() + message + PrintColors.ANSI_RESET.getValue());
 
     }
 
@@ -17,7 +17,23 @@ public class ServerUtil {
         if (isDebugging == EnumActivationState.OFF) {
             return;
         }
-        System.out.println(PrintColors.ANSI_BLUE + "("+executer+") : " + message + PrintColors.ANSI_RESET);
+        System.out.println(PrintColors.ANSI_BLUE.getValue() + "("+executer+") : " + message + PrintColors.ANSI_RESET.getValue());
+
+    }
+
+    public static void log(PrintColors color, String message) {
+        if (isDebugging == EnumActivationState.OFF) {
+            return;
+        }
+        System.out.println(color.getValue() + message + PrintColors.ANSI_RESET.getValue());
+
+    }
+
+    public static void log(PrintColors color, String executer, String message) {
+        if (isDebugging == EnumActivationState.OFF) {
+            return;
+        }
+        System.out.println(color.getValue() + "("+executer+") : " + message + PrintColors.ANSI_RESET.getValue());
 
     }
 

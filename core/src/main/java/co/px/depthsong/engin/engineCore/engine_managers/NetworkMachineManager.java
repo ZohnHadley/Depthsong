@@ -7,20 +7,23 @@ import co.px.depthsong.engin.network.Local.ClientServer;
 import co.px.depthsong.engin.network.Local.HostServer;
 import co.px.depthsong.engin.network.NetworkMachine;
 import co.px.depthsong.engin.network.ServerUtil;
+import com.badlogic.gdx.Gdx;
+import io.netty.channel.ChannelFuture;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class NetworkMachineManager {
+public class NetworkMachineManager implements Runnable {
+    private String IPADDRESS = "192.168.0.104";
+    private  int PORT = 1234;
+
     private static NetworkMachineManager instance;
 
     private EnumNetworkTitle currentNetworkTitle;
     private NetworkMachine clientServer;
-    private Thread clientServerThread;
 
     private NetworkMachine hostServer;
-    private Thread hostServerThread;
 
     private EnumNetworkState networkState = EnumNetworkState.OFFLINE;
 
@@ -39,31 +42,59 @@ public class NetworkMachineManager {
     }
 
     public void startHostServer(int port){
-        this.setHostServer(new HostServer(port));
-        this.setHostServerThread(Thread.startVirtualThread(this.hostServer));
+        if (this.getHostServer() != null && this.getClientServer() != null){
+            return;
+        }
+        try{
+            this.setHostServer(new HostServer(port));
+            this.getHostServer().start().sync();
+
+            if(this.getHostServer().getIsRunning()){
+                this.setClientServer(new ClientServer(((HostServer)this.getHostServer()).getHOST_SERVER_MASTER().getIpAddress(), port));
+                this.getClientServer().start().sync();
+                if(this.getClientServer().getIsRunning()){
+                    this.setConnectionState(EnumNetworkClientConnectionStates.CONNECTED);
+                    this.setCurrentNetworkTitle(EnumNetworkTitle.HOST);
+                }
+
+            }
+
+        }catch (Exception e){
+            printLogError("Error NetworkMachines : " + e.getMessage());
+        }
     }
 
-    public void startClientServer(String serverIP, int port){
-        this.clientServer = new ClientServer(serverIP, port);
-        this.clientServerThread = Thread.startVirtualThread(this.clientServer);
+    public void startClientServer(String ip, int port){
+        if (this.getClientServer() != null){
+            return;
+        }
+
+        try{
+                this.setClientServer(new ClientServer(ip, port));
+                this.getClientServer().start().sync();
+                if(this.getClientServer().getIsRunning()){
+                    this.setConnectionState(EnumNetworkClientConnectionStates.CONNECTED);
+                    this.setCurrentNetworkTitle(EnumNetworkTitle.CLIENT);
+                }
+
+        }catch (Exception e){
+            printLogError("Error NetworkMachines : " + e.getMessage());
+        }
     }
 
     public void disconnect(){
         try {
-            getClientServer().close();
-            clientServerThread.interrupt();
-            setClientServer(null);
+            if (getClientServer() != null){
+                getClientServer().close();
+            }
             if (getHostServer() != null) {
-
                 getHostServer().close();
-                hostServerThread.interrupt();
-                setHostServer(null);
             }
 
             setCurrentConnectedState(EnumNetworkClientConnectionStates.DISCONNECTED);
 
         } catch (Exception e) {
-            printLogError("Error closing network server");
+            printLogError("Error closing network server : " + e);
         }
     }
 
@@ -73,5 +104,14 @@ public class NetworkMachineManager {
 
     private void printLog(String message) {
         ServerUtil.log(message);
+    }
+
+    @Override
+    public void run() {
+
+        startHostServer(PORT);
+    }
+
+    public void dispose(){
     }
 }
