@@ -64,12 +64,8 @@ public class HostServer extends NetworkMachine {
 
     @Override
     public void close(){
-        if(getChannel_future() != null)
-            getChannel_future().channel().closeFuture();
+        getChannel_future().channel().close();
         workerGroup.shutdownGracefully();
         bossGroup.shutdownGracefully();
-
-        ServerUtil.err("host server closed");
-
     }
 }

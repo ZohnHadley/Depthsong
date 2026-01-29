@@ -4,7 +4,20 @@ import co.px.depthsong.engin.ECS.core.ComponentList;
 import co.px.depthsong.engin.ECS.core.EntityContext;
 import co.px.depthsong.engin.engineCore.engine_managers.GameManager;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.*;
+
+
+//@JsonSubTypes({
+//    @JsonSubTypes.Type(value = Car.class, name = "car"),
+//    @JsonSubTypes.Type(value = Truck.class, name = "truck") }
+//)
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.PROPERTY,
+    property = "type")
+
 
 @ToString
 @Getter

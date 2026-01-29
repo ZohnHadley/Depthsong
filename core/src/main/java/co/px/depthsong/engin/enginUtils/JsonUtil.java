@@ -1,5 +1,6 @@
 package co.px.depthsong.engin.enginUtils;
 
+import com.badlogic.gdx.utils.ByteArray;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -27,8 +28,15 @@ public class JsonUtil {
         try{
             return objectMapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
+    }
+
+    public <T> JsonNode toJsonNode(T object ){
+        if(object == null){
+            throw new RuntimeException("JsonUtil : err toJsonNode");
+        }
+        return objectMapper.valueToTree(object);
     }
 
     public JsonNode fromJson(String json) {
@@ -39,7 +47,7 @@ public class JsonUtil {
             JsonNode rootNode = objectMapper.readTree(json);
             return rootNode;
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -50,8 +58,9 @@ public class JsonUtil {
             }
             return objectMapper.readValue(json, objClass);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
     }
+
 
 }

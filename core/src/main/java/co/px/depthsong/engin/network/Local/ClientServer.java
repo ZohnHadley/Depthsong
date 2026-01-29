@@ -13,7 +13,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 
 public class ClientServer extends NetworkMachine {
 
-    public static final ClientServerManager CLIENT_SERVER_MANAGER = ClientServerManager.getInstance();
+    public static final ClientServerManager clientServerManager = ClientServerManager.getInstance();
 
     protected String hostServerIp;
     protected int hostServerPort;
@@ -35,7 +35,6 @@ public class ClientServer extends NetworkMachine {
         int SECONDS_BEFORE_TIMEOUT = 45;
 
         try {
-            ServerUtil.log("client server started");
 
             clientBootStrap.group(workGroup)
                 .channel(NioSocketChannel.class)
@@ -47,10 +46,10 @@ public class ClientServer extends NetworkMachine {
 
             getChannel_future().addListener(future -> {
                 if (future.isSuccess()) {
+                    ServerUtil.log("client server connection success");
 
-                    ServerUtil.log("client server has started");
                 } else {
-                    ServerUtil.err("client server has failed to start");
+                    ServerUtil.err("client server has failed to connect");
                 }
             });
             setIsRunning(true);
@@ -65,8 +64,7 @@ public class ClientServer extends NetworkMachine {
 
     @Override
     public void close() {
-        if(getChannel_future() != null)
-            getChannel_future().channel().closeFuture();
+        getChannel_future().channel().close();
         workGroup.shutdownGracefully();
         setIsRunning(false);
 

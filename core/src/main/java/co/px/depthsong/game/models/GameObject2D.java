@@ -8,11 +8,26 @@ import co.px.depthsong.engin.ECS.core.interfaces.BaseScript;
 import co.px.depthsong.engin.ECS.runtime.components.ComponentBoxCollider;
 import co.px.depthsong.engin.ECS.runtime.components.ComponentSprite;
 import co.px.depthsong.engin.ECS.runtime.components.ComponentTransform;
+import co.px.depthsong.game.models.entities.ClientPlayer;
+import co.px.depthsong.game.models.entities.OtherPlayer;
 import com.badlogic.gdx.math.Vector2;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.Getter;
 import lombok.Setter;
+
+
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = ClientPlayer.class, name = "player"),
+    @JsonSubTypes.Type(value = OtherPlayer.class, name = "otherPlayer")
+    }
+)
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.PROPERTY,
+    property = "type")
 
 @Getter
 @Setter
