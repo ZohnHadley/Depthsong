@@ -3,7 +3,7 @@ package co.px.depthsong.engin.network.Local;
 
 import co.px.depthsong.engin.network.Local.Model.GameMasters.HostServerMaster;
 import co.px.depthsong.engin.network.NetworkMachine;
-import co.px.depthsong.engin.network.ServerUtil;
+import co.px.depthsong.engin.network.CustomLogger;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -13,13 +13,14 @@ import co.px.depthsong.engin.network.Local.Initializers.ServerChannelInitializer
 import lombok.Getter;
 
 @Getter
-public class HostServer extends NetworkMachine {
+public class HostServer extends NetworkMachine implements Runnable {
+    //Is a thread
     public static ScheduledFuture future_timer;
 
-    private HostServerMaster HOST_SERVER_MASTER = HostServerMaster.getInstance();
-    private  ServerBootstrap bootStrap;
+    private HostServerMaster hostServerMaster = HostServerMaster.getInstance();
+    private ServerBootstrap bootStrap;
 
-    /////vars for server config
+    /// //vars for server config
     private EventLoopGroup bossGroup;
     private EventLoopGroup workerGroup;
 
@@ -30,42 +31,51 @@ public class HostServer extends NetworkMachine {
         bootStrap = new ServerBootstrap();
         bossGroup = new NioEventLoopGroup();
         workerGroup = new NioEventLoopGroup();
+
     }
 
     @Override
-    public ChannelFuture start() throws InterruptedException {
+    public ChannelFuture start() {
 
         try {
 
             bootStrap.group(bossGroup, workerGroup)
                 .channel(NioServerSocketChannel.class)
-                .childHandler( new ServerChannelInitializer())
+                .childHandler(new ServerChannelInitializer())
                 .option(ChannelOption.SO_BACKLOG, 128)
                 .childOption(ChannelOption.SO_KEEPALIVE, true);
 
-            setChannel_future(bootStrap.bind(port).sync());
+            setFutureChannel(bootStrap.bind(port).sync());
 
             //listen when server start
-            getChannel_future().addListener(future -> {
+            getFutureChannel().addListener(future -> {
                 if (future.isSuccess()) {
-                    ServerUtil.log("host server started");
+                    CustomLogger.log("host server started");
                 } else {
-                    ServerUtil.err("host server failed to start on port  " + port);
+                    CustomLogger.err("host server failed to start on port  " + port);
                 }
             });
 
-            return getChannel_future();
-        }
-        catch (Exception e){
-            ServerUtil.err("host server (start) " + e.getMessage());
+            return getFutureChannel();
+        } catch (Exception e) {
+            CustomLogger.err("host server (start) " + e.getMessage());
         }
         return null;
     }
 
     @Override
-    public void close(){
-        getChannel_future().channel().close();
+    public void close() {
         workerGroup.shutdownGracefully();
         bossGroup.shutdownGracefully();
+    }
+
+    @Override
+    public void run() {
+        try {
+            start();
+        } catch (Exception e) {
+            CustomLogger.err("host server (run) " + e.getMessage());
+            close();
+        }
     }
 }

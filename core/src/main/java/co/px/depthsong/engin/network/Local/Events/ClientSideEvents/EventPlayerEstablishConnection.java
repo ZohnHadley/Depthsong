@@ -1,24 +1,23 @@
 package co.px.depthsong.engin.network.Local.Events.ClientSideEvents;
 
-import co.px.depthsong.engin.network.Local.ClientServer;
+import co.px.depthsong.engin.engineCore.engine_managers.NetworkMachineManager;
+import co.px.depthsong.engin.engineCore.engine_managers.enums.EnumNetworkClientConnectionStates;
 import co.px.depthsong.engin.network.Local.Model.GameMasters.ClientServerManager;
 import co.px.depthsong.engin.network.Local.Model.ServerObjects.ServerObjectClientConnectionContext;
 import co.px.depthsong.engin.network.Local.Model.ServerTracker.ClientConnectionContext;
-import co.px.depthsong.engin.network.ServerUtil;
+import co.px.depthsong.engin.network.CustomLogger;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
 import lombok.AccessLevel;
 import lombok.Getter;
-
-import java.net.SocketAddress;
 
 @Getter
 public class EventPlayerEstablishConnection {
 
     @Getter(AccessLevel.NONE)
     private ClientServerManager csm = ClientServerManager.getInstance();
-    ChannelHandlerContext context;
-    ChannelPromise promise;
+    private ChannelHandlerContext context;
+    private ChannelPromise promise;
 
     public EventPlayerEstablishConnection(ChannelHandlerContext context, ChannelPromise promise) {
         try {
@@ -30,7 +29,7 @@ public class EventPlayerEstablishConnection {
             }
 
         } catch (Exception e) {
-            ServerUtil.err("EventPlayerEstablishConnection", e.getMessage());
+            CustomLogger.err("EventPlayerEstablishConnection", e.getMessage());
         }
     }
 
@@ -40,8 +39,12 @@ public class EventPlayerEstablishConnection {
                context.writeAndFlush(ServerObjectClientConnectionContext.toServerObject(csm.getClientConnectionContext()));
             }
         } catch (Exception e) {
-            ServerUtil.err(e.getMessage());
+            CustomLogger.err(e.getMessage());
         }
+    }
+
+    public void finalised(){
+        NetworkMachineManager.getInstance().setConnectionState(EnumNetworkClientConnectionStates.CONNECTED);
     }
 
 }

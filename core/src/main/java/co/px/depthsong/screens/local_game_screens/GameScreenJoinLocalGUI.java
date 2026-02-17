@@ -5,9 +5,7 @@ import co.px.depthsong.engin.engineCore.util.VirtualMouse;
 import co.px.depthsong.engin.engineCore.engine_managers.GameManager;
 import co.px.depthsong.engin.engineCore.engine_managers.NetworkMachineManager;
 import co.px.depthsong.engin.engineCore.engine_managers.ScreenManager;
-import co.px.depthsong.engin.network.Local.ClientServer;
 import co.px.depthsong.engin.engineCore.model.GUIScreen;
-import co.px.depthsong.engin.enginUtils.GameScreensList;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -94,7 +92,7 @@ public class GameScreenJoinLocalGUI extends GUIScreen {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 try {
                     //launch host local server
-                    networkMachineManager.setClientServer(new ClientServer(ipAddress, Integer.parseInt(port)));
+//                    networkMachineManager.setClientServer(new ClientServer(ipAddress, Integer.parseInt(port)));
 //TODO virt thread
 
 //                    networkMachineManager.setClientServerThread(Thread.startVirtualThread(networkMachineManager.getClientServer()));
@@ -167,12 +165,12 @@ public class GameScreenJoinLocalGUI extends GUIScreen {
 //
 //        }
 
-        if (networkMachineManager.getClientServer() != null
-            && !networkMachineManager.getClientServer().getIsRunning()
-            && (networkMachineManager.getConnectionState() == EnumNetworkClientConnectionStates.DISCONNECTED)) {
-            connectionError = true;
-            label_connection_error.setColor(1, 0, 0, 1);
-        }
+//        if (networkMachineManager.getClientServer() != null
+//            && !networkMachineManager.getClientServer().getIsRunning()
+//            && (networkMachineManager.getConnectionState() == EnumNetworkClientConnectionStates.DISCONNECTED)) {
+//            connectionError = true;
+//            label_connection_error.setColor(1, 0, 0, 1);
+//        }
 
 
     }

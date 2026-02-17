@@ -2,31 +2,31 @@ package co.px.depthsong.engin.engineCore.engine_managers;
 
 import co.px.depthsong.engin.engineCore.engine_managers.enums.EnumNetworkClientConnectionStates;
 import co.px.depthsong.engin.engineCore.engine_managers.enums.EnumNetworkState;
-import co.px.depthsong.engin.engineCore.engine_managers.enums.EnumNetworkTitle;
 import co.px.depthsong.engin.network.Local.ClientServer;
 import co.px.depthsong.engin.network.Local.HostServer;
 import co.px.depthsong.engin.network.NetworkMachine;
-import co.px.depthsong.engin.network.ServerUtil;
-import com.badlogic.gdx.Gdx;
+import co.px.depthsong.engin.network.CustomLogger;
 import io.netty.channel.ChannelFuture;
+import io.netty.channel.EventLoopGroup;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.util.concurrent.Future;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Arrays;
+
 @Getter
 @Setter
-public class NetworkMachineManager implements Runnable {
-    private String IPADDRESS = "192.168.0.104";
-    private  int PORT = 1234;
+public class NetworkMachineManager {
 
     private static NetworkMachineManager instance;
 
-    private EnumNetworkTitle currentNetworkTitle;
-    private NetworkMachine clientServer;
+    private ClientServer clientServer;
+    private HostServer hostServer;
+    private EventLoopGroup workGroup = new NioEventLoopGroup();
 
-    private NetworkMachine hostServer;
 
     private EnumNetworkState networkState = EnumNetworkState.OFFLINE;
-
     private EnumNetworkClientConnectionStates connectionState;
 
 
@@ -41,50 +41,40 @@ public class NetworkMachineManager implements Runnable {
         connectionState = state;
     }
 
-    public void startHostServer(int port){
-        if (this.getHostServer() != null && this.getClientServer() != null){
-            return;
-        }
-        try{
-            this.setHostServer(new HostServer(port));
-            this.getHostServer().start().sync();
-
-            if(this.getHostServer().getIsRunning()){
-                this.setClientServer(new ClientServer(((HostServer)this.getHostServer()).getHOST_SERVER_MASTER().getIpAddress(), port));
-                this.getClientServer().start().sync();
-                if(this.getClientServer().getIsRunning()){
-                    this.setConnectionState(EnumNetworkClientConnectionStates.CONNECTED);
-                    this.setCurrentNetworkTitle(EnumNetworkTitle.HOST);
-                }
-
-            }
-
-        }catch (Exception e){
-            printLogError("Error NetworkMachines : " + e.getMessage());
-        }
-    }
-
-    public void startClientServer(String ip, int port){
-        if (this.getClientServer() != null){
-            return;
-        }
-
-        try{
-                this.setClientServer(new ClientServer(ip, port));
-                this.getClientServer().start().sync();
-                if(this.getClientServer().getIsRunning()){
-                    this.setConnectionState(EnumNetworkClientConnectionStates.CONNECTED);
-                    this.setCurrentNetworkTitle(EnumNetworkTitle.CLIENT);
-                }
-
-        }catch (Exception e){
-            printLogError("Error NetworkMachines : " + e.getMessage());
-        }
-    }
-
-    public void disconnect(){
+    public void hostServerStart(int port) {
         try {
-            if (getClientServer() != null){
+            this.setHostServer(new HostServer(port));
+            Thread.startVirtualThread(this.getHostServer());
+        } catch (Throwable throwable) {
+            printLogError("Error NetworkMachines (CLIENT SERVER) : \n[cause] \n" + throwable.getCause() + " \n[suppressed] \n" + Arrays.toString(throwable.getSuppressed()) + " \n[message] \n" + throwable.getMessage());
+        }
+    }
+
+    public void clientServerInit() {
+        try {
+
+            this.setClientServer(new ClientServer());
+
+        } catch (Throwable throwable) {
+            printLogError("Error NetworkMachines (CLIENT SERVER) : \n[cause] \n" + throwable.getCause() + " \n[suppressed] \n" + Arrays.toString(throwable.getSuppressed()) + " \n[message] \n" + throwable.getMessage());
+        }
+    }
+
+    public void clientServerConnect(String ip, int port) {
+
+        try {
+            this.getClientServer().setConnection(ip, port);
+            this.getClientServer().start();
+            this.setConnectionState(EnumNetworkClientConnectionStates.CONNECTED);
+
+        } catch (Throwable throwable) {
+            printLogError("Error NetworkMachines (CLIENT SERVER) : \n[cause] \n" + throwable.getCause() + " \n[suppressed] \n" + Arrays.toString(throwable.getSuppressed()) + " \n[message] \n" + throwable.getMessage());
+        }
+    }
+
+    public void disconnect() {
+        try {
+            if (getClientServer() != null) {
                 getClientServer().close();
             }
             if (getHostServer() != null) {
@@ -93,25 +83,14 @@ public class NetworkMachineManager implements Runnable {
 
             setCurrentConnectedState(EnumNetworkClientConnectionStates.DISCONNECTED);
 
-        } catch (Exception e) {
-            printLogError("Error closing network server : " + e);
+        } catch (Throwable throwable) {
+            printLogError("Error NetworkMachines (CLIENT SERVER) : \n[cause] \n" + throwable.getCause() + " \n[suppressed] \n" + Arrays.toString(throwable.getSuppressed()) + " \n[message] \n" + throwable.getMessage());
         }
     }
 
     private void printLogError(String message) {
-        ServerUtil.err(message);
+        CustomLogger.err(message);
     }
-
-    private void printLog(String message) {
-        ServerUtil.log(message);
-    }
-
-    @Override
-    public void run() {
-
-        startHostServer(PORT);
-    }
-
-    public void dispose(){
+    public void dispose() {
     }
 }

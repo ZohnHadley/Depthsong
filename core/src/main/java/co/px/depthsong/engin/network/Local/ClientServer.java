@@ -3,13 +3,16 @@ package co.px.depthsong.engin.network.Local;
 import co.px.depthsong.engin.network.Local.Initializers.ClientChannelInitializer;
 import co.px.depthsong.engin.network.Local.Model.GameMasters.ClientServerManager;
 import co.px.depthsong.engin.network.NetworkMachine;
-import co.px.depthsong.engin.network.ServerUtil;
+import co.px.depthsong.engin.network.CustomLogger;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.util.concurrent.Future;
+
+import java.util.concurrent.CompletableFuture;
 
 public class ClientServer extends NetworkMachine {
 
@@ -22,53 +25,79 @@ public class ClientServer extends NetworkMachine {
     private EventLoopGroup workGroup;
 
 
-    public ClientServer(String hostServerIp, int hostServerPort) {
+    public ClientServer() {
+
+    }
+
+    /**
+     * Configure the connection target and prepare Netty objects.
+     * This does NOT connect; call start() to actually connect.
+     */
+    public void setConnection(String hostServerIp, int hostServerPort) {
         this.hostServerIp = hostServerIp;
         this.hostServerPort = hostServerPort;
 
-        clientBootStrap = new Bootstrap();
-        workGroup = new NioEventLoopGroup();
+        if (clientBootStrap == null) {
+            clientBootStrap = new Bootstrap();
+        }
+        if (workGroup == null || workGroup.isShuttingDown() || workGroup.isShutdown()) {
+            workGroup = new NioEventLoopGroup();
+        }
     }
 
     @Override
-    public ChannelFuture start() throws Exception {
+    public ChannelFuture start() {
         int SECONDS_BEFORE_TIMEOUT = 45;
-
-        try {
-
-            clientBootStrap.group(workGroup)
-                .channel(NioSocketChannel.class)
-                .handler(new ClientChannelInitializer(SECONDS_BEFORE_TIMEOUT))
-                .option(ChannelOption.SO_KEEPALIVE, true);
-
-            setChannel_future(clientBootStrap.connect(hostServerIp, hostServerPort).sync());
-            //listen when server start
-
-            getChannel_future().addListener(future -> {
-                if (future.isSuccess()) {
-                    ServerUtil.log("client server connection success");
-
-                } else {
-                    ServerUtil.err("client server has failed to connect");
-                }
-            });
-            setIsRunning(true);
-            return getChannel_future();
+        if (hostServerIp == null || hostServerIp.isBlank()) {
+            throw new IllegalStateException("ClientServer hostServerIp is not set. Call setConnection(ip, port) first.");
         }
-        catch (Exception e){
-            ServerUtil.err("client server " + e.getMessage());
+        if (hostServerPort <= 0) {
+            throw new IllegalStateException("ClientServer hostServerPort is not set/invalid. Call setConnection(ip, port) first.");
         }
-        return null;
+        if (clientBootStrap == null || workGroup == null) {
+            throw new IllegalStateException("ClientServer is not initialized. Call setConnection(ip, port) first.");
+        }
+
+        clientBootStrap.group(workGroup)
+            .channel(NioSocketChannel.class)
+            .handler(new ClientChannelInitializer(SECONDS_BEFORE_TIMEOUT))
+            .option(ChannelOption.SO_KEEPALIVE, true);
+
+        // Connect asynchronously; don't .sync() here unless you truly want to block the calling thread.
+        ChannelFuture connectFuture = clientBootStrap.connect(hostServerIp, hostServerPort);
+        setFutureChannel(connectFuture);
+
+        connectFuture.addListener(future -> {
+            if (future.isSuccess()) {
+                CustomLogger.log("client server connection success");
+            } else {
+                CustomLogger.err("client server has failed to connect: " + future.cause());
+            }
+        });
+
+        return connectFuture;
     }
 
 
     @Override
     public void close() {
-        getChannel_future().channel().close();
-        workGroup.shutdownGracefully();
-        setIsRunning(false);
-
-
+        // Make close safe to call even if start() never happened or failed.
+        try {
+            ChannelFuture f = getFutureChannel();
+            if (f != null) {
+                if (f.channel() != null) {
+                    f.channel().close();
+                }
+                setFutureChannel(null);
+            }
+        } catch (Throwable t) {
+            CustomLogger.err("client server close error: " + t);
+        } finally {
+            if (workGroup != null) {
+                workGroup.shutdownGracefully();
+                workGroup = null;
+            }
+        }
     }
 
 

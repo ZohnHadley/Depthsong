@@ -1,9 +1,7 @@
 package co.px.depthsong.engin.network.Local.Handlers.ServerHandlers;
 
-import co.px.depthsong.engin.network.Local.Events.ClientSideEvents.EventPlayerEstablishConnection;
 import co.px.depthsong.engin.network.Local.Events.ServerSideEvents.EventRespondToClientEstablishingConnection;
-import co.px.depthsong.engin.network.Local.Model.ServerTracker.ClientConnectionContext;
-import co.px.depthsong.engin.network.ServerUtil;
+import co.px.depthsong.engin.network.CustomLogger;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
@@ -17,18 +15,17 @@ public class HostServerHandler extends ChannelHandlerAdapter {
     public void connect(
         ChannelHandlerContext context,
         SocketAddress remoteAddress, SocketAddress localAddress, ChannelPromise promise) throws Exception {
-        ServerUtil.log("server", "message reu");
     }
 
     @Override
     public void channelActive(ChannelHandlerContext context) throws Exception {
-        ServerUtil.log("server", "active");
+        CustomLogger.log("server channel", "active");
     }
 
     @Override
     public void channelRead(ChannelHandlerContext context, Object message) {
-        ServerUtil.log("server", "message reu");
-//        context.fireUserEventTriggered(new EventRespondToClientEstablishingConnection(new ClientConnectionContext(context, localAddress, remoteAddress, context.channel())));
+        CustomLogger.log("server channel", message.toString());
+        context.fireUserEventTriggered(new EventRespondToClientEstablishingConnection(context, message));
     }
 
     @Override
