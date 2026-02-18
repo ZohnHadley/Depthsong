@@ -1,7 +1,7 @@
 package co.px.depthsong.engin.network.Local;
 
 
-import co.px.depthsong.engin.network.Local.Model.GameMasters.HostServerMaster;
+import co.px.depthsong.engin.network.Local.Model.Managers.HostServerMaster;
 import co.px.depthsong.engin.network.NetworkMachine;
 import co.px.depthsong.engin.network.CustomLogger;
 import io.netty.bootstrap.ServerBootstrap;

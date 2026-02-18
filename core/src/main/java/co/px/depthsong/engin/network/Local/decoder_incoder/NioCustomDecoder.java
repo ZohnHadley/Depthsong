@@ -3,11 +3,14 @@ package co.px.depthsong.engin.network.Local.decoder_incoder;
 import co.px.depthsong.engin.enginUtils.JsonUtil;
 import co.px.depthsong.engin.network.Local.Model.ServerObjects.ServerObject;
 import co.px.depthsong.engin.network.CustomLogger;
+import co.px.depthsong.engin.network.PrintColors;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 
 import java.util.List;
+
+import static co.px.depthsong.engin.network.PrintColors.ANSI_PURPLE;
 
 public class NioCustomDecoder extends ByteToMessageDecoder {
     JsonUtil jsonUtil = JsonUtil.getInstance();
@@ -19,6 +22,7 @@ public class NioCustomDecoder extends ByteToMessageDecoder {
 
             // 1️⃣ Wait for length field
             if (in.readableBytes() < 4) {
+                CustomLogger.err(ANSI_PURPLE, "NioCustomDecoder", "readableBytes < 4");
                 return;
             }
 
@@ -28,6 +32,7 @@ public class NioCustomDecoder extends ByteToMessageDecoder {
             // 2️⃣ Wait for full payload
             if (in.readableBytes() < length) {
                 in.resetReaderIndex();
+                CustomLogger.log(ANSI_PURPLE, "NioCustomDecoder", "readableBytes < length");
                 return;
             }
 
@@ -40,15 +45,12 @@ public class NioCustomDecoder extends ByteToMessageDecoder {
             ServerObject obj =
                 JsonUtil.getInstance()
                     .getObjectMapper()
-                    .treeToValue( jsonUtil.fromJson(json), ServerObject.class);
+                    .treeToValue(jsonUtil.fromJson(json), ServerObject.class);
 
-//            if (obj instanceof ServerObjectClientConnectionContext) {
-//            }
-
-            // 4️⃣ Deserialize later once stable
-             out.add(obj);
+            CustomLogger.log(ANSI_PURPLE, "NioCustomDecoder", obj + "");
+            out.add(obj);
         } catch (Exception e) {
-            CustomLogger.err("NioCustomDecoder", e.getMessage());
+            CustomLogger.err(ANSI_PURPLE,"NioCustomDecoder", e.getMessage());
         }
 
     }

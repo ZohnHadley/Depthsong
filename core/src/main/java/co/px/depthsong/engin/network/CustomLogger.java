@@ -17,7 +17,7 @@ public class CustomLogger {
         if (isLogDebugging == EnumActivationState.OFF) {
             return;
         }
-        System.out.println(PrintColors.ANSI_BLUE.getValue() + "("+executer+") : " + message + PrintColors.ANSI_RESET.getValue());
+        System.out.println(PrintColors.ANSI_BLUE.getValue() + "("+executer+") : " + PrintColors.ANSI_RESET.getValue() + message);
 
     }
 
@@ -33,7 +33,7 @@ public class CustomLogger {
         if (isLogDebugging == EnumActivationState.OFF) {
             return;
         }
-        System.out.println(color.getValue() + "("+executer+") : " + message + PrintColors.ANSI_RESET.getValue());
+        System.out.println(color.getValue() + "("+executer+") : " + PrintColors.ANSI_RESET.getValue() + message);
 
     }
 
@@ -42,7 +42,7 @@ public class CustomLogger {
             return;
         }
 
-        System.err.println("*** ERROR : "+message);
+        System.out.println(PrintColors.ANSI_RED.getValue() + "*** ERROR *** : " + PrintColors.ANSI_RESET.getValue() + message);
     }
 
     public static void err(String executer, String message) {
@@ -51,5 +51,13 @@ public class CustomLogger {
         }
 
         System.err.println("("+executer+") ERROR : " + message);
+    }
+
+    public static void err(PrintColors color, String executer, String message) {
+        if (isLogDebugging == EnumActivationState.OFF) {
+            return;
+        }
+
+        System.err.println(color.getValue() + "("+executer+")"+ PrintColors.ANSI_RESET.getValue() +" *** ERROR *** : " + message);
     }
 }

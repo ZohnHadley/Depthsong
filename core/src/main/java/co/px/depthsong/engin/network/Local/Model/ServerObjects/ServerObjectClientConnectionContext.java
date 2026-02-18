@@ -23,10 +23,13 @@ public class ServerObjectClientConnectionContext extends ServerObject {
 
     private String remoteAddress;
     private String localAddress;
-
+    private Boolean isConnected;
 
     public static ServerObjectClientConnectionContext toServerObject(ClientConnectionContext object){
-        return new ServerObjectClientConnectionContext(object.getRemoteAddress(), object.getLocalAddress());
+        return new ServerObjectClientConnectionContext(object.getRemoteAddress(), object.getLocalAddress(), object.getIsConnected());
     }
 
+    public ClientConnectionContext toObject(){
+        return new ClientConnectionContext(this.remoteAddress, this.localAddress, this.isConnected);
+    }
 }

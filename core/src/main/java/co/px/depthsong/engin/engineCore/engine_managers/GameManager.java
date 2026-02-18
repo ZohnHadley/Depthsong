@@ -61,7 +61,7 @@ public class GameManager {
         networkMachineManager.clientServerInit();
 //        networkMachineManager.getClientServer().start();
         networkMachineManager.hostServerStart(1234);
-        networkMachineManager.clientServerConnect("192.168.0.104", 1234);
+        networkMachineManager.clientServerConnect("192.168.0.105", 1234);
     }
 
     public void update(float deltaTime) {

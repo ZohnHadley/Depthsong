@@ -1,4 +1,4 @@
-package co.px.depthsong.engin.network.Local.Model.GameMasters;
+package co.px.depthsong.engin.network.Local.Model.Managers;
 
 import co.px.depthsong.engin.network.Local.Model.ServerTracker.ClientConnectionContext;
 import lombok.Getter;

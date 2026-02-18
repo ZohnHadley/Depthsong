@@ -2,8 +2,8 @@ package co.px.depthsong.engin.network.Local.Handlers.ClientHandlers;
 
 import co.px.depthsong.engin.engineCore.engine_managers.GameManager;
 import co.px.depthsong.engin.network.Local.ClientServer;
-import co.px.depthsong.engin.network.Local.Events.ClientSideEvents.EventPlayerEstablishConnection;
-import co.px.depthsong.engin.network.Local.Model.GameMasters.ClientServerManager;
+import co.px.depthsong.engin.network.Local.Events.ClientSideEvents.ClientEvent_EstablishConnection;
+import co.px.depthsong.engin.network.Local.Model.Managers.ClientServerManager;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.AllArgsConstructor;
@@ -24,8 +24,8 @@ public class ClientServerEventHandler extends ChannelHandlerAdapter {
     public void userEventTriggered(ChannelHandlerContext context, Object event) {
 
         //adding player to server
-        if (event instanceof EventPlayerEstablishConnection) {
-            EventPlayerEstablishConnection action = ((EventPlayerEstablishConnection) event);
+        if (event instanceof ClientEvent_EstablishConnection) {
+            ClientEvent_EstablishConnection action = ((ClientEvent_EstablishConnection) event);
             action.sendClientContextDataToServer();
         }
 

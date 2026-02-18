@@ -1,7 +1,7 @@
 package co.px.depthsong.engin.network.Local;
 
 import co.px.depthsong.engin.network.Local.Initializers.ClientChannelInitializer;
-import co.px.depthsong.engin.network.Local.Model.GameMasters.ClientServerManager;
+import co.px.depthsong.engin.network.Local.Model.Managers.ClientServerManager;
 import co.px.depthsong.engin.network.NetworkMachine;
 import co.px.depthsong.engin.network.CustomLogger;
 import io.netty.bootstrap.Bootstrap;
@@ -10,9 +10,6 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.util.concurrent.Future;
-
-import java.util.concurrent.CompletableFuture;
 
 public class ClientServer extends NetworkMachine {
 

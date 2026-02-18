@@ -2,15 +2,12 @@ package co.px.depthsong.engin.network.Local.Initializers;
 
 import co.px.depthsong.engin.network.Local.Handlers.ServerHandlers.HostServerEventHandler;
 import co.px.depthsong.engin.network.Local.Handlers.ServerHandlers.HostServerHandler;
-import co.px.depthsong.engin.network.Local.Model.GameMasters.HostServerMaster;
 import co.px.depthsong.engin.network.Local.decoder_incoder.NioCustomDecoder;
 import co.px.depthsong.engin.network.Local.decoder_incoder.NioCustomEncoder;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
-import io.netty.handler.codec.*;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 public class ServerChannelInitializer extends ChannelInitializer<SocketChannel> {
